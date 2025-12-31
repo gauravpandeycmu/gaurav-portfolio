@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  /* Optimize scrolling performance */
+  -webkit-overflow-scrolling: touch;
+  /* Improve text rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  /* Better touch handling on mobile */
+  touch-action: pan-y;
+  /* Prevent text size adjustment on iOS */
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Optimize image loading */
+img {
+  /* Improve image rendering */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Performance optimizations */
+* {
+  /* Optimize repaints */
+  will-change: auto;
+}
+
+/* Optimize animations */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal,
+  [class*="animate-"] {
+    will-change: transform, opacity;
+  }
+}
+
+/* Mobile touch optimizations */
+.touch-manipulation {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure minimum touch target size (44x44px recommended) */
+button,
+a[role="button"],
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
