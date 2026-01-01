@@ -6,9 +6,11 @@ A modern, interactive portfolio website showcasing software engineering experien
 
 ### 🎨 Dynamic Theme System
 - **4 Beautiful Themes**: Vulcan (Rose), Emerald (Green), Nebula (Indigo), Midnight (Blue)
+- **Dark/Light Mode Toggle**: Beautiful animated toggle switch with sun/moon icons and seamless transitions
+- **Theme-aware Colors**: All themes support both dark and light modes with optimized color palettes
 - **iOS-style Dynamic Icons**: All logos feature dynamic tinting based on the active theme
 - **Smooth Theme Transitions**: Ripple effect when switching themes
-- **Persistent Theme Selection**: Theme preference saved in localStorage
+- **Persistent Preferences**: Theme and dark/light mode preferences saved in localStorage
 
 ### 🏝️ Dynamic Island Navigation
 - **Apple-inspired Dynamic Island**: Navbar transforms from compact pill to full navigation bar on scroll
@@ -19,15 +21,17 @@ A modern, interactive portfolio website showcasing software engineering experien
 ### 🎭 Advanced Animations
 - **Vision OS-style Profile Expansion**: Blurred edges with sharp center, fading into background
 - **Smooth Scroll Animations**: Reveal animations for sections using IntersectionObserver
-- **Interactive Background**: Animated particle system that responds to theme colors
+- **Interactive Background**: Animated particle system that responds to theme colors and adapts visibility for dark/light modes
 - **Hover Effects**: Spotlight effects on cards with radial gradients
 - **Spring Animations**: Bouncy, natural-feeling transitions throughout
+- **Animated Toggle Switch**: Fancy sun/moon animation with stars and rays for dark/light mode switching
 
 ### 🤖 AI-Powered Chat Assistant
 - **Gemini AI Integration**: Powered by Google's Gemini 2.5 Flash model
 - **Context-aware Responses**: Trained on portfolio data to answer questions about experience, projects, and skills
-- **Smooth Chat UI**: Animated message bubbles with typing indicators
+- **Smooth Chat UI**: Animated message bubbles with typing indicators (only for first response)
 - **Dynamic Origin Animation**: Chat window expands from the AI button location
+- **Theme-aware Design**: Chat modal adapts to dark/light mode with appropriate colors and backgrounds
 
 ### 📱 Performance Optimizations
 - **Lazy Loading**: Images and sections load only when needed
@@ -47,6 +51,7 @@ A modern, interactive portfolio website showcasing software engineering experien
 
 ### 🎨 Design Highlights
 - **Modern UI/UX**: Clean, minimalist design with glassmorphism effects
+- **Dark/Light Mode**: Full support for both modes with optimized color schemes and text contrast
 - **Responsive Design**: Fully optimized for mobile, tablet, and desktop
 - **Accessibility**: Proper semantic HTML and ARIA labels
 - **Touch Optimizations**: 44x44px minimum touch targets for mobile

@@ -3,7 +3,7 @@ import {
   Github, Linkedin, Mail, Terminal as TerminalIcon, Cloud, Zap, Database, Monitor,
   Briefcase, Globe, Eye, Scan, Award, Heart, Home, Code, Cpu,
   Sparkles, Send, X, ArrowUpRight, Check, Users, GraduationCap, FileText, ExternalLink,
-  Palette
+  Palette, Sun, Moon
 } from 'lucide-react';
 
 // --- CONFIGURATION & DATA ---
@@ -11,19 +11,19 @@ const apiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
 
 const PORTFOLIO_CONTEXT = `
 You are an AI representation of Gaurav Pandey. Speak in the first person ("I", "my") but remain professional and enthusiastic. 
-**Profile:** Name: Gaurav Pandey. Current: Master's student at Carnegie Mellon University (CMU). Goal: SWE Internships for Summer 2026. Stats: 3.83 GPA @ CMU, 3.94 GPA @ PES University.
+**Profile:** Name: Gaurav Pandey. Current: Master's student at Carnegie Mellon University (CMU). Goal: Software Summer Internship for Summer 2026. Stats: 3.83 GPA @ CMU, 3.94 GPA @ PES University.
 **Key Achievements:** Optimized data pipelines at Epsilon (30s → 5s). Built AWS Bedrock GenAI prototype. On-call for K8s microservices. Saved 60% AWS costs.
 **Projects:** Google Cloud Sprint (Runner-up). Edge Surveillance (YOLOv3). Image Classification (ResNet50).
 **Tech Stack:** Java, Python, JS, C++, SQL, AWS, K8s, Docker, GCP, Spring Boot, Node.js, Kafka.
 `;
 
-// Theme definitions
+// Theme definitions with dark and light variants
 const themes = {
   vulcan: { 
     id: 'vulcan', label: 'Vulcan', 
     primary: '#f43f5e', // rose-500
     accent: '#f97316',  // orange-500
-    bg: '#0c0a09', 
+    bg: { dark: '#0c0a09', light: '#fce7f0' }, // Stronger rose tint with more color
     particle: '#fb7185', 
     glow: '251, 113, 133' // rose-400 rgb
   },
@@ -31,7 +31,7 @@ const themes = {
     id: 'emerald', label: 'Emerald', 
     primary: '#10b981', // emerald-500
     accent: '#14b8a6',  // teal-500
-    bg: '#0a0c0a', 
+    bg: { dark: '#0a0c0a', light: '#d1fae5' }, // Stronger emerald tint with more color
     particle: '#34d399', 
     glow: '52, 211, 153' // emerald-400 rgb
   },
@@ -39,7 +39,7 @@ const themes = {
     id: 'nebula', label: 'Nebula', 
     primary: '#6366f1', // indigo-500
     accent: '#a855f7',  // purple-500
-    bg: '#0f172a', 
+    bg: { dark: '#0f172a', light: '#e0e7ff' }, // Stronger indigo tint with more color
     particle: '#818cf8', 
     glow: '129, 140, 248' // indigo-400 rgb
   },
@@ -47,7 +47,7 @@ const themes = {
     id: 'midnight', label: 'Midnight', 
     primary: '#3b82f6', // blue-500
     accent: '#06b6d4',  // cyan-500
-    bg: '#020617', 
+    bg: { dark: '#020617', light: '#dbeafe' }, // Stronger blue tint with more color
     particle: '#60a5fa', 
     glow: '96, 165, 250' // blue-400 rgb
   }
@@ -249,9 +249,13 @@ const TintedLogo = React.memo(({ src, alt }) => (
   </div>
 ));
 
-const CMUHighlight = React.memo(() => (
+const CMUHighlight = React.memo(({ isDarkMode }) => (
   <span className="relative inline-block group cursor-default">
-    <span className="bg-gradient-to-r from-slate-200 via-slate-200 to-[#C41230] bg-[length:100%_auto] bg-clip-text text-transparent font-black tracking-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-700">
+    <span className={`bg-gradient-to-r bg-[length:100%_auto] bg-clip-text text-transparent font-black tracking-tight transition-all duration-700 ${
+      isDarkMode
+        ? 'from-slate-200 via-slate-200 to-[#C41230] drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]'
+        : 'from-slate-700 via-slate-700 to-[#C41230] drop-shadow-[0_0_8px_rgba(196,18,48,0.15)]'
+    }`}>
       Carnegie Mellon University
     </span>
   </span>
@@ -283,7 +287,7 @@ const AIMessage = React.memo(({ text, animate }) => {
   return <span>{typedText}</span>;
 });
 
-const InteractiveBackground = React.memo(({ themeColor }) => {
+const InteractiveBackground = React.memo(({ themeColor, isDarkMode }) => {
   const canvasRef = useRef(null);
   const mouseRef = useRef({ x: 0, y: 0 });
 
@@ -319,6 +323,10 @@ const InteractiveBackground = React.memo(({ themeColor }) => {
       ctx.fillStyle = themeColor;
       ctx.strokeStyle = themeColor;
       
+      // Adjust opacity based on dark/light mode - more visible in light mode while staying subtle
+      const particleOpacity = isDarkMode ? 0.3 : 0.65; // More visible in light mode
+      const connectionOpacity = isDarkMode ? 0.4 : 0.75; // More visible connections in light mode
+      
       particles.forEach((p, i) => {
         p.x += p.vx;
         p.y += p.vy;
@@ -326,7 +334,7 @@ const InteractiveBackground = React.memo(({ themeColor }) => {
         if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
         if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
 
-        ctx.globalAlpha = 0.3; 
+        ctx.globalAlpha = particleOpacity; 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fill();
@@ -335,7 +343,7 @@ const InteractiveBackground = React.memo(({ themeColor }) => {
         const dy = mouseRef.current.y - p.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < 150) {
-          ctx.globalAlpha = (1 - dist / 150) * 0.4;
+          ctx.globalAlpha = (1 - dist / 150) * connectionOpacity;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
@@ -360,7 +368,7 @@ const InteractiveBackground = React.memo(({ themeColor }) => {
       window.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [themeColor]);
+  }, [themeColor, isDarkMode]);
 
   return <canvas ref={canvasRef} className="fixed inset-0 z-0 pointer-events-none" />;
 });
@@ -403,11 +411,15 @@ const BrainReactor = React.memo(({ active }) => (
 
 // --- MEMOIZED SECTIONS ---
 
-const HeroSection = React.memo(({ tagline, loaded, onDownload, socialLinks }) => (
+const HeroSection = React.memo(({ tagline, loaded, onDownload, socialLinks, isDarkMode }) => (
   <section id="home" className="relative pt-20 md:pt-48 pb-16 md:pb-32 px-6 overflow-hidden min-h-[calc(100dvh-80px)] md:min-h-[100dvh] flex flex-col justify-center">
     <div className="max-w-7xl mx-auto w-full relative z-10">
       <div className="reveal space-y-6 md:space-y-12">
-        <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 text-[var(--theme-primary)] text-[10px] font-black font-mono uppercase tracking-[0.3em] shadow-xl backdrop-blur-md transition-transform hover:scale-105">
+        <div className={`inline-flex items-center gap-3 px-5 py-2.5 rounded-full border text-[var(--theme-primary)] text-[10px] font-black font-mono uppercase tracking-[0.3em] shadow-xl backdrop-blur-md transition-transform hover:scale-105 ${
+          isDarkMode 
+            ? 'bg-white/5 border-white/10' 
+            : 'bg-white/80 border-slate-200/50'
+        }`}>
           <Zap size={12} className="fill-current animate-pulse" /> 
           <span className="min-w-[200px] flex items-center gap-1">
             {tagline}
@@ -417,12 +429,18 @@ const HeroSection = React.memo(({ tagline, loaded, onDownload, socialLinks }) =>
         
         <h1 className={`text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.9] uppercase select-none drop-shadow-2xl transition-all duration-1000 delay-100 text-left ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           Gaurav <br />
-          <span className="text-white/10 transition-colors duration-1000 hover:text-white/20">Pandey.</span>
+          <span className={`transition-colors duration-1000 ${
+            isDarkMode 
+              ? 'text-white/10 hover:text-white/20' 
+              : 'text-slate-900/15 hover:text-slate-900/25'
+          }`}>Pandey.</span>
         </h1>
 
         <div className={`w-full transition-all duration-1000 delay-200 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <p className="text-lg md:text-3xl text-slate-300 font-medium leading-relaxed max-w-5xl">
-            Graduate student at <CMUHighlight /> with 3+ years of full time experience in developing distributed systems and leading production support for Datahub Product at Epsilon.
+          <p className={`text-lg md:text-3xl font-medium leading-relaxed max-w-5xl ${
+            isDarkMode ? 'text-slate-300' : 'text-slate-700'
+          }`}>
+            Graduate student at <CMUHighlight isDarkMode={isDarkMode} /> with 3+ years of full time experience in developing distributed systems and leading production support for Datahub Product at Epsilon.
           </p>
         </div>
 
@@ -442,7 +460,11 @@ const HeroSection = React.memo(({ tagline, loaded, onDownload, socialLinks }) =>
                 href={social.url} 
                 target={social.url.startsWith('http') ? "_blank" : "_self"}
                 rel={social.url.startsWith('http') ? "noopener noreferrer" : undefined}
-                className="p-4 md:p-5 rounded-full bg-white/5 border border-white/10 hover:border-white/30 hover:scale-110 active:scale-95 transition-all text-slate-400 hover:text-white group shadow-lg touch-manipulation"
+                className={`p-4 md:p-5 rounded-full border hover:scale-110 active:scale-95 transition-all group shadow-lg touch-manipulation ${
+                  isDarkMode 
+                    ? 'bg-white/5 border-white/10 hover:border-white/30 text-slate-400 hover:text-white' 
+                    : 'bg-white/60 border-slate-300/50 hover:border-slate-400/70 text-slate-600 hover:text-slate-900'
+                }`}
               >
                 {React.cloneElement(social.icon, { size: 20 })}
               </a>
@@ -454,7 +476,7 @@ const HeroSection = React.memo(({ tagline, loaded, onDownload, socialLinks }) =>
   </section>
 ));
 
-const ExperienceSection = React.memo(() => {
+const ExperienceSection = React.memo(({ isDarkMode }) => {
   const handleMouseMove = (e) => {
     if (typeof window !== 'undefined' && window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
     const rect = e.currentTarget.getBoundingClientRect();
@@ -468,9 +490,13 @@ const ExperienceSection = React.memo(() => {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 reveal">
           <div className="space-y-4">
             <h2 className="text-6xl font-black tracking-tighter uppercase italic">Experience<span className="text-[var(--theme-primary)]">.</span></h2>
-            <p className="text-slate-500 font-black tracking-[0.6em] text-[10px] uppercase">Professional Evolution</p>
+            <p className={`font-black tracking-[0.6em] text-[10px] uppercase ${
+              isDarkMode ? 'text-slate-500' : 'text-slate-600'
+            }`}>Professional Evolution</p>
           </div>
-          <div className="hidden md:block h-[1px] flex-1 mx-20 mb-4 bg-white/10" />
+          <div className={`hidden md:block h-[1px] flex-1 mx-20 mb-4 ${
+            isDarkMode ? 'bg-white/10' : 'bg-slate-300/30'
+          }`} />
         </div>
 
         <div className="space-y-16">
@@ -487,12 +513,18 @@ const ExperienceSection = React.memo(() => {
             <div key={i} className="reveal grid lg:grid-cols-[1fr_2.5fr] gap-12 group" style={{ transitionDelay: `${i * 100}ms` }}>
               <div className="space-y-4">
                 <div className="text-xs font-black uppercase tracking-[0.4em] text-[var(--theme-primary)]">{job.period}</div>
-                <h3 className="text-4xl font-black transition-all group-hover:translate-x-2">{job.company}</h3>
+                <h3 className={`text-4xl font-black transition-all group-hover:translate-x-2 ${
+                  isDarkMode ? 'text-white' : 'text-slate-900'
+                }`}>{job.company}</h3>
               </div>
               <CardTag 
                 {...cardProps}
                 onMouseMove={handleMouseMove} 
-                className={`spotlight-card relative bg-white/[0.02] backdrop-blur-3xl p-10 rounded-[2.5rem] border border-white/5 hover:border-white/20 transition-all shadow-xl overflow-hidden group/card flex flex-col ${job.link ? 'cursor-pointer hover:translate-y-[-4px]' : ''}`}
+                className={`spotlight-card relative backdrop-blur-3xl p-10 rounded-[2.5rem] border transition-all shadow-xl overflow-hidden group/card flex flex-col ${
+                isDarkMode 
+                  ? 'bg-white/[0.02] border-white/5 hover:border-white/20' 
+                  : 'bg-white/60 border-slate-200/50 hover:border-slate-300/70'
+              } ${job.link ? 'cursor-pointer hover:translate-y-[-4px]' : ''}`}
               >
                  <div className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: `radial-gradient(800px circle at var(--x) var(--y), rgba(var(--theme-glow), 0.4), transparent 40%)` }} />
                  <div className="md:hidden absolute inset-0 opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: `radial-gradient(800px circle at var(--x) var(--y), rgba(var(--theme-glow), 0.4), transparent 40%)` }} />
@@ -502,11 +534,15 @@ const ExperienceSection = React.memo(() => {
                     <div className="w-16 h-16 rounded-2xl bg-[var(--theme-primary)] bg-opacity-10 overflow-hidden">
                       <TintedLogo src={job.logo} alt={job.company} />
                     </div>
-                    <h4 className="text-2xl font-black tracking-tight uppercase">{job.role}</h4>
+                    <h4 className={`text-2xl font-black tracking-tight uppercase ${
+                      isDarkMode ? 'text-white' : 'text-slate-900'
+                    }`}>{job.role}</h4>
                   </div>
                   <ul className="grid md:grid-cols-2 gap-x-12 gap-y-6">
                     {job.points.map((p, pi) => (
-                      <li key={pi} className="flex gap-4 text-slate-400 text-sm leading-relaxed font-medium group/li">
+                      <li key={pi} className={`flex gap-4 text-sm leading-relaxed font-medium group/li ${
+                        isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                      }`}>
                         <div className="w-1.5 h-1.5 rounded-full bg-[var(--theme-primary)] mt-2 shrink-0 group-hover/li:scale-150 transition-transform" />
                         {p}
                       </li>
@@ -531,7 +567,7 @@ const ExperienceSection = React.memo(() => {
   );
 });
 
-const ProjectsSection = React.memo(() => {
+const ProjectsSection = React.memo(({ isDarkMode }) => {
   const handleMouseMove = (e) => {
     if (typeof window !== 'undefined' && window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
     const rect = e.currentTarget.getBoundingClientRect();
@@ -540,11 +576,17 @@ const ProjectsSection = React.memo(() => {
   };
 
   return (
-    <section id="projects" className="py-32 px-6 bg-white/[0.01]">
+    <section id="projects" className={`py-32 px-6 ${
+      isDarkMode ? 'bg-white/[0.01]' : 'bg-white/30'
+    }`}>
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-24 reveal">
-          <h2 className="text-7xl font-black tracking-tighter uppercase mb-6">Projects<span className="text-[var(--theme-primary)]">.</span></h2>
-          <p className="text-slate-500 font-black tracking-[0.6em] text-[11px] uppercase">Engineered Solutions</p>
+          <h2 className={`text-7xl font-black tracking-tighter uppercase mb-6 ${
+            isDarkMode ? 'text-white' : 'text-slate-900'
+          }`}>Projects<span className="text-[var(--theme-primary)]">.</span></h2>
+          <p className={`font-black tracking-[0.6em] text-[11px] uppercase ${
+            isDarkMode ? 'text-slate-500' : 'text-slate-600'
+          }`}>Engineered Solutions</p>
         </div>
         <div className="grid md:grid-cols-2 gap-8">
           {projectsData.map((p, i) => {
@@ -561,23 +603,41 @@ const ProjectsSection = React.memo(() => {
               {...cardProps}
               onMouseMove={handleMouseMove} 
               style={{ transitionDelay: `${i * 100}ms` }} 
-              className={`spotlight-card reveal group relative p-10 bg-white/[0.02] backdrop-blur-3xl rounded-[2.5rem] border border-white/5 hover:border-white/20 transition-all duration-700 overflow-hidden flex flex-col group/card ${p.link ? 'cursor-pointer hover:translate-y-[-10px]' : ''}`}
+              className={`spotlight-card reveal group relative p-10 backdrop-blur-3xl rounded-[2.5rem] border transition-all duration-700 overflow-hidden flex flex-col group/card ${
+                isDarkMode 
+                  ? 'bg-white/[0.02] border-white/5 hover:border-white/20' 
+                  : 'bg-white/70 border-slate-200/50 hover:border-slate-300/70'
+              } ${p.link ? 'cursor-pointer hover:translate-y-[-10px]' : ''}`}
             >
               <div className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: `radial-gradient(600px circle at var(--x) var(--y), rgba(var(--theme-glow), 0.4), transparent 40%)` }} />
               <div className="md:hidden absolute inset-0 opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: `radial-gradient(600px circle at var(--x) var(--y), rgba(var(--theme-glow), 0.4), transparent 40%)` }} />
               
               <div className="relative z-10 h-full flex flex-col">
                 <div className="flex justify-between items-start mb-8">
-                  <div className="p-4 rounded-2xl text-[var(--theme-primary)] bg-white/5 border border-white/5 group-hover:scale-110 transition-transform">{React.cloneElement(p.icon, { size: 28 })}</div>
+                  <div className={`p-4 rounded-2xl text-[var(--theme-primary)] border group-hover:scale-110 transition-transform ${
+                    isDarkMode 
+                      ? 'bg-white/5 border-white/5' 
+                      : 'bg-white/80 border-slate-200/50'
+                  }`}>{React.cloneElement(p.icon, { size: 28 })}</div>
                   <div className="flex gap-2">
-                    {p.tags.map(tag => <span key={tag} className="px-3 py-1 bg-black/40 rounded-lg text-[9px] font-black uppercase text-slate-400 border border-white/5 tracking-wider">{tag}</span>)}
+                    {p.tags.map(tag => <span key={tag} className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase border tracking-wider ${
+                      isDarkMode 
+                        ? 'bg-black/40 text-slate-400 border-white/5' 
+                        : 'bg-slate-100 text-slate-700 border-slate-200/50'
+                    }`}>{tag}</span>)}
                   </div>
                 </div>
-                <h3 className="text-2xl font-black mb-4 uppercase tracking-tight">{p.title}</h3>
-                <p className="text-slate-400 text-base leading-relaxed mb-8 font-medium">{p.desc}</p>
+                <h3 className={`text-2xl font-black mb-4 uppercase tracking-tight ${
+                  isDarkMode ? 'text-white' : 'text-slate-900'
+                }`}>{p.title}</h3>
+                <p className={`text-base leading-relaxed mb-8 font-medium ${
+                  isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                }`}>{p.desc}</p>
                 
                 {/* Dynamic Footer: Tech Brief or Explicit Link */}
-                <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
+                <div className={`mt-auto pt-6 border-t flex items-center justify-between ${
+                  isDarkMode ? 'border-white/5' : 'border-slate-200/50'
+                }`}>
                   {p.link ? (
                     <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-[var(--theme-primary)] group-hover/card:underline">
                       View Project <ExternalLink size={14} />
@@ -585,7 +645,11 @@ const ProjectsSection = React.memo(() => {
                   ) : (
                     <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[var(--theme-primary)]">View Details</span>
                   )}
-                  <ArrowUpRight className={`text-slate-600 group-hover:text-white transition-all ${p.link ? 'group-hover/card:translate-x-1 group-hover/card:-translate-y-1' : ''}`} size={18} />
+                  <ArrowUpRight className={`transition-all ${p.link ? 'group-hover/card:translate-x-1 group-hover/card:-translate-y-1' : ''} ${
+                    isDarkMode 
+                      ? 'text-slate-600 group-hover:text-white' 
+                      : 'text-slate-500 group-hover:text-slate-900'
+                  }`} size={18} />
                 </div>
               </div>
             </CardTag>
@@ -596,7 +660,7 @@ const ProjectsSection = React.memo(() => {
   );
 });
 
-const LeadershipSection = React.memo(() => {
+const LeadershipSection = React.memo(({ isDarkMode }) => {
   const handleMouseMove = (e) => {
     if (typeof window !== 'undefined' && window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
     const rect = e.currentTarget.getBoundingClientRect();
@@ -609,10 +673,16 @@ const LeadershipSection = React.memo(() => {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 reveal">
           <div className="space-y-4">
-            <h2 className="text-6xl font-black tracking-tighter uppercase italic">Leadership <span className="text-[var(--theme-primary)]">&</span> Activities</h2>
-            <p className="text-slate-500 font-black tracking-[0.6em] text-[10px] uppercase">Community & Impact</p>
+            <h2 className={`text-6xl font-black tracking-tighter uppercase italic ${
+              isDarkMode ? 'text-white' : 'text-slate-900'
+            }`}>Leadership <span className="text-[var(--theme-primary)]">&</span> Activities</h2>
+            <p className={`font-black tracking-[0.6em] text-[10px] uppercase ${
+              isDarkMode ? 'text-slate-500' : 'text-slate-600'
+            }`}>Community & Impact</p>
           </div>
-          <div className="hidden md:block h-[1px] flex-1 mx-20 mb-4 bg-white/10" />
+          <div className={`hidden md:block h-[1px] flex-1 mx-20 mb-4 ${
+            isDarkMode ? 'bg-white/10' : 'bg-slate-300/30'
+          }`} />
         </div>
 
         <div className="space-y-16">
@@ -629,12 +699,18 @@ const LeadershipSection = React.memo(() => {
               <div key={i} className="reveal grid lg:grid-cols-[1fr_2.5fr] gap-12 group" style={{ transitionDelay: `${i * 100}ms` }}>
                 <div className="space-y-4">
                   <div className="text-xs font-black uppercase tracking-[0.4em] text-[var(--theme-primary)]">{role.period}</div>
-                  <h3 className="text-4xl font-black transition-all group-hover:translate-x-2">{role.org}</h3>
+                  <h3 className={`text-4xl font-black transition-all group-hover:translate-x-2 ${
+                    isDarkMode ? 'text-white' : 'text-slate-900'
+                  }`}>{role.org}</h3>
                 </div>
                 <CardTag 
                   {...cardProps}
                   onMouseMove={handleMouseMove} 
-                  className={`spotlight-card relative bg-white/[0.02] backdrop-blur-3xl p-10 rounded-[2.5rem] border border-white/5 hover:border-white/20 transition-all shadow-xl overflow-hidden group/card flex flex-col ${role.link ? 'cursor-pointer hover:translate-y-[-4px]' : ''}`}
+                  className={`spotlight-card relative backdrop-blur-3xl p-10 rounded-[2.5rem] border transition-all shadow-xl overflow-hidden group/card flex flex-col ${
+                    isDarkMode 
+                      ? 'bg-white/[0.02] border-white/5 hover:border-white/20' 
+                      : 'bg-white/60 border-slate-200/50 hover:border-slate-300/70'
+                  } ${role.link ? 'cursor-pointer hover:translate-y-[-4px]' : ''}`}
                 >
                    <div className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: `radial-gradient(800px circle at var(--x) var(--y), rgba(var(--theme-glow), 0.4), transparent 40%)` }} />
                    <div className="md:hidden absolute inset-0 opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: `radial-gradient(800px circle at var(--x) var(--y), rgba(var(--theme-glow), 0.4), transparent 40%)` }} />
@@ -644,13 +720,17 @@ const LeadershipSection = React.memo(() => {
                       <div className="w-16 h-16 rounded-2xl bg-[var(--theme-primary)] bg-opacity-10 overflow-hidden">
                         <TintedLogo src={role.logo} alt={role.org} />
                       </div>
-                      <h4 className="text-2xl font-black tracking-tight uppercase flex items-center gap-3">
+                      <h4 className={`text-2xl font-black tracking-tight uppercase flex items-center gap-3 ${
+                        isDarkMode ? 'text-white' : 'text-slate-900'
+                      }`}>
                         {role.role}
                       </h4>
                     </div>
                     <ul className="grid md:grid-cols-2 gap-x-12 gap-y-6">
                       {role.points.map((p, pi) => (
-                        <li key={pi} className="flex gap-4 text-slate-400 text-sm leading-relaxed font-medium group/li">
+                        <li key={pi} className={`flex gap-4 text-sm leading-relaxed font-medium group/li ${
+                          isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                        }`}>
                           <div className="w-1.5 h-1.5 rounded-full bg-[var(--theme-primary)] mt-2 shrink-0 group-hover/li:scale-150 transition-transform" />
                           {p}
                         </li>
@@ -660,11 +740,17 @@ const LeadershipSection = React.memo(() => {
 
                   {/* Explicit Link CTA at the bottom */}
                   {role.link && (
-                    <div className="relative z-10 mt-8 pt-6 border-t border-white/5 flex items-center justify-between group/link">
+                    <div className={`relative z-10 mt-8 pt-6 border-t flex items-center justify-between group/link ${
+                      isDarkMode ? 'border-white/5' : 'border-slate-200/50'
+                    }`}>
                       <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[var(--theme-primary)] group-hover/link:underline flex items-center gap-2">
                         View Details <ExternalLink size={14} />
                       </span>
-                      <ArrowUpRight size={20} className="text-slate-600 group-hover/link:text-white group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-all" />
+                      <ArrowUpRight size={20} className={`group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-all ${
+                        isDarkMode 
+                          ? 'text-slate-600 group-hover/link:text-white' 
+                          : 'text-slate-500 group-hover/link:text-slate-900'
+                      }`} />
                     </div>
                   )}
                 </CardTag>
@@ -677,7 +763,7 @@ const LeadershipSection = React.memo(() => {
   );
 });
 
-const EducationSection = React.memo(() => {
+const EducationSection = React.memo(({ isDarkMode }) => {
   const handleMouseMove = (e) => {
     if (typeof window !== 'undefined' && window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
     const rect = e.currentTarget.getBoundingClientRect();
@@ -690,10 +776,16 @@ const EducationSection = React.memo(() => {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 reveal">
           <div className="space-y-4">
-            <h2 className="text-6xl font-black tracking-tighter uppercase italic">Education<span className="text-[var(--theme-primary)]">.</span></h2>
-            <p className="text-slate-500 font-black tracking-[0.6em] text-[10px] uppercase">Academic Background</p>
+            <h2 className={`text-6xl font-black tracking-tighter uppercase italic ${
+              isDarkMode ? 'text-white' : 'text-slate-900'
+            }`}>Education<span className="text-[var(--theme-primary)]">.</span></h2>
+            <p className={`font-black tracking-[0.6em] text-[10px] uppercase ${
+              isDarkMode ? 'text-slate-500' : 'text-slate-600'
+            }`}>Academic Background</p>
           </div>
-          <div className="hidden md:block h-[1px] flex-1 mx-20 mb-4 bg-white/10" />
+          <div className={`hidden md:block h-[1px] flex-1 mx-20 mb-4 ${
+            isDarkMode ? 'bg-white/10' : 'bg-slate-300/30'
+          }`} />
         </div>
 
         <div className="space-y-16">
@@ -701,10 +793,18 @@ const EducationSection = React.memo(() => {
             <div key={i} className="reveal grid lg:grid-cols-[1fr_2.5fr] gap-12 group" style={{ transitionDelay: `${i * 100}ms` }}>
               <div className="space-y-4">
                 <div className="text-xs font-black uppercase tracking-[0.4em] text-[var(--theme-primary)]">{edu.period}</div>
-                <h3 className="text-3xl font-black transition-all group-hover:translate-x-2">{edu.school}</h3>
-                <div className="text-sm font-bold text-slate-400 uppercase tracking-widest">GPA: {edu.grade}</div>
+                <h3 className={`text-3xl font-black transition-all group-hover:translate-x-2 ${
+                  isDarkMode ? 'text-white' : 'text-slate-900'
+                }`}>{edu.school}</h3>
+                <div className={`text-sm font-bold uppercase tracking-widest ${
+                  isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                }`}>GPA: {edu.grade}</div>
               </div>
-              <div onMouseMove={handleMouseMove} className="spotlight-card relative bg-white/[0.02] backdrop-blur-3xl p-10 rounded-[2.5rem] border border-white/5 hover:border-white/20 transition-all shadow-xl overflow-hidden group/card">
+              <div onMouseMove={handleMouseMove} className={`spotlight-card relative backdrop-blur-3xl p-10 rounded-[2.5rem] border transition-all shadow-xl overflow-hidden group/card ${
+                isDarkMode 
+                  ? 'bg-white/[0.02] border-white/5 hover:border-white/20' 
+                  : 'bg-white/60 border-slate-200/50 hover:border-slate-300/70'
+              }`}>
                  <div className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: `radial-gradient(800px circle at var(--x) var(--y), rgba(var(--theme-glow), 0.4), transparent 40%)` }} />
                  <div className="md:hidden absolute inset-0 opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: `radial-gradient(800px circle at var(--x) var(--y), rgba(var(--theme-glow), 0.4), transparent 40%)` }} />
                 <div className="relative z-10">
@@ -712,17 +812,23 @@ const EducationSection = React.memo(() => {
                     <div className="w-16 h-16 rounded-2xl bg-[var(--theme-primary)] bg-opacity-10 overflow-hidden">
                       <TintedLogo src={edu.logo} alt={edu.school} />
                     </div>
-                    <h4 className="text-xl font-black tracking-tight uppercase leading-snug">{edu.degree}</h4>
+                    <h4 className={`text-xl font-black tracking-tight uppercase leading-snug ${
+                      isDarkMode ? 'text-white' : 'text-slate-900'
+                    }`}>{edu.degree}</h4>
                   </div>
                   
                   {edu.details ? (
                     <div className="grid md:grid-cols-2 gap-8">
                       {edu.details.map((sem, j) => (
                         <div key={j} className="space-y-4">
-                          <h5 className="text-xs font-black uppercase tracking-[0.2em] text-[var(--theme-primary)] border-b border-white/10 pb-2 mb-3">{sem.term}</h5>
+                          <h5 className={`text-xs font-black uppercase tracking-[0.2em] text-[var(--theme-primary)] border-b pb-2 mb-3 ${
+                            isDarkMode ? 'border-white/10' : 'border-slate-200/50'
+                          }`}>{sem.term}</h5>
                           <ul className="space-y-2">
                             {sem.courses.map((course, k) => (
-                              <li key={k} className="text-slate-400 text-xs font-medium flex items-start gap-2">
+                              <li key={k} className={`text-xs font-medium flex items-start gap-2 ${
+                                isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                              }`}>
                                 <span className="w-1 h-1 rounded-full bg-[var(--theme-primary)] mt-1.5 shrink-0" />
                                 {course}
                               </li>
@@ -732,7 +838,9 @@ const EducationSection = React.memo(() => {
                       ))}
                     </div>
                   ) : (
-                    <div className="text-slate-400 text-sm font-medium border-l-2 border-[var(--theme-primary)] pl-4">
+                    <div className={`text-sm font-medium border-l-2 border-[var(--theme-primary)] pl-4 ${
+                      isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                    }`}>
                       {edu.specialization}
                     </div>
                   )}
@@ -746,18 +854,30 @@ const EducationSection = React.memo(() => {
   );
 });
 
-const SkillsSection = React.memo(() => (
+const SkillsSection = React.memo(({ isDarkMode }) => (
   <section id="skills" className="py-32 px-6">
     <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_2fr] gap-20">
       <div className="reveal">
-        <h2 className="text-6xl font-black tracking-tighter uppercase leading-none mb-10 italic">Core <br />Stack<span className="text-[var(--theme-primary)]">.</span></h2>
+        <h2 className={`text-6xl font-black tracking-tighter uppercase leading-none mb-10 italic ${
+          isDarkMode ? 'text-white' : 'text-slate-900'
+        }`}>Core <br />Stack<span className="text-[var(--theme-primary)]">.</span></h2>
         <div className="space-y-6">
-           <p className="text-slate-400 text-lg font-medium leading-relaxed">A specialized toolkit for cloud architecture and high-load backend optimization.</p>
-           <div className="flex items-center gap-4 p-6 bg-white/5 border border-white/5 rounded-[2rem] group hover:bg-white/10 transition-colors">
+           <p className={`text-lg font-medium leading-relaxed ${
+             isDarkMode ? 'text-slate-400' : 'text-slate-600'
+           }`}>A specialized toolkit for cloud architecture and high-load backend optimization.</p>
+           <div className={`flex items-center gap-4 p-6 border rounded-[2rem] group transition-colors ${
+             isDarkMode 
+               ? 'bg-white/5 border-white/5 hover:bg-white/10' 
+               : 'bg-white/60 border-slate-200/50 hover:bg-white/80'
+           }`}>
              <Award className="text-[var(--theme-primary)]" size={32} />
              <div>
-               <div className="text-xs font-black uppercase tracking-widest mb-1 text-slate-300">Top Honors</div>
-               <div className="text-sm text-slate-500 font-bold">Runner-up @ Google Cloud Sprint</div>
+               <div className={`text-xs font-black uppercase tracking-widest mb-1 ${
+                 isDarkMode ? 'text-slate-300' : 'text-slate-700'
+               }`}>Top Honors</div>
+               <div className={`text-sm font-bold ${
+                 isDarkMode ? 'text-slate-500' : 'text-slate-600'
+               }`}>Runner-up @ Google Cloud Sprint</div>
              </div>
            </div>
         </div>
@@ -767,13 +887,23 @@ const SkillsSection = React.memo(() => (
           const categoryName = s.cat || Object.keys(s)[0];
           const items = s.items || Object.values(s)[0];
           return (
-          <div key={i} className="p-8 bg-white/[0.03] border border-white/5 rounded-[2rem] group hover:border-white/20 transition-all hover:translate-y-[-4px]">
+          <div key={i} className={`p-8 border rounded-[2rem] group transition-all hover:translate-y-[-4px] ${
+            isDarkMode 
+              ? 'bg-white/[0.03] border-white/5 hover:border-white/20' 
+              : 'bg-white/60 border-slate-200/50 hover:border-slate-300/70'
+          }`}>
             <div className="flex items-center gap-4 mb-6">
               <div className="text-[var(--theme-primary)] group-hover:scale-110 transition-transform">{React.cloneElement(s.icon, { size: 24 })}</div>
-              <h4 className="text-xs font-black uppercase tracking-[0.2em]">{categoryName}</h4>
+              <h4 className={`text-xs font-black uppercase tracking-[0.2em] ${
+                isDarkMode ? 'text-white' : 'text-slate-900'
+              }`}>{categoryName}</h4>
             </div>
             <div className="flex flex-wrap gap-x-4 gap-y-2">
-              {items.map(item => <span key={item} className="text-xs font-bold text-slate-500 hover:text-white transition-colors cursor-default">{item}</span>)}
+              {items.map(item => <span key={item} className={`text-xs font-bold transition-colors cursor-default ${
+                isDarkMode 
+                  ? 'text-slate-500 hover:text-white' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}>{item}</span>)}
             </div>
           </div>
         )})}
@@ -782,10 +912,16 @@ const SkillsSection = React.memo(() => (
   </section>
 ));
 
-const Footer = React.memo(() => (
-  <footer className="py-12 px-6 border-t border-white/5 bg-black/40">
+const Footer = React.memo(({ isDarkMode }) => (
+  <footer className={`py-12 px-6 border-t ${
+    isDarkMode 
+      ? 'border-white/5 bg-black/40' 
+      : 'border-slate-200/50 bg-white/40'
+  }`}>
     <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 relative z-10">
-      <div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 flex items-center gap-2">
+      <div className={`text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 ${
+        isDarkMode ? 'text-slate-600' : 'text-slate-700'
+      }`}>
          <span>Made with</span>
          <Heart size={10} className="text-red-500 fill-current animate-pulse" />
          <span>by Gaurav Pandey</span>
@@ -797,7 +933,11 @@ const Footer = React.memo(() => (
             href={social.url} 
             target={social.url.startsWith('http') ? "_blank" : "_self"}
             rel={social.url.startsWith('http') ? "noopener noreferrer" : undefined}
-            className="p-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:scale-110 transition-all text-slate-400 hover:text-white"
+            className={`p-3 rounded-full border hover:scale-110 transition-all ${
+              isDarkMode 
+                ? 'bg-white/5 border-white/10 hover:bg-white/10 text-slate-400 hover:text-white' 
+                : 'bg-white/60 border-slate-200/50 hover:bg-white/80 text-slate-600 hover:text-slate-900'
+            }`}
           >
             {React.cloneElement(social.icon, { size: 16 })}
           </a>
@@ -815,6 +955,14 @@ const App = () => {
       return localStorage.getItem('portfolio_theme') || 'vulcan';
     }
     return 'vulcan';
+  });
+  
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('portfolio_dark_mode');
+      return saved !== null ? saved === 'true' : true; // Default to dark
+    }
+    return true;
   });
   
   // -- NEW STATE FOR PROFILE EXPANSION --
@@ -841,7 +989,7 @@ const App = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [showThemeMenu, setShowThemeMenu] = useState(false);
   const [isThemeClosing, setIsThemeClosing] = useState(false);
-  const tagline = useTypewriter("Targeting SWE Summer Internship", 50); 
+  const tagline = useTypewriter("Targeting Software Summer Internship", 50); 
   
   const [loaded, setLoaded] = useState(false);
   const [renderBelowFold, setRenderBelowFold] = useState(false);
@@ -871,7 +1019,8 @@ const App = () => {
     document.documentElement.style.setProperty('--theme-primary', theme.primary);
     document.documentElement.style.setProperty('--theme-accent', theme.accent);
     document.documentElement.style.setProperty('--theme-glow', theme.glow);
-  }, [activeTheme]);
+    document.documentElement.style.setProperty('--theme-bg', theme.bg[isDarkMode ? 'dark' : 'light']);
+  }, [activeTheme, isDarkMode]);
 
   useAutoSpotlight('spotlight-card');
 
@@ -925,17 +1074,32 @@ const App = () => {
 
   const handleThemeChange = useCallback((newThemeKey, e) => {
     e.stopPropagation();
-    const newColor = themes[newThemeKey].bg;
+    const newColor = themes[newThemeKey].bg[isDarkMode ? 'dark' : 'light'];
+    
+    // Immediate theme change for seamless transition
+    setActiveTheme(newThemeKey);
+    localStorage.setItem('portfolio_theme', newThemeKey);
+    
+    // Ripple effect for visual feedback
     setRipple({ active: true, x: e.clientX, y: e.clientY, color: newColor });
-
-    setTimeout(() => {
-      setActiveTheme(newThemeKey);
-      localStorage.setItem('portfolio_theme', newThemeKey);
-      setIsThemeClosing(true);
-      setTimeout(() => { setShowThemeMenu(false); setIsThemeClosing(false); }, 500);
+    
+    // Close menu smoothly
+    setIsThemeClosing(true);
+    setTimeout(() => { 
+      setShowThemeMenu(false); 
+      setIsThemeClosing(false); 
     }, 300);
 
-    setTimeout(() => { setRipple(prev => ({ ...prev, active: false })); }, 1000);
+    setTimeout(() => { setRipple(prev => ({ ...prev, active: false })); }, 800);
+  }, [isDarkMode]);
+  
+  const toggleDarkMode = useCallback((e) => {
+    e.stopPropagation();
+    setIsDarkMode(prev => {
+      const newMode = !prev;
+      localStorage.setItem('portfolio_dark_mode', newMode.toString());
+      return newMode;
+    });
   }, []);
 
   // Optimized Navigation Handler (Direct Jump)
@@ -1172,72 +1336,115 @@ const App = () => {
   }, [isCompact]);
 
   return (
-    <div className="min-h-screen text-slate-100 font-sans selection:bg-blue-500/30 overflow-x-hidden transition-colors duration-700 ease-in-out" style={{ backgroundColor: themes[activeTheme].bg }}>
+    <div 
+      className={`min-h-screen font-sans selection:bg-blue-500/30 overflow-x-hidden ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`} 
+      style={{ 
+        backgroundColor: themes[activeTheme].bg[isDarkMode ? 'dark' : 'light'],
+        transition: 'background-color 500ms cubic-bezier(0.4, 0, 0.2, 1)'
+      }}
+    >
       
-      <InteractiveBackground themeColor={themes[activeTheme].particle} />
+      <InteractiveBackground themeColor={themes[activeTheme].particle} isDarkMode={isDarkMode} />
 
       {ripple.active && (
         <div 
-          className="fixed pointer-events-none z-[100] rounded-full animate-ripple mix-blend-screen"
+          className={`fixed pointer-events-none z-[100] rounded-full animate-ripple ${
+            isDarkMode ? 'mix-blend-screen' : 'mix-blend-multiply'
+          }`}
           style={{ left: ripple.x, top: ripple.y, backgroundColor: ripple.color, width: '10px', height: '10px', transform: 'translate(-50%, -50%)' }}
         />
       )}
 
       {/* --- AI Chat Modal --- */}
       {isChatOpen && (
-        <div className={`fixed inset-0 z-[100] flex items-end sm:items-center justify-center sm:p-4 transition-all duration-500 ${isClosing ? 'bg-transparent' : 'bg-black/60 backdrop-blur-sm'}`}>
+        <div className={`fixed inset-0 z-[100] flex items-end sm:items-center justify-center sm:p-4 transition-all duration-500 ${isClosing ? 'bg-transparent' : isDarkMode ? 'bg-black/60 backdrop-blur-sm' : 'bg-black/40 backdrop-blur-sm'}`}>
           <div className="absolute inset-0" onClick={closeChat} />
           <div 
             className={`
               relative w-full sm:max-w-lg max-h-[90vh] sm:max-h-[600px] h-[75vh] sm:h-[600px]
-              bg-[#050505]/95 backdrop-blur-[40px] 
+              backdrop-blur-[40px] 
               border border-[var(--theme-primary)]/30
               rounded-t-[2.5rem] sm:rounded-[2.5rem] 
               shadow-[0_0_100px_-20px_rgba(0,0,0,0.8)]
               flex flex-col overflow-hidden box-border
+              ${isDarkMode ? 'bg-[#050505]/95' : 'bg-white/95'}
               ${isClosing ? 'animate-spring-out' : 'animate-spring-up'}
             `}
             style={{ transformOrigin: window.innerWidth < 640 ? 'bottom center' : `${chatOrigin.x}px ${chatOrigin.y}px` }}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-[var(--theme-primary)]/20 via-transparent to-[var(--theme-accent)]/20 opacity-50 pointer-events-none" />
-            <div className="relative p-4 sm:p-6 border-b border-white/5 flex justify-between items-center bg-black/40 flex-shrink-0">
+            <div className={`relative p-4 sm:p-6 border-b flex justify-between items-center backdrop-blur-xl flex-shrink-0 ${
+              isDarkMode 
+                ? 'border-white/5 bg-black/40' 
+                : 'border-slate-200/50 bg-white/60'
+            }`}>
               <div className="flex items-center gap-3 sm:gap-4 min-w-0">
                 <div className="flex-shrink-0">
                   <BrainReactor active={isChatLoading} theme={themes[activeTheme]} />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="font-black text-lg sm:text-xl text-white tracking-tight truncate">Gaurav AI</h3>
-                  <p className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-widest">Powered by Gemini 2.5</p>
+                  <h3 className={`font-black text-lg sm:text-xl tracking-tight truncate ${
+                    isDarkMode ? 'text-white' : 'text-slate-900'
+                  }`}>Gaurav AI</h3>
+                  <p className={`text-[10px] sm:text-[11px] font-bold uppercase tracking-widest ${
+                    isDarkMode ? 'text-slate-500' : 'text-slate-600'
+                  }`}>Powered by Gemini 2.5</p>
                 </div>
               </div>
-              <button onClick={closeChat} className="p-2 sm:p-3 hover:bg-white/10 rounded-full transition-all hover:rotate-90 active:scale-90 z-20 flex-shrink-0"><X size={18} className="text-slate-400 sm:w-5 sm:h-5" /></button>
+              <button onClick={closeChat} className={`p-2 sm:p-3 rounded-full transition-all hover:rotate-90 active:scale-90 z-20 flex-shrink-0 ${
+                isDarkMode 
+                  ? 'hover:bg-white/10' 
+                  : 'hover:bg-slate-200/50'
+              }`}><X size={18} className={`sm:w-5 sm:h-5 ${
+                isDarkMode ? 'text-slate-400' : 'text-slate-600'
+              }`} /></button>
             </div>
             <div className="relative flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6 scroll-smooth z-10 min-h-0">
               <div className={`absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(var(--theme-glow),0.5)_0%,_transparent_70%)] opacity-20 pointer-events-none fixed`} />
               {messages.map((msg, idx) => (
                 <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-slide-up`} style={{ animationDelay: `${idx * 0.05}s` }}>
-                  <div className={`max-w-[85%] sm:max-w-[80%] p-3 sm:p-4 rounded-2xl text-xs sm:text-sm leading-relaxed font-medium shadow-lg backdrop-blur-md ${msg.role === 'user' ? `bg-[var(--theme-primary)]/90 text-white rounded-tr-sm shadow-[var(--theme-primary)]/20 border border-[var(--theme-primary)]/40` : 'bg-white/5 text-slate-200 rounded-tl-sm border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.2)]'}`}>
+                  <div className={`max-w-[85%] sm:max-w-[80%] p-3 sm:p-4 rounded-2xl text-xs sm:text-sm leading-relaxed font-medium shadow-lg backdrop-blur-md ${
+                    msg.role === 'user' 
+                      ? `bg-[var(--theme-primary)]/90 text-white rounded-tr-sm shadow-[var(--theme-primary)]/20 border border-[var(--theme-primary)]/40` 
+                      : isDarkMode
+                        ? 'bg-white/5 text-slate-200 rounded-tl-sm border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.2)]'
+                        : 'bg-white/80 text-slate-800 rounded-tl-sm border border-slate-200/50 shadow-[0_4px_20px_rgba(0,0,0,0.1)]'
+                  }`}>
                     {msg.role === 'assistant' ? <AIMessage text={msg.text} animate={msg.animate} /> : msg.text}
                   </div>
                 </div>
               ))}
               {isChatLoading && (
                 <div className="flex justify-start animate-slide-up">
-                  <div className="bg-white/5 p-4 rounded-2xl rounded-tl-sm border border-white/10 flex items-center gap-2">
+                  <div className={`p-4 rounded-2xl rounded-tl-sm border flex items-center gap-2 ${
+                    isDarkMode 
+                      ? 'bg-white/5 border-white/10' 
+                      : 'bg-white/80 border-slate-200/50'
+                  }`}>
                     <div className="w-1 h-4 bg-[var(--theme-primary)] rounded-full animate-[wave_1s_ease-in-out_infinite]" />
                     <div className="w-1 h-6 bg-[var(--theme-primary)] rounded-full animate-[wave_1s_ease-in-out_0.1s_infinite]" />
                     <div className="w-1 h-3 bg-[var(--theme-primary)] rounded-full animate-[wave_1s_ease-in-out_0.2s_infinite]" />
-                    <span className="text-xs text-slate-500 ml-2 font-bold tracking-wider">THINKING</span>
+                    <span className={`text-xs ml-2 font-bold tracking-wider ${
+                      isDarkMode ? 'text-slate-500' : 'text-slate-600'
+                    }`}>THINKING</span>
                   </div>
                 </div>
               )}
               <div ref={chatEndRef} />
             </div>
-            <form onSubmit={handleSendMessage} className="relative p-3 sm:p-5 border-t border-white/10 bg-black/40 backdrop-blur-xl z-20 flex-shrink-0">
+            <form onSubmit={handleSendMessage} className={`relative p-3 sm:p-5 border-t backdrop-blur-xl z-20 flex-shrink-0 ${
+              isDarkMode 
+                ? 'border-white/10 bg-black/40' 
+                : 'border-slate-200/50 bg-white/60'
+            }`}>
               <div className="flex gap-2 sm:gap-3 items-end">
                 <div className="flex-1 relative group">
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-accent)] rounded-2xl opacity-20 group-hover:opacity-50 transition duration-500 blur-sm" />
-                  <input type="text" value={chatInput} onChange={(e) => setChatInput(e.target.value)} placeholder="Ask about projects..." className="relative w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-4 sm:px-5 py-3 sm:py-4 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-white/30 transition-all shadow-inner" />
+                  <input type="text" value={chatInput} onChange={(e) => setChatInput(e.target.value)} placeholder="Ask about projects..." className={`relative w-full border rounded-2xl px-4 sm:px-5 py-3 sm:py-4 text-xs sm:text-sm placeholder-slate-500 focus:outline-none transition-all shadow-inner ${
+                    isDarkMode 
+                      ? 'bg-[#0a0a0a] border-white/10 text-white focus:border-white/30' 
+                      : 'bg-white/90 border-slate-200/50 text-slate-900 focus:border-slate-300/70'
+                  }`} />
                 </div>
                 <button type="submit" disabled={isChatLoading || !chatInput.trim()} className="p-3 sm:p-4 rounded-2xl bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)]/90 text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(0,0,0,0.3)] shadow-[var(--theme-primary)]/20 flex-shrink-0"><Send size={18} className="sm:w-5 sm:h-5" /></button>
               </div>
@@ -1252,11 +1459,15 @@ const App = () => {
           className={`
             pointer-events-auto relative flex items-center justify-between
             shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl backdrop-saturate-[180%] 
-            border border-white/10 rounded-full overflow-visible
+            border rounded-full overflow-visible
             will-change-[width,height,padding,transform]
+            ${isDarkMode 
+              ? 'border-white/10' 
+              : 'border-slate-300/30'
+            }
             ${isCompact 
-              ? 'bg-black/80 p-1.5 h-[52px]' // Slightly wider on mobile for better fit
-              : 'bg-black/40 p-2 h-auto'
+              ? `${isDarkMode ? 'bg-black/80' : 'bg-white/90'} p-1.5 h-[52px]`
+              : `${isDarkMode ? 'bg-black/40' : 'bg-white/60'} p-2 h-auto`
             }
           `}
           style={{
@@ -1440,29 +1651,144 @@ const App = () => {
               <Palette size={isCompact ? 14 : 16} className={`text-[var(--theme-primary)] transition-all duration-700 ${showThemeMenu ? 'rotate-90' : 'group-hover:rotate-180'}`} />
               {showThemeMenu && (
                 <div className={`absolute top-full right-0 mt-6 min-w-[220px] origin-top-right z-[999] ${isThemeClosing ? 'animate-super-exit' : 'animate-super-entrance'}`} onClick={(e) => e.stopPropagation()}>
-                  <div className="absolute inset-0 bg-gradient-to-b from-gray-900/95 to-black/95 backdrop-blur-2xl rounded-[2rem] border border-[var(--theme-primary)]/20 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.8),0_0_15px_-5px_rgba(var(--theme-glow),0.3)] overflow-hidden">
+                  <div className={`absolute inset-0 backdrop-blur-2xl rounded-[2rem] border border-[var(--theme-primary)]/20 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.8),0_0_15px_-5px_rgba(var(--theme-glow),0.3)] overflow-hidden ${
+                    isDarkMode 
+                      ? 'bg-gradient-to-b from-gray-900/95 to-black/95' 
+                      : 'bg-gradient-to-b from-white/95 to-gray-50/95'
+                  }`}>
                     <div className="absolute inset-0 bg-gradient-to-tr from-[var(--theme-primary)]/10 via-transparent to-transparent opacity-50" />
                     {!isThemeClosing && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--theme-primary)]/10 to-transparent skew-x-12 animate-[shimmer-sweep_1s_ease-out_forwards]" />}
                   </div>
                   <div className="relative z-10 p-3 flex flex-col gap-2">
-                    <div className="px-3 py-2 flex items-center justify-between border-b border-white/5 mb-1"><span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Select Theme</span><div className="w-1.5 h-1.5 rounded-full bg-[var(--theme-primary)] animate-pulse shadow-[0_0_5px_var(--theme-primary)]" /></div>
+                    <div className={`px-3 py-2 flex items-center justify-between border-b mb-1 ${
+                      isDarkMode ? 'border-white/5' : 'border-slate-300/20'
+                    }`}>
+                      <span className={`text-[10px] font-black uppercase tracking-[0.3em] ${
+                        isDarkMode ? 'text-slate-500' : 'text-slate-600'
+                      }`}>Select Theme</span>
+                      <div className="w-1.5 h-1.5 rounded-full bg-[var(--theme-primary)] animate-pulse shadow-[0_0_5px_var(--theme-primary)]" />
+                    </div>
                     {Object.keys(themes).map((t, index) => {
                       const isActive = activeTheme === t;
                       const themeData = themes[t];
                       return (
-                        <button key={t} onClick={(e) => handleThemeChange(t, e)} className={`relative group/item w-full flex items-center justify-between px-4 py-3 rounded-xl border border-transparent transition-all duration-300 hover:bg-white/5 hover:border-white/10 hover:scale-[1.05] hover:translate-x-1 hover:shadow-lg ${!isThemeClosing ? 'animate-cascade-in opacity-0' : 'opacity-100'}`} style={{ animationDelay: `${index * 0.1}s` }}>
+                        <button key={t} onClick={(e) => handleThemeChange(t, e)} className={`relative group/item w-full flex items-center justify-between px-4 py-3 rounded-xl border border-transparent transition-all duration-300 hover:scale-[1.05] hover:translate-x-1 hover:shadow-lg ${
+                          isDarkMode 
+                            ? 'hover:bg-white/5 hover:border-white/10' 
+                            : 'hover:bg-black/5 hover:border-slate-300/20'
+                        }`}>
                           {isActive && <div className="absolute inset-0 rounded-xl border opacity-20" style={{ backgroundColor: themeData.primary, borderColor: themeData.primary }} />}
                           <div className="flex items-center gap-3 relative z-10">
                             <div className="relative">
                               <div className="w-3 h-3 rounded-full shadow-[0_0_10px_currentColor] transition-all duration-500 group-hover/item:scale-125" style={{ backgroundColor: themeData.primary, opacity: isActive ? 1 : 0.8 }} />
                               {isActive && <div className="absolute inset-0 rounded-full border animate-[ping_1.5s_cubic-bezier(0,0,0.2,1)_infinite]" style={{ borderColor: themeData.primary }} />}
                             </div>
-                            <span className={`text-[11px] font-bold uppercase tracking-wider transition-colors duration-300 ${isActive ? 'text-white' : 'text-slate-400 group-hover/item:text-white'}`}>{themeData.label || t}</span>
+                            <span className={`text-[11px] font-bold uppercase tracking-wider transition-colors duration-300 ${
+                              isActive 
+                                ? isDarkMode ? 'text-white' : 'text-slate-900'
+                                : isDarkMode ? 'text-slate-400 group-hover/item:text-white' : 'text-slate-600 group-hover/item:text-slate-900'
+                            }`}>{themeData.label || t}</span>
                           </div>
                           {isActive && <Check size={14} style={{ color: themeData.primary }} className="animate-[zoom-in_0.3s_cubic-bezier(0.175,0.885,0.32,1.275)]" />}
                         </button>
                       );
                     })}
+                    
+                    {/* Dark/Light Mode Toggle Switch */}
+                    <div className={`mt-2 pt-2 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-300/20'}`}>
+                      <div className="flex items-center justify-between px-4 py-3">
+                        <span className={`text-[11px] font-bold uppercase tracking-wider transition-colors duration-300 ${
+                          isDarkMode ? 'text-white' : 'text-slate-900'
+                        }`}>
+                          {isDarkMode ? 'Dark Mode' : 'Light Mode'}
+                        </span>
+                        
+                        {/* Toggle Switch */}
+                        <button
+                          onClick={toggleDarkMode}
+                          className={`relative w-14 h-7 rounded-full transition-all duration-500 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                            isDarkMode
+                              ? 'bg-gradient-to-r from-slate-700 to-slate-800 focus:ring-slate-600'
+                              : 'bg-gradient-to-r from-yellow-400 to-orange-400 focus:ring-yellow-500'
+                          }`}
+                          role="switch"
+                          aria-checked={isDarkMode}
+                        >
+                          {/* Toggle Track Background with Stars/Sun Rays */}
+                          <div className="absolute inset-0 rounded-full overflow-hidden">
+                            {/* Stars for dark mode */}
+                            {isDarkMode && (
+                              <>
+                                <div className="absolute top-1 left-2 w-0.5 h-0.5 bg-yellow-300 rounded-full animate-pulse" style={{ animationDelay: '0s' }} />
+                                <div className="absolute top-3 left-4 w-0.5 h-0.5 bg-yellow-300 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }} />
+                                <div className="absolute top-2 right-3 w-0.5 h-0.5 bg-yellow-300 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }} />
+                              </>
+                            )}
+                            
+                            {/* Sun rays for light mode */}
+                            {!isDarkMode && (
+                              <div className="absolute inset-0">
+                                <div className="absolute top-0 left-1/2 w-0.5 h-1 bg-yellow-300/60 rounded-full transform -translate-x-1/2" />
+                                <div className="absolute top-1/2 right-0 w-1 h-0.5 bg-yellow-300/60 rounded-full transform -translate-y-1/2" />
+                                <div className="absolute bottom-0 left-1/2 w-0.5 h-1 bg-yellow-300/60 rounded-full transform -translate-x-1/2" />
+                                <div className="absolute top-1/2 left-0 w-1 h-0.5 bg-yellow-300/60 rounded-full transform -translate-y-1/2" />
+                                <div className="absolute top-1 right-2 w-0.5 h-1 bg-yellow-300/60 rounded-full transform rotate-45" />
+                                <div className="absolute bottom-1 right-2 w-0.5 h-1 bg-yellow-300/60 rounded-full transform -rotate-45" />
+                                <div className="absolute top-1 left-2 w-0.5 h-1 bg-yellow-300/60 rounded-full transform -rotate-45" />
+                                <div className="absolute bottom-1 left-2 w-0.5 h-1 bg-yellow-300/60 rounded-full transform rotate-45" />
+                              </div>
+                            )}
+                          </div>
+                          
+                          {/* Sliding Circle with Icon */}
+                          <div
+                            className={`absolute top-0.5 w-6 h-6 rounded-full transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] transform ${
+                              isDarkMode
+                                ? 'translate-x-7 bg-gradient-to-br from-slate-900 to-slate-800 shadow-lg'
+                                : 'translate-x-0.5 bg-gradient-to-br from-yellow-200 to-yellow-300 shadow-lg'
+                            }`}
+                          >
+                            {/* Icon Container */}
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              {/* Moon Icon (Dark Mode) */}
+                              <div
+                                className={`absolute inset-0 flex items-center justify-center transition-all duration-500 ${
+                                  isDarkMode
+                                    ? 'opacity-100 scale-100 rotate-0'
+                                    : 'opacity-0 scale-0 rotate-180'
+                                }`}
+                              >
+                                <Moon
+                                  size={14}
+                                  className="text-yellow-300 fill-yellow-300 drop-shadow-[0_0_4px_rgba(251,191,36,0.8)]"
+                                />
+                                {/* Moon glow */}
+                                <div className="absolute inset-0 bg-yellow-300/20 rounded-full blur-sm" />
+                              </div>
+                              
+                              {/* Sun Icon (Light Mode) */}
+                              <div
+                                className={`absolute inset-0 flex items-center justify-center transition-all duration-500 ${
+                                  !isDarkMode
+                                    ? 'opacity-100 scale-100 rotate-0'
+                                    : 'opacity-0 scale-0 -rotate-180'
+                                }`}
+                              >
+                                <Sun
+                                  size={14}
+                                  className="text-yellow-600 fill-yellow-600 drop-shadow-[0_0_6px_rgba(251,191,36,0.9)] animate-spin-slow"
+                                />
+                                {/* Sun glow */}
+                                <div className="absolute inset-0 bg-yellow-400/30 rounded-full blur-md animate-pulse" />
+                              </div>
+                            </div>
+                            
+                            {/* Shine effect on circle */}
+                            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/20 to-transparent" />
+                          </div>
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
@@ -1472,17 +1798,17 @@ const App = () => {
       </div>
 
       {/* --- SECTIONS --- */}
-      <HeroSection tagline={tagline} loaded={loaded} socialLinks={socialLinks} />
+      <HeroSection tagline={tagline} loaded={loaded} socialLinks={socialLinks} isDarkMode={isDarkMode} />
 
       {/* Deferred Content */}
       {renderBelowFold && (
         <>
-          <ExperienceSection />
-          <ProjectsSection />
-          <LeadershipSection />
-          <EducationSection />
-          <SkillsSection />
-          <Footer />
+          <ExperienceSection isDarkMode={isDarkMode} />
+          <ProjectsSection isDarkMode={isDarkMode} />
+          <LeadershipSection isDarkMode={isDarkMode} />
+          <EducationSection isDarkMode={isDarkMode} />
+          <SkillsSection isDarkMode={isDarkMode} />
+          <Footer isDarkMode={isDarkMode} />
         </>
       )}
 
@@ -1514,6 +1840,8 @@ const App = () => {
         .animate-cascade-in { animation: cascade-in 0.5s ease-out forwards; }
         @keyframes shimmer-sweep { 0% { transform: translateX(-150%) skewX(-15deg); } 100% { transform: translateX(150%) skewX(-15deg); } }
         @keyframes zoom-in { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .animate-spin-slow { animation: spin-slow 20s linear infinite; }
       `}</style>
     </div>
   );
