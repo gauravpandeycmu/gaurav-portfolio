@@ -393,7 +393,7 @@ const useAutoSpotlight = (className) => {
 };
 
 const BrainReactor = React.memo(({ active }) => (
-  <div className="relative w-12 h-12 flex items-center justify-center">
+  <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">
     <div className={`absolute w-3 h-3 rounded-full bg-[var(--theme-primary)] shadow-[0_0_15px_currentColor] z-10 ${active ? 'animate-pulse' : ''}`} />
     <div className={`absolute inset-0 border-2 border-[var(--theme-primary)]/30 rounded-full border-t-transparent animate-[spin_3s_linear_infinite] ${active ? 'duration-[1s]' : ''}`} />
     <div className={`absolute inset-2 border-2 border-[var(--theme-accent)]/30 rounded-full border-b-transparent animate-[spin_5s_linear_infinite_reverse] ${active ? 'duration-[2s]' : ''}`} />
@@ -404,7 +404,7 @@ const BrainReactor = React.memo(({ active }) => (
 // --- MEMOIZED SECTIONS ---
 
 const HeroSection = React.memo(({ tagline, loaded, onDownload, socialLinks }) => (
-  <section id="home" className="relative pt-20 md:pt-48 pb-20 md:pb-32 px-6 overflow-hidden min-h-[100dvh] flex flex-col justify-center">
+  <section id="home" className="relative pt-20 md:pt-48 pb-16 md:pb-32 px-6 overflow-hidden min-h-[calc(100dvh-80px)] md:min-h-[100dvh] flex flex-col justify-center">
     <div className="max-w-7xl mx-auto w-full relative z-10">
       <div className="reveal space-y-6 md:space-y-12">
         <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 text-[var(--theme-primary)] text-[10px] font-black font-mono uppercase tracking-[0.3em] shadow-xl backdrop-blur-md transition-transform hover:scale-105">
@@ -857,6 +857,7 @@ const App = () => {
     { role: 'assistant', text: "Hi! I'm Gaurav's virtual assistant. I'm here to answer questions about his software engineering journey, CMU coursework, or the systems he's built. Ask away!", animate: false }
   ]);
   const [isChatLoading, setIsChatLoading] = useState(false);
+  const [isFirstAIResponse, setIsFirstAIResponse] = useState(true);
   
   // Refs
   const chatEndRef = useRef(null);
@@ -970,6 +971,19 @@ const App = () => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!chatInput.trim()) return;
+    
+    // Check if API key is configured
+    if (!apiKey) {
+      const shouldAnimate = isFirstAIResponse;
+      setIsFirstAIResponse(false);
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
+        text: "API key not configured. Please set VITE_GEMINI_API_KEY in your environment variables.", 
+        animate: shouldAnimate 
+      }]);
+      return;
+    }
+    
     const userMessage = { role: 'user', text: chatInput, animate: false };
     const currentInput = chatInput; // Capture before clearing
     setMessages(prev => [...prev, userMessage]);
@@ -992,7 +1006,10 @@ const App = () => {
       
       const data = await response.json();
       const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "I seem to be disconnected from the mainframe. Try again?";
-      setMessages(prev => [...prev, { role: 'assistant', text: aiText, animate: true }]);
+      // Only animate the first AI response, subsequent ones load instantly
+      const shouldAnimate = isFirstAIResponse;
+      setIsFirstAIResponse(false);
+      setMessages(prev => [...prev, { role: 'assistant', text: aiText, animate: shouldAnimate }]);
     } catch (error) {
       console.error('Gemini API Error:', error);
       const errorMessage = error.message?.includes('API key') || error.message?.includes('401')
@@ -1000,7 +1017,10 @@ const App = () => {
         : error.message?.includes('quota') || error.message?.includes('429')
         ? "Rate limit exceeded. Please try again in a moment."
         : `Connection Error: ${error.message || 'Neural link unstable. Try again?'}`;
-      setMessages(prev => [...prev, { role: 'assistant', text: errorMessage, animate: true }]);
+      // Only animate the first AI response, subsequent ones load instantly
+      const shouldAnimate = isFirstAIResponse;
+      setIsFirstAIResponse(false);
+      setMessages(prev => [...prev, { role: 'assistant', text: errorMessage, animate: shouldAnimate }]);
     } finally {
       setIsChatLoading(false);
     }
@@ -1165,11 +1185,11 @@ const App = () => {
 
       {/* --- AI Chat Modal --- */}
       {isChatOpen && (
-        <div className={`fixed inset-0 z-[100] flex items-end sm:items-center justify-center sm:p-6 transition-all duration-500 ${isClosing ? 'bg-transparent' : 'bg-black/60 backdrop-blur-sm'}`}>
+        <div className={`fixed inset-0 z-[100] flex items-end sm:items-center justify-center sm:p-4 transition-all duration-500 ${isClosing ? 'bg-transparent' : 'bg-black/60 backdrop-blur-sm'}`}>
           <div className="absolute inset-0" onClick={closeChat} />
           <div 
             className={`
-              relative w-full sm:max-w-lg h-[85vh] sm:h-[650px] 
+              relative w-full sm:max-w-lg max-h-[90vh] sm:max-h-[600px] h-[75vh] sm:h-[600px]
               bg-[#050505]/95 backdrop-blur-[40px] 
               border border-[var(--theme-primary)]/30
               rounded-t-[2.5rem] sm:rounded-[2.5rem] 
@@ -1180,18 +1200,23 @@ const App = () => {
             style={{ transformOrigin: window.innerWidth < 640 ? 'bottom center' : `${chatOrigin.x}px ${chatOrigin.y}px` }}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-[var(--theme-primary)]/20 via-transparent to-[var(--theme-accent)]/20 opacity-50 pointer-events-none" />
-            <div className="relative p-6 border-b border-white/5 flex justify-between items-center bg-black/40">
-              <div className="flex items-center gap-4">
-                <BrainReactor active={isChatLoading} theme={themes[activeTheme]} />
-                <div><h3 className="font-black text-xl text-white tracking-tight flex items-center gap-2">Gaurav AI</h3><p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Powered by Gemini 2.5</p></div>
+            <div className="relative p-4 sm:p-6 border-b border-white/5 flex justify-between items-center bg-black/40 flex-shrink-0">
+              <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                <div className="flex-shrink-0">
+                  <BrainReactor active={isChatLoading} theme={themes[activeTheme]} />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="font-black text-lg sm:text-xl text-white tracking-tight truncate">Gaurav AI</h3>
+                  <p className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-widest">Powered by Gemini 2.5</p>
+                </div>
               </div>
-              <button onClick={closeChat} className="p-3 hover:bg-white/10 rounded-full transition-all hover:rotate-90 active:scale-90 z-20"><X size={20} className="text-slate-400" /></button>
+              <button onClick={closeChat} className="p-2 sm:p-3 hover:bg-white/10 rounded-full transition-all hover:rotate-90 active:scale-90 z-20 flex-shrink-0"><X size={18} className="text-slate-400 sm:w-5 sm:h-5" /></button>
             </div>
-            <div className="relative flex-1 overflow-y-auto p-6 space-y-6 scroll-smooth z-10">
+            <div className="relative flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6 scroll-smooth z-10 min-h-0">
               <div className={`absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(var(--theme-glow),0.5)_0%,_transparent_70%)] opacity-20 pointer-events-none fixed`} />
               {messages.map((msg, idx) => (
                 <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-slide-up`} style={{ animationDelay: `${idx * 0.05}s` }}>
-                  <div className={`max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed font-medium shadow-lg backdrop-blur-md ${msg.role === 'user' ? `bg-[var(--theme-primary)]/90 text-white rounded-tr-sm shadow-[var(--theme-primary)]/20 border border-[var(--theme-primary)]/40` : 'bg-white/5 text-slate-200 rounded-tl-sm border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.2)]'}`}>
+                  <div className={`max-w-[85%] sm:max-w-[80%] p-3 sm:p-4 rounded-2xl text-xs sm:text-sm leading-relaxed font-medium shadow-lg backdrop-blur-md ${msg.role === 'user' ? `bg-[var(--theme-primary)]/90 text-white rounded-tr-sm shadow-[var(--theme-primary)]/20 border border-[var(--theme-primary)]/40` : 'bg-white/5 text-slate-200 rounded-tl-sm border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.2)]'}`}>
                     {msg.role === 'assistant' ? <AIMessage text={msg.text} animate={msg.animate} /> : msg.text}
                   </div>
                 </div>
@@ -1208,13 +1233,13 @@ const App = () => {
               )}
               <div ref={chatEndRef} />
             </div>
-            <form onSubmit={handleSendMessage} className="relative p-5 border-t border-white/10 bg-black/40 backdrop-blur-xl z-20">
-              <div className="flex gap-3 items-end">
+            <form onSubmit={handleSendMessage} className="relative p-3 sm:p-5 border-t border-white/10 bg-black/40 backdrop-blur-xl z-20 flex-shrink-0">
+              <div className="flex gap-2 sm:gap-3 items-end">
                 <div className="flex-1 relative group">
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-accent)] rounded-2xl opacity-20 group-hover:opacity-50 transition duration-500 blur-sm" />
-                  <input type="text" value={chatInput} onChange={(e) => setChatInput(e.target.value)} placeholder="Ask about projects..." className="relative w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-5 py-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-white/30 transition-all shadow-inner" />
+                  <input type="text" value={chatInput} onChange={(e) => setChatInput(e.target.value)} placeholder="Ask about projects..." className="relative w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-4 sm:px-5 py-3 sm:py-4 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-white/30 transition-all shadow-inner" />
                 </div>
-                <button type="submit" disabled={isChatLoading || !chatInput.trim()} className="p-4 rounded-2xl bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)]/90 text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(0,0,0,0.3)] shadow-[var(--theme-primary)]/20"><Send size={20} /></button>
+                <button type="submit" disabled={isChatLoading || !chatInput.trim()} className="p-3 sm:p-4 rounded-2xl bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)]/90 text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(0,0,0,0.3)] shadow-[var(--theme-primary)]/20 flex-shrink-0"><Send size={18} className="sm:w-5 sm:h-5" /></button>
               </div>
             </form>
           </div>
@@ -1245,7 +1270,7 @@ const App = () => {
           <div className={`flex-shrink-0 flex items-center justify-center ${isCompact ? 'pl-2' : 'pl-3'}`}>
             
             {/* -- DYNAMIC PROFILE PICTURE -- */}
-            <div className={`relative profile-trigger ${isCompact ? 'w-8 h-8' : 'w-10 h-10'}`}>
+            <div className={`relative profile-trigger ${isCompact ? 'w-8 h-8' : 'w-10 h-10'} flex-shrink-0`}>
                 
                {/* Small Avatar - Click to Expand */}
                <div 
@@ -1256,7 +1281,7 @@ const App = () => {
                    ${isProfileExpanded ? 'opacity-0 scale-50' : 'opacity-100 scale-100'}
                  `}
                >
-                 <img src="/image_c1c534.jpg" alt="Gaurav Pandey" className="w-full h-full object-cover" loading="eager" decoding="async" fetchPriority="high" />
+                 <img src="/image_c1c534.jpg" alt="Gaurav Pandey" className="w-full h-full object-cover object-center" loading="eager" decoding="async" fetchPriority="high" style={{ aspectRatio: '1/1' }} />
                </div>
 
                {/* Expanded Avatar "Dynamic Island" Effect - Vision OS Style */}
@@ -1346,7 +1371,7 @@ const App = () => {
           <div className="w-[1px] h-6 bg-white/10 rounded-full mx-3"></div>
           
           {/* Navigation Pills - Improved Spacing for Mobile Circle Cutoff Fix */}
-          <div className={`grid grid-cols-6 ${isCompact ? 'gap-0 w-full' : 'gap-4 w-full'} flex-1 ${isExpanding ? 'transition-all duration-[1000ms] ease-[cubic-bezier(0.2,1.5,0.2,1)]' : 'transition-all duration-[900ms] ease-[cubic-bezier(0.34,1.6,0.64,1)]'} relative overflow-visible`}>
+          <div className={`grid grid-cols-6 ${isCompact ? 'gap-0 w-full' : 'gap-4 w-full'} flex-1 ${isExpanding ? 'transition-all duration-[1000ms] ease-[cubic-bezier(0.2,1.5,0.2,1)]' : 'transition-all duration-[900ms] ease-[cubic-bezier(0.34,1.6,0.64,1)]'} relative overflow-visible items-center`}>
             {/* Active Pill Active Indicator - Now using theme primary color always */}
             <div 
               className={`
@@ -1388,7 +1413,7 @@ const App = () => {
                    <span className={`absolute whitespace-nowrap ${isExpanding ? 'transition-all duration-[1000ms] ease-[cubic-bezier(0.2,1.5,0.2,1)]' : 'transition-all duration-[900ms] ease-[cubic-bezier(0.34,1.6,0.64,1)]'} ${isCompact ? 'opacity-0 scale-50' : 'opacity-100 scale-100 relative'}`}>
                     {item.label}
                   </span>
-                   <span className={`absolute ${isExpanding ? 'transition-all duration-[1000ms] ease-[cubic-bezier(0.2,1.5,0.2,1)]' : 'transition-all duration-[900ms] ease-[cubic-bezier(0.34,1.6,0.64,1)]'} ${isCompact ? 'opacity-100 scale-100 rotate-0' : 'opacity-0 scale-0 rotate-180'}`}>
+                   <span className={`absolute flex items-center justify-center ${isExpanding ? 'transition-all duration-[1000ms] ease-[cubic-bezier(0.2,1.5,0.2,1)]' : 'transition-all duration-[900ms] ease-[cubic-bezier(0.34,1.6,0.64,1)]'} ${isCompact ? 'opacity-100 scale-100 rotate-0' : 'opacity-0 scale-0 rotate-180'}`}>
                     {item.icon}
                   </span>
                 </a>
@@ -1397,18 +1422,18 @@ const App = () => {
           </div>
           
           <div className="w-[1px] h-6 bg-white/10 rounded-full mx-3"></div>
-          <div className={`flex-shrink-0 flex items-center gap-3 ${isCompact ? 'pr-2' : 'pr-3'}`}>
+          <div className={`flex-shrink-0 flex items-center gap-2 sm:gap-3 ${isCompact ? 'pr-2' : 'pr-3'}`}>
             {/* Ask AI Button */}
-            <button ref={aiButtonRef} onClick={openChat} className={`group relative z-50 flex items-center justify-center rounded-full transition-all duration-500 active:scale-95 hover:shadow-[0_0_25px_-5px_rgba(124,58,237,0.6)] overflow-hidden bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-gradient-x bg-[length:200%_auto] ${isCompact ? 'w-9 h-9' : 'h-10 px-4'}`} title="Ask AI">
+            <button ref={aiButtonRef} onClick={openChat} className={`group relative z-50 flex items-center justify-center rounded-full transition-all duration-500 active:scale-95 hover:shadow-[0_0_25px_-5px_rgba(124,58,237,0.6)] overflow-hidden bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-gradient-x bg-[length:200%_auto] flex-shrink-0 ${isCompact ? 'w-9 h-9' : 'h-10 px-4'}`} title="Ask AI">
               <div className={`relative z-10 flex items-center gap-2 h-full rounded-full transition-all ${isCompact ? 'w-full justify-center' : ''}`}>
-                <Sparkles size={isCompact ? 14 : 16} className="text-white animate-pulse" />
-                {!isCompact && <span className="text-[10px] font-black uppercase tracking-wider text-white">Ask Gaurav AI</span>}
+                <Sparkles size={isCompact ? 14 : 16} className="text-white animate-pulse flex-shrink-0" />
+                {!isCompact && <span className="text-[10px] font-black uppercase tracking-wider text-white whitespace-nowrap">Ask Gaurav AI</span>}
               </div>
             </button>
             {/* Theme Toggle */}
             <div 
               ref={themeWrapperRef}
-              className={`relative flex items-center justify-center cursor-pointer rounded-full bg-white/5 hover:bg-white/15 border border-white/10 transition-all duration-300 z-50 animate-in zoom-in spin-in-180 duration-1000 ${isCompact ? 'w-8 h-8' : 'w-9 h-9'} ${loaded ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`} 
+              className={`relative flex items-center justify-center cursor-pointer rounded-full bg-white/5 hover:bg-white/15 border border-white/10 transition-all duration-300 z-50 animate-in zoom-in spin-in-180 duration-1000 flex-shrink-0 ${isCompact ? 'w-8 h-8' : 'w-9 h-9'} ${loaded ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`} 
               onClick={toggleThemeMenu} 
               role="button"
             >
