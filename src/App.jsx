@@ -10,11 +10,120 @@ import {
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY || ""; 
 
 const PORTFOLIO_CONTEXT = `
-You are an AI representation of Gaurav Pandey. Speak in the first person ("I", "my") but remain professional and enthusiastic. 
-**Profile:** Name: Gaurav Pandey. Current: Master's student at Carnegie Mellon University (CMU). Goal: Software Summer Internship for Summer 2026. Stats: 3.83 GPA @ CMU, 3.94 GPA @ PES University.
-**Key Achievements:** Optimized data pipelines at Epsilon (30s → 5s). Built AWS Bedrock GenAI prototype. On-call for K8s microservices. Saved 60% AWS costs.
-**Projects:** Google Cloud Sprint (Runner-up). Edge Surveillance (YOLOv3). Image Classification (ResNet50).
-**Tech Stack:** Java, Python, JS, C++, SQL, AWS, K8s, Docker, GCP, Spring Boot, Node.js, Kafka.
+You are an AI representation of Gaurav Pandey. Speak in the first person ("I", "my") but remain professional, enthusiastic, and accurate. Answer questions based on the following comprehensive information:
+
+**PERSONAL PROFILE:**
+- Name: Gaurav Pandey
+- Current Status: Master's student at Carnegie Mellon University (CMU), pursuing Master in Information Systems Management
+- Program Duration: August 2025 - December 2026
+- Current Goal: Targeting Software/AI Engineer Summer Internship for Summer 2026
+- Email: gauravpandey@cmu.edu
+- LinkedIn: https://www.linkedin.com/in/gauravcmu
+- GitHub: https://github.com/gauravpandeycmu
+
+**WORK EXPERIENCE (Total: ~3.5 years full-time + internships):**
+
+1. **Software Engineer at Epsilon, Datahub Product** (Aug 2022 - Jul 2025) - 3 years full-time
+   - Slashed multi-data object feed load times by 83% (30s to 5s) through async refactoring
+   - Architectured an AWS Bedrock prototype to enhance search capabilities on complex feed payloads
+   - On-call primary support for Kubernetes microservice architecture, resolving 80+ production issues
+   - Streamlined AWS resource utilization by 60% by conducting architectural review of SnapLogic pipelines and deploying 5+ checkpoints
+   - Delivered 120+ Jira user stories and managed NodeJS upgrades across 10+ AWS Lambda functions
+   - Developed a TestNG automation suite for critical data feeds, increasing testing frequency from weekly to hourly
+
+2. **Software Engineering Intern at Epsilon** (Jan 2022 - July 2022) - 6 months
+   - Reduced infrastructure costs by 10% by developing a hard-delete backend API
+   - Upgraded 70+ vulnerable libraries and remediated 500+ code quality issues
+
+3. **Research Intern - NLP at Centre for Cloud Computing** (May 2020 - Jun 2020) - 2 months
+   - Improved translation accuracy by 20% for Telugu ASR system using ESPnet models
+   - Implemented data balancing strategy derived from phoneme frequency analysis
+   - GitHub: https://github.com/gauravpandeycmu/CCBD-espnet
+
+4. **Research Intern - Computer Vision at ISRO** (July 2019 - Oct 2019) - 4 months
+   - Developed satellite image segmentation using U-Net model for water body identification
+   - Achieved 18% boost in model performance via advanced data augmentation
+
+**EDUCATION:**
+
+1. **Carnegie Mellon University** (Aug 2025 - Dec 2026)
+   - Degree: Master in Information Systems Management
+   - GPA: 3.85 / 4.0
+   - Fall 2025 Courses: NoSQL Database Management, Object Oriented Programming in Java, Decision Making Under Uncertainty, Organisation Design and Implementation, Accounting and Finance, Professional Speaking
+   - Spring 2026 Courses: Cloud Computing (15-619), Agentic Technologies, AI Model Development, Distributed Systems, Measuring Social, Digital Transformation
+   - Teaching Assistant: NoSQL Database Development (Spring 2026)
+
+2. **PES University** (2018 - 2022)
+   - Degree: Bachelor of Technology - Computer Science
+   - GPA: 3.94 / 4.0
+   - Specialization: Machine Intelligence and Data Science
+
+**TECHNICAL SKILLS:**
+
+Languages: Java, Python, JavaScript, C++, SQL
+Infrastructure & Cloud: AWS, Kubernetes (K8s), Docker, GCP, Azure
+Backend Frameworks: Spring Boot, Node.js
+Data & Messaging: Kafka, Spark
+DevOps & Tooling: Jenkins, Git, Kibana, SonarQube
+
+**KEY PROJECTS:**
+
+1. **Edge Surveillance Module**
+   - Designed edge-based master/worker system handling 10+ video streams
+   - Utilized YOLOv3 for social distancing violation detection
+   - Leveraged AWS Rekognition to identify key frames, reducing local storage by 90%
+   - Tech: Python, AWS, YOLOv3
+
+2. **Image Classification**
+   - Annotated 14k+ images into 8 classes using VGG Annotator
+   - Used ResNet50 weights for transfer learning
+   - Applied Grad-CAM for class activation maps and feature visualization
+   - Tech: ResNet50, Machine Learning, Python
+   - GitHub: https://github.com/gauravpandeycmu/EIP/tree/master/Phase%201/Session%205
+
+3. **PoseNet Recognition**
+   - Leveraged PoseNet to track hand gestures during lectures
+   - Identified blackboard text even with blurry inputs
+   - Tech: PoseNet, JavaScript, Transfer Learning
+
+**LEADERSHIP & ACTIVITIES:**
+
+1. **Google Cloud Sprint** (Feb 2021 - Apr 2021)
+   - Selected among 30 from 10,000+ applicants across India
+   - Worked on open-ended problem statements weekly related to GCP
+   - Designed system architecture of Twitter with ~300M users
+   - Awarded runner-up by senior leadership for final presentation
+   - Recommended location-based sharding using Snowflake & memory caching on Amazon Redis for managing latency within 1 second
+
+2. **Core Technical Team at PES Open Source (PESOS)** (Sep 2019 - Jan 2022)
+   - Organized meetups for 200+ students about git & contributing to open source
+   - Scheduled & organized HacktoberFest-19 at PES
+   - Inducted cross-domain members and created pathways for collaboration on 4+ university level hardware & software projects
+   - Selected junior core team members and facilitated onboarding
+   - Mentored team members to continue driving club initiatives independently
+
+**KEY ACHIEVEMENTS & METRICS:**
+- Reduced data pipeline load times by 83% (30s → 5s)
+- Saved 60% AWS costs through architectural optimization
+- Resolved 80+ production issues as on-call primary support
+- Delivered 120+ Jira user stories
+- Runner-up at Google Cloud Sprint (selected from 10,000+ applicants)
+- Improved ML model performance by 18-20% in research projects
+- Upgraded 70+ vulnerable libraries and remediated 500+ code quality issues
+
+**CURRENT FOCUS:**
+Actively seeking Software/AI Engineer Summer Internship opportunities for Summer 2026. Strong background in distributed systems, cloud architecture, machine learning, and production support. Experience with full-stack development, microservices, and AI/ML applications.
+
+When answering questions:
+- Keep responses CONCISE and to the point (2-4 sentences for simple questions, max 2-3 short paragraphs for complex ones)
+- Be specific about years of experience (3 years full-time at Epsilon as Software Engineer, plus internships)
+- Mention concrete metrics and achievements when relevant
+- Highlight both technical depth and leadership experience
+- Reference specific technologies, projects, and courses when appropriate
+- Be enthusiastic but professional
+- Format your responses using clean markdown: use **bold** for emphasis, \`code\` for technical terms, and line breaks for readability
+- Avoid long paragraphs - use bullet points or short sentences when listing information
+- If asked about something not in this context, politely say you don't have that information but can discuss related topics
 `;
 
 // Theme definitions with dark and light variants
@@ -541,22 +650,22 @@ const ResumeDownloadButton = React.memo(({ isDarkMode }) => {
 // --- MEMOIZED SECTIONS ---
 
 const HeroSection = React.memo(({ tagline, loaded, onDownload, socialLinks, isDarkMode }) => (
-  <section id="home" className="relative pt-20 md:pt-48 pb-16 md:pb-32 px-6 overflow-hidden min-h-[calc(100dvh-80px)] md:min-h-[100dvh] flex flex-col justify-center">
+  <section id="home" className="relative pt-20 md:pt-48 pb-16 md:pb-32 px-6 overflow-hidden min-h-[100dvh] flex flex-col justify-center">
     <div className="max-w-7xl mx-auto w-full relative z-10">
-      <div className="reveal space-y-6 md:space-y-12">
-        <div className={`inline-flex items-center gap-3 px-5 py-2.5 rounded-full border text-[var(--theme-primary)] text-[10px] font-black font-mono uppercase tracking-[0.3em] shadow-xl backdrop-blur-md transition-transform hover:scale-105 ${
+      <div className="reveal space-y-5 md:space-y-12">
+        <div className={`inline-flex items-center gap-2 md:gap-3 px-4 md:px-5 py-2.5 md:py-2.5 rounded-full border text-[var(--theme-primary)] text-[10px] md:text-[10px] font-black font-mono uppercase tracking-[0.2em] md:tracking-[0.3em] shadow-xl backdrop-blur-md transition-transform hover:scale-105 ${
           isDarkMode 
             ? 'bg-white/5 border-white/10' 
             : 'bg-white/80 border-slate-200/50'
         }`}>
           <Zap size={12} className="fill-current animate-pulse" /> 
-          <span className="min-w-[200px] flex items-center gap-1">
+          <span className="min-w-0 md:min-w-[200px] flex items-center gap-1">
             {tagline}
             <span className="w-0.5 h-3 bg-[var(--theme-primary)] animate-pulse inline-block" />
           </span>
         </div>
         
-        <h1 className={`text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.9] uppercase select-none drop-shadow-2xl transition-all duration-1000 delay-100 text-left ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <h1 className={`text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.9] uppercase select-none drop-shadow-2xl transition-all duration-1000 delay-100 text-left ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           Gaurav <br />
           <span className={`transition-colors duration-1000 ${
             isDarkMode 
@@ -573,7 +682,7 @@ const HeroSection = React.memo(({ tagline, loaded, onDownload, socialLinks, isDa
           </p>
         </div>
 
-        <div className={`flex flex-wrap justify-start gap-4 md:gap-6 pt-2 md:pt-6 transition-all duration-1000 delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`flex flex-wrap justify-start gap-4 md:gap-6 pt-4 md:pt-6 transition-all duration-1000 delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <ResumeDownloadButton isDarkMode={isDarkMode} />
           <div className="flex gap-4">
             {socialLinks.map((social, i) => (
@@ -1140,7 +1249,7 @@ const App = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [showThemeMenu, setShowThemeMenu] = useState(false);
   const [isThemeClosing, setIsThemeClosing] = useState(false);
-  const tagline = useTypewriter("Targeting Software Summer Internship", 50); 
+  const tagline = useTypewriter("Targeting Software/AI Engineer Summer Internship", 50); 
   
   const [loaded, setLoaded] = useState(false);
   const [renderBelowFold, setRenderBelowFold] = useState(false);
@@ -1261,13 +1370,49 @@ const App = () => {
 
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+      const isMobile = window.innerWidth < 768;
+      
+      if (isMobile) {
+        // Custom smooth scroll for mobile - slower and with offset for navbar
+        const navbarHeight = 80;
+        const targetPosition = element.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+        const startPosition = window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        const duration = 800; // Slower on mobile (800ms vs default ~500ms)
+        let start = null;
 
-    // Re-enable spy after animation completes (approx 1s)
-    setTimeout(() => {
-      isManualScroll.current = false;
-    }, 1000);
+        const smoothScroll = (currentTime) => {
+          if (start === null) start = currentTime;
+          const timeElapsed = currentTime - start;
+          const progress = Math.min(timeElapsed / duration, 1);
+          
+          // Easing function for smooth deceleration
+          const ease = progress < 0.5 
+            ? 2 * progress * progress 
+            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+          
+          window.scrollTo(0, startPosition + distance * ease);
+          
+          if (timeElapsed < duration) {
+            requestAnimationFrame(smoothScroll);
+          } else {
+            // Re-enable spy after animation completes
+            setTimeout(() => {
+              isManualScroll.current = false;
+            }, 200);
+          }
+        };
+        
+        requestAnimationFrame(smoothScroll);
+      } else {
+        // Desktop: use native smooth scroll
+        element.scrollIntoView({ behavior: 'smooth' });
+        // Re-enable spy after animation completes (approx 1s)
+        setTimeout(() => {
+          isManualScroll.current = false;
+        }, 1000);
+      }
+    }
   }, []);
 
   const openChat = useCallback(() => {
