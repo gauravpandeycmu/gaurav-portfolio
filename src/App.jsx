@@ -18,6 +18,7 @@ You are an AI representation of Gaurav Pandey. Speak in the first person ("I", "
 - Program Duration: August 2025 - December 2026
 - Current Goal: Targeting Software/AI Engineer Summer Internship for Summer 2026
 - Email: gauravpandey@cmu.edu
+- Phone: +1 (412) 482-2656
 - LinkedIn: https://www.linkedin.com/in/gauravcmu
 - GitHub: https://github.com/gauravpandeycmu
 
@@ -51,7 +52,7 @@ You are an AI representation of Gaurav Pandey. Speak in the first person ("I", "
    - GPA: 3.85 / 4.0
    - Fall 2025 Courses: NoSQL Database Management, Object Oriented Programming in Java, Decision Making Under Uncertainty, Organisation Design and Implementation, Accounting and Finance, Professional Speaking
    - Spring 2026 Courses: Cloud Computing (15-619), Agentic Technologies, AI Model Development, Distributed Systems, Measuring Social, Digital Transformation
-   - Teaching Assistant: NoSQL Database Development (Spring 2026)
+   - Teaching Assistant: NoSQL Database Management (Spring 2026)
 
 2. **PES University** (2018 - 2022)
    - Degree: Bachelor of Technology - Computer Science
@@ -115,18 +116,25 @@ DevOps & Tooling: Jenkins, Git, Kibana, SonarQube
 Actively seeking Software/AI Engineer Summer Internship opportunities for Summer 2026. Strong background in distributed systems, cloud architecture, machine learning, and production support. Experience with full-stack development, microservices, and AI/ML applications.
 
 When answering questions:
-- Keep responses CONCISE and to the point (2-4 sentences for simple questions, max 2-3 short paragraphs for complex ones)
+- Keep responses CONCISE and natural-sounding:
+  - For simple questions like "tell me about yourself" or "who are you": 3-4 sentences max, focusing on current status, key experience, and goals
+  - For specific questions: 2-4 sentences for simple, max 2-3 short paragraphs for complex
+  - Write in a flowing, conversational style - avoid bullet points and lists unless specifically asked
+  - Use natural transitions between ideas instead of direct, choppy sentences
 - Be specific about years of experience (3 years full-time at Epsilon as Software Engineer, plus internships)
-- Mention concrete metrics and achievements when relevant
-- Highlight both technical depth and leadership experience
+- Mention concrete metrics and achievements when relevant, but weave them naturally into sentences
+- Highlight both technical depth and leadership experience naturally
 - Reference specific technologies, projects, and courses when appropriate
-- Be enthusiastic but professional
+- Be enthusiastic but professional, with a warm and approachable tone
 - ALWAYS format your responses using markdown:
   - Use **bold** for emphasis on key numbers, years, technologies, or important points
   - Use \`code\` for technical terms, programming languages, tools, and frameworks
   - Use line breaks (\n) to separate paragraphs for better readability
-  - Use bullet points (-) when listing multiple items
-- Examples: "I have **3 years** of experience with \`Kubernetes\`" or "I worked with \`AWS\`, \`Docker\`, and \`Spring Boot\`"
+  - Avoid bullet points unless the question specifically asks for a list
+- Examples of good responses:
+  - "I'm a Master's student at CMU with **3 years** of experience as a Software Engineer at Epsilon, where I worked extensively with \`Kubernetes\` and \`AWS\` to build scalable microservices."
+  - "I'm currently pursuing my Master's in Information Systems Management at Carnegie Mellon University, with a strong background in distributed systems and cloud architecture. I spent **3 years** as a Software Engineer at Epsilon, where I reduced data pipeline load times by **83%** and streamlined AWS costs by **60%**."
+- For "tell me about yourself" or similar introduction questions: Give a brief, engaging overview (3-4 sentences) covering: current status (CMU student), key experience (3 years at Epsilon), main skills/interests (distributed systems, cloud, AI/ML), and current goal (Summer 2026 internship). Keep it warm and personable.
 - If asked about something not in this context, politely say you don't have that information but can discuss related topics
 `;
 
@@ -303,7 +311,7 @@ const educationData = [
     logo: "/cmu.jpg", 
     details: [
       { term: "Fall 2025", courses: ["NoSQL Database Management", "Object Oriented Programming in Java", "Decision Making Under Uncertainty", "Organisation Design and Implementation", "Accounting and Finance", "Professional Speaking"] },
-      { term: "Spring 2026", courses: ["Cloud Computing (15-619)", "Agentic Technologies", "AI Model Development", "Distributed Systems", "Measuring Social", "Digital Transformation"], taRole: "NoSQL Database Development" }
+      { term: "Spring 2026", courses: ["Cloud Computing (15-619)", "Agentic Technologies", "AI Model Development", "Distributed Systems", "Measuring Social", "Digital Transformation"], taRole: "NoSQL Database Management" }
     ]
   },
   {
@@ -408,15 +416,61 @@ const useTypewriter = (text, speed = 10, shouldAnimate = true) => {
       setDisplayedText(text);
       return;
     }
+    
+    // Split text into tokens (markdown patterns + regular text)
+    const tokenize = (str) => {
+      const tokens = [];
     let i = 0;
-    const interval = setInterval(() => {
-      if (i < text.length) {
-        setDisplayedText(text.substring(0, i + 1));
+      while (i < str.length) {
+        // Check for code blocks (backticks) - highest priority
+        if (str[i] === '`') {
+          const end = str.indexOf('`', i + 1);
+          if (end !== -1) {
+            tokens.push({ type: 'token', text: str.substring(i, end + 1) });
+            i = end + 1;
+            continue;
+          }
+        }
+        // Check for bold (**text**)
+        if (str[i] === '*' && str[i + 1] === '*') {
+          const end = str.indexOf('**', i + 2);
+          if (end !== -1) {
+            tokens.push({ type: 'token', text: str.substring(i, end + 2) });
+            i = end + 2;
+            continue;
+          }
+        }
+        // Regular character
+        tokens.push({ type: 'char', text: str[i] });
         i++;
-      } else {
+      }
+      return tokens;
+    };
+    
+    const tokens = tokenize(text);
+    let tokenIndex = 0;
+    let currentText = "";
+    
+    const interval = setInterval(() => {
+      if (tokenIndex >= tokens.length) {
         clearInterval(interval);
+        return;
+      }
+      
+      const token = tokens[tokenIndex];
+      if (token.type === 'token') {
+        // Output entire markdown token at once
+        currentText += token.text;
+        setDisplayedText(currentText);
+        tokenIndex++;
+      } else {
+        // Output character by character for regular text
+        currentText += token.text;
+        setDisplayedText(currentText);
+        tokenIndex++;
       }
     }, speed);
+    
     return () => clearInterval(interval);
   }, [text, speed, shouldAnimate]);
   return displayedText;
@@ -435,54 +489,81 @@ const renderMarkdown = (text, isDarkMode = true) => {
       return <br key={lineIndex} />;
     }
     
-    // Simple replacement approach - process in order: code, bold, then italic
-    let processed = line;
+    // Process line for markdown - find all markdown patterns
     const parts = [];
-    let key = 0;
     let lastIndex = 0;
+    let key = 0;
     
-    // Find all matches with their positions
-    const matches = [];
+    // Find all markdown patterns with their positions
+    const patterns = [];
     
-    // Code blocks (highest priority)
-    let codeRegex = /`([^`]+)`/g;
+    // Code blocks (backticks) - highest priority, non-greedy
+    const codePattern = /`([^`]+)`/g;
     let match;
-    while ((match = codeRegex.exec(processed)) !== null) {
-      matches.push({ start: match.index, end: match.index + match[0].length, type: 'code', content: match[1] });
+    while ((match = codePattern.exec(line)) !== null) {
+      patterns.push({
+        start: match.index,
+        end: match.index + match[0].length,
+        type: 'code',
+        content: match[1],
+        fullMatch: match[0]
+      });
     }
     
-    // Bold (must check it's not inside code)
-    let boldRegex = /\*\*([^*]+)\*\*/g;
-    while ((match = boldRegex.exec(processed)) !== null) {
-      // Check if this bold is inside any code block
-      const insideCode = matches.some(m => m.type === 'code' && match.index >= m.start && match.index < m.end);
-      if (!insideCode) {
-        matches.push({ start: match.index, end: match.index + match[0].length, type: 'bold', content: match[1] });
+    // Reset regex
+    codePattern.lastIndex = 0;
+    
+    // Bold (**text**) - check it's not inside a code block
+    const boldPattern = /\*\*([^*]+?)\*\*/g;
+    while ((match = boldPattern.exec(line)) !== null) {
+      const isInsideCode = patterns.some(p => 
+        p.type === 'code' && match.index >= p.start && match.index < p.end
+      );
+      if (!isInsideCode) {
+        patterns.push({
+          start: match.index,
+          end: match.index + match[0].length,
+          type: 'bold',
+          content: match[1],
+          fullMatch: match[0]
+        });
       }
     }
     
-    // Sort matches by position
-    matches.sort((a, b) => a.start - b.start);
+    // Sort patterns by start position
+    patterns.sort((a, b) => a.start - b.start);
     
-    // Build parts array
-    matches.forEach((match) => {
-      // Add text before match
-      if (match.start > lastIndex) {
-        parts.push({ type: 'text', content: processed.substring(lastIndex, match.start), key: key++ });
+    // Remove overlapping patterns (keep code over bold)
+    const filteredPatterns = [];
+    for (let i = 0; i < patterns.length; i++) {
+      const current = patterns[i];
+      const overlaps = filteredPatterns.some(existing => 
+        (current.start < existing.end && current.end > existing.start)
+      );
+      if (!overlaps) {
+        filteredPatterns.push(current);
       }
-      // Add formatted match
-      parts.push({ type: match.type, content: match.content, key: key++ });
-      lastIndex = match.end;
+    }
+    
+    // Build parts array from filtered patterns
+    filteredPatterns.forEach((pattern) => {
+      // Add text before pattern
+      if (pattern.start > lastIndex) {
+        parts.push({ type: 'text', content: line.substring(lastIndex, pattern.start), key: key++ });
+      }
+      // Add formatted pattern
+      parts.push({ type: pattern.type, content: pattern.content, key: key++ });
+      lastIndex = pattern.end;
     });
     
-    // Add remaining text
-    if (lastIndex < processed.length) {
-      parts.push({ type: 'text', content: processed.substring(lastIndex), key: key++ });
+    // Add remaining text after last pattern
+    if (lastIndex < line.length) {
+      parts.push({ type: 'text', content: line.substring(lastIndex), key: key++ });
     }
     
-    // If no matches, add whole line
+    // If no patterns found, return whole line as text
     if (parts.length === 0) {
-      parts.push({ type: 'text', content: processed, key: key++ });
+      parts.push({ type: 'text', content: line, key: key++ });
     }
     
     return (
@@ -490,10 +571,15 @@ const renderMarkdown = (text, isDarkMode = true) => {
         {parts.map((part) => {
           if (part.type === 'bold') {
             return <strong key={part.key} className="font-bold">{part.content}</strong>;
-          } else if (part.type === 'italic') {
-            return <em key={part.key} className="italic">{part.content}</em>;
           } else if (part.type === 'code') {
-            return <code key={part.key} className={`${isDarkMode ? 'bg-white/10' : 'bg-black/10'} px-1.5 py-0.5 rounded text-xs font-mono`}>{part.content}</code>;
+            return (
+              <code 
+                key={part.key} 
+                className={`${isDarkMode ? 'bg-white/10 text-rose-300' : 'bg-black/10 text-rose-600'} px-1.5 py-0.5 rounded text-xs font-mono border ${isDarkMode ? 'border-white/20' : 'border-black/20'}`}
+              >
+                {part.content}
+              </code>
+            );
           } else {
             return <span key={part.key}>{part.content}</span>;
           }
@@ -1116,7 +1202,9 @@ const EducationSection = React.memo(({ isDarkMode }) => {
   };
 
   return (
-    <section id="education" className="py-32 px-6">
+    <section id="education" className={`py-32 px-6 ${
+      isDarkMode ? 'bg-white/[0.01]' : 'bg-white/30'
+    }`}>
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 reveal">
           <div className="space-y-4">
@@ -1290,7 +1378,9 @@ const RecommendationsSection = React.memo(({ isDarkMode }) => {
   const duplicatedRecommendations = [...recommendationsData, ...recommendationsData];
   
   return (
-    <section id="recommendations" className="py-16 md:py-32 px-4 md:px-6 overflow-hidden">
+    <section id="recommendations" className={`py-16 md:py-32 px-4 md:px-6 overflow-hidden ${
+      isDarkMode ? 'bg-white/[0.01]' : 'bg-white/30'
+    }`}>
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12 md:mb-16 reveal">
           <h2 className={`text-4xl md:text-6xl font-black tracking-tighter uppercase mb-4 md:mb-6 ${
@@ -1429,12 +1519,30 @@ const RecommendationsSection = React.memo(({ isDarkMode }) => {
   );
 });
 
-const Footer = React.memo(({ isDarkMode }) => (
-  <footer className={`py-12 px-6 border-t ${
-    isDarkMode 
-      ? 'border-white/5 bg-black/40' 
-      : 'border-slate-200/50 bg-white/40'
-  }`}>
+const Footer = React.memo(({ isDarkMode, activeTheme }) => {
+  // Darken the theme's dark background for footer to make it stand out
+  const darkenColor = (color) => {
+    // Convert hex to RGB, darken by 30%, then back to hex
+    const hex = color.replace('#', '');
+    const r = Math.max(0, parseInt(hex.substr(0, 2), 16) * 0.7);
+    const g = Math.max(0, parseInt(hex.substr(2, 2), 16) * 0.7);
+    const b = Math.max(0, parseInt(hex.substr(4, 2), 16) * 0.7);
+    return `#${Math.round(r).toString(16).padStart(2, '0')}${Math.round(g).toString(16).padStart(2, '0')}${Math.round(b).toString(16).padStart(2, '0')}`;
+  };
+  
+  const footerBg = isDarkMode 
+    ? darkenColor(themes[activeTheme].bg.dark)
+    : themes[activeTheme].bg.dark + 'F5'; // Use dark theme color in light mode for contrast
+  
+  return (
+  <footer 
+    className={`py-12 px-6 border-t ${
+      isDarkMode 
+        ? 'border-white/5' 
+        : 'border-slate-200/50'
+    }`}
+    style={{ backgroundColor: footerBg }}
+  >
     <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 relative z-10">
       <div className={`text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 ${
         isDarkMode ? 'text-slate-600' : 'text-slate-700'
@@ -1462,7 +1570,8 @@ const Footer = React.memo(({ isDarkMode }) => (
       </div>
     </div>
   </footer>
-));
+  );
+});
 
 // --- MAIN APP COMPONENT ---
 
@@ -1718,12 +1827,38 @@ const App = () => {
     setChatInput("");
     setIsChatLoading(true);
     try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+      // For Gemma models, include system context in the message since systemInstruction is not supported
+      const formattingReminder = `\n\n=== STRICT RULES ===
+1. ANSWER THE QUESTION DIRECTLY - do not say "Hi! How can I help?" or ask questions back. Give actual answers.
+2. NEVER mention "Master's student at CMU" or "Master's student at Carnegie Mellon" unless question is EXACTLY about education/where he studied
+3. For "hi"/"hey": Give a brief 1-sentence friendly greeting, NO education mention, NO "how can I help"
+4. For "tell about him": Give a concise 3-4 sentence overview: current role (Software Engineer with 3 years at Epsilon), key skills (distributed systems, cloud, AI/ML), and current goal (Summer 2026 internship) - NO CMU mention
+5. For "what is he good at": List his strengths directly (distributed systems, cloud architecture, optimization, etc.) - NO CMU mention
+6. For "how to contact": Answer with email (gauravpandey@cmu.edu), phone (+1 (412) 482-2656), LinkedIn, GitHub - be direct
+
+KEEP RESPONSES SHORT: 1-3 sentences for simple questions, 2-4 sentences for complex
+
+FORMATTING:
+- Use **bold** for numbers (e.g., **3 years**, **83%**)
+- Use \`backticks\` for tech terms (e.g., \`Java\`, \`Kubernetes\`)\n`;
+      
+      const promptWithContext = `You are Gaurav Pandey's AI assistant. Answer questions directly with actual information. Do NOT say "How can I help?" - just answer.
+
+CRITICAL: Do NOT mention CMU/education unless the question is specifically about education or where he studied.
+
+${PORTFOLIO_CONTEXT}
+
+${formattingReminder}
+
+USER QUESTION: "${currentInput}"
+
+ASSISTANT RESPONSE:`;
+      
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemma-3-4b-it:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          contents: [{ parts: [{ text: currentInput }] }], 
-          systemInstruction: { parts: [{ text: PORTFOLIO_CONTEXT }] } 
+          contents: [{ parts: [{ text: promptWithContext }] }]
         })
       });
       
@@ -1734,6 +1869,10 @@ const App = () => {
       
       const data = await response.json();
       const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "I seem to be disconnected from the mainframe. Try again?";
+      // Debug: log the raw response to check for markdown
+      console.log('AI Response (raw):', aiText);
+      console.log('Has bold (**):', aiText.includes('**'));
+      console.log('Has code (`):', aiText.includes('`'));
       // All new AI responses should have typing animation
       setMessages(prev => [...prev, { role: 'assistant', text: aiText, animate: true }]);
     } catch (error) {
@@ -1930,7 +2069,10 @@ const App = () => {
 
       {/* --- AI Chat Modal --- */}
       {isChatOpen && (
-        <div className={`fixed inset-0 z-[100] flex items-end sm:items-center justify-center sm:p-4 transition-all duration-500 ${isClosing ? 'bg-transparent' : isDarkMode ? 'bg-black/60 backdrop-blur-sm' : 'bg-black/40 backdrop-blur-sm'}`}>
+        <div 
+          className={`fixed inset-0 z-[100] flex items-end sm:items-center justify-center sm:p-4 transition-all duration-500 backdrop-blur-sm ${isClosing ? 'bg-transparent' : ''}`}
+          style={!isClosing ? { backgroundColor: `${themes[activeTheme].bg[isDarkMode ? 'dark' : 'light']}CC` } : {}}
+        >
           <div className="absolute inset-0" onClick={closeChat} />
           <div 
             className={`
@@ -1941,21 +2083,26 @@ const App = () => {
               shadow-[0_0_100px_-20px_rgba(0,0,0,0.8)]
               shadow-[var(--theme-primary)]/20
               flex flex-col overflow-hidden box-border
-              ${isDarkMode ? 'bg-[#050505]/95' : 'bg-gradient-to-br from-white/85 via-[var(--theme-primary)]/12 to-[var(--theme-accent)]/12'}
               ${isClosing ? 'animate-spring-out' : 'animate-spring-up'}
             `}
-            style={{ transformOrigin: window.innerWidth < 640 ? 'bottom center' : `${chatOrigin.x}px ${chatOrigin.y}px` }}
+            style={{ 
+              transformOrigin: window.innerWidth < 640 ? 'bottom center' : `${chatOrigin.x}px ${chatOrigin.y}px`,
+              backgroundColor: `${themes[activeTheme].bg[isDarkMode ? 'dark' : 'light']}F2`
+            }}
           >
             <div className={`absolute inset-0 bg-gradient-to-br pointer-events-none ${
               isDarkMode 
                 ? 'from-[var(--theme-primary)]/20 via-transparent to-[var(--theme-accent)]/20 opacity-50' 
                 : 'from-[var(--theme-primary)]/18 via-[var(--theme-accent)]/12 to-[var(--theme-primary)]/18 opacity-75'
             }`} />
-            <div className={`relative p-4 sm:p-6 border-b-2 flex justify-between items-center backdrop-blur-xl flex-shrink-0 ${
-              isDarkMode 
-                ? 'border-white/5 bg-black/40' 
-                : 'border-[var(--theme-primary)]/30 bg-gradient-to-r from-[var(--theme-primary)]/10 via-white/70 to-[var(--theme-accent)]/10 shadow-[0_2px_10px_rgba(0,0,0,0.05)]'
-            }`}>
+            <div 
+              className={`relative p-4 sm:p-6 border-b-2 flex justify-between items-center backdrop-blur-xl flex-shrink-0 ${
+                isDarkMode 
+                  ? 'border-white/5'
+                  : 'border-[var(--theme-primary)]/30 shadow-[0_2px_10px_rgba(0,0,0,0.05)]'
+              }`}
+              style={isDarkMode ? {} : { backgroundColor: `${themes[activeTheme].bg.light}E6` }}
+            >
               <div className="flex items-center gap-3 sm:gap-4 min-w-0">
                 <div className="flex-shrink-0">
                 <BrainReactor active={isChatLoading} theme={themes[activeTheme]} />
@@ -1966,7 +2113,7 @@ const App = () => {
                   }`} style={!isDarkMode ? { background: 'linear-gradient(135deg, var(--theme-primary), var(--theme-accent))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' } : {}}>Gaurav AI</h3>
                   <p className={`text-[10px] sm:text-[11px] font-bold uppercase tracking-widest ${
                     isDarkMode ? 'text-slate-500' : 'text-[var(--theme-primary)]'
-                  }`}>Powered by Gemini 2.5</p>
+                  }`}>Powered by Google gemma-3-4b-it</p>
             </div>
               </div>
               <button onClick={closeChat} className={`p-2 sm:p-3 rounded-full transition-all hover:rotate-90 active:scale-90 z-20 flex-shrink-0 ${
@@ -1993,7 +2140,9 @@ const App = () => {
                       onMouseMove={handleMessageMouseMove}
                       className={`relative max-w-[85%] sm:max-w-[80%] p-3 sm:p-4 rounded-2xl text-xs sm:text-sm leading-relaxed font-medium shadow-lg backdrop-blur-md overflow-hidden group/msg ${
                         msg.role === 'user' 
-                          ? `bg-[var(--theme-primary)]/90 text-white rounded-tr-sm shadow-[var(--theme-primary)]/20 border border-[var(--theme-primary)]/40` 
+                          ? isDarkMode
+                            ? `bg-[var(--theme-primary)]/90 text-white rounded-tr-sm shadow-[var(--theme-primary)]/20 border border-[var(--theme-primary)]/40`
+                            : `bg-[var(--theme-primary)]/20 text-slate-900 rounded-tr-sm shadow-[var(--theme-primary)]/10 border border-[var(--theme-primary)]/30`
                           : isDarkMode
                             ? 'bg-white/5 text-slate-200 rounded-tl-sm border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.2)]'
                             : 'bg-gradient-to-br from-white/90 to-[var(--theme-primary)]/5 text-slate-900 rounded-tl-sm border border-[var(--theme-primary)]/20 shadow-[0_4px_20px_rgba(0,0,0,0.1)]'
@@ -2412,7 +2561,7 @@ const App = () => {
           <EducationSection isDarkMode={isDarkMode} />
           <SkillsSection isDarkMode={isDarkMode} />
           <RecommendationsSection isDarkMode={isDarkMode} />
-          <Footer isDarkMode={isDarkMode} />
+          <Footer isDarkMode={isDarkMode} activeTheme={activeTheme} />
         </>
       )}
 
