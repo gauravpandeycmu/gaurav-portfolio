@@ -322,6 +322,25 @@ const skillsData = [
   { cat: "Dev Tooling", items: ["Jenkins", "Git", "Kibana", "SonarQube"], icon: <Database /> }
 ];
 
+const recommendationsData = [
+  {
+    name: "Pradeep Kamath",
+    title: "Staff Software Engineer at Epsilon",
+    date: "August 16, 2025",
+    text: "I had the pleasure of working with Gaurav, and I can confidently say he is a highly skilled and dedicated professional. With strong expertise in Java 17, Spring Framework, and Spring Boot, he has successfully contributed to building and enhancing complex web applications. His experience with AWS cloud services and proficiency in SnapLogic SaaS platform integration make him a valuable asset for any team that deals with cloud-based solutions and enterprise integrations. What truly stands out about Gaurav is his passion for learning new technologies, adaptability, and ability to quickly understand requirements and translate them into effective solutions. He is extremely committed to delivering quality work within timelines and can be relied upon to take ownership of tasks end-to-end. I strongly recommend Gaurav for any team looking for a skilled, motivated, and dependable engineer who can drive technology initiatives forward.",
+    linkedin: "https://www.linkedin.com/in/pradeep-kamath-b0bb1166",
+    image: "/pradeep.jpeg"
+  },
+  {
+    name: "Nitish Pai",
+    title: "Lead Data Engineer | Ex - Infosys | Java | AWS Cloud Engineer | Ecommerce",
+    date: "September 8, 2025",
+    text: "Gaurav is undoubtedly one of the best engineers I have ever worked with. He is capable of completing any task's assigned to him with high quality. He has excellent grasping power and excellent observation skills helps him to learn a new technology in lightning speed. He is a great team player and is always willing to help other members in the team. He is a great asset to any organization.",
+    linkedin: "https://www.linkedin.com/in/nitish-pai-27861626",
+    image: "/nitish.jpeg"
+  }
+];
+
 // --- UTILITY COMPONENTS ---
 
 const TintedLogo = React.memo(({ src, alt }) => (
@@ -1259,6 +1278,81 @@ const SkillsSection = React.memo(({ isDarkMode }) => (
     </div>
   </section>
 ));
+
+const RecommendationsSection = React.memo(({ isDarkMode }) => {
+  // Duplicate recommendations for seamless loop
+  const duplicatedRecommendations = [...recommendationsData, ...recommendationsData];
+  
+  return (
+    <section id="recommendations" className="py-32 px-6 overflow-hidden">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-16 reveal">
+          <h2 className={`text-6xl font-black tracking-tighter uppercase mb-6 ${
+            isDarkMode ? 'text-white' : 'text-slate-900'
+          }`}>Recommendations<span className="text-[var(--theme-primary)]">.</span></h2>
+          <p className={`font-black tracking-[0.6em] text-[10px] uppercase ${
+            isDarkMode ? 'text-slate-500' : 'text-slate-600'
+          }`}>Professional Endorsements</p>
+        </div>
+        
+        {/* Scrolling Container */}
+        <div className="relative overflow-hidden py-4">
+          <div className="flex animate-scroll-horizontal gap-8 will-change-transform">
+            {duplicatedRecommendations.map((rec, idx) => (
+              <a
+                key={idx}
+                href={rec.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex-shrink-0 w-[85vw] sm:w-[500px] md:w-[600px] p-6 md:p-8 rounded-[2.5rem] border backdrop-blur-3xl transition-all hover:scale-[1.02] group cursor-pointer ${
+                  isDarkMode
+                    ? 'bg-white/[0.02] border-white/5 hover:border-white/20'
+                    : 'bg-white/60 border-slate-200/50 hover:border-slate-300/70'
+                }`}
+              >
+                <div className="flex items-start gap-6 mb-6">
+                  <div className="flex-shrink-0">
+                    <div className="w-16 h-16 rounded-full overflow-hidden border-2" style={{ borderColor: 'var(--theme-primary)', aspectRatio: '1/1' }}>
+                      <img
+                        src={rec.image}
+                        alt={rec.name}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                        onError={(e) => {
+                          e.target.src = '/image_c1c534.jpg'; // Fallback to your profile image
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className={`text-xl font-black mb-1 ${
+                      isDarkMode ? 'text-white' : 'text-slate-900'
+                    }`}>{rec.name}</h3>
+                    <p className={`text-sm font-bold mb-2 ${
+                      isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                    }`}>{rec.title}</p>
+                    <p className={`text-xs ${
+                      isDarkMode ? 'text-slate-500' : 'text-slate-500'
+                    }`}>{rec.date}</p>
+                  </div>
+                  <div className="flex-shrink-0 mt-2">
+                    <Linkedin size={20} className={`transition-transform group-hover:scale-110 ${
+                      isDarkMode ? 'text-[#0077b5] group-hover:text-[#00a0dc]' : 'text-[#0077b5] group-hover:text-[#00a0dc]'
+                    }`} />
+                  </div>
+                </div>
+                <p className={`text-sm leading-relaxed font-medium ${
+                  isDarkMode ? 'text-slate-300' : 'text-slate-700'
+                }`}>{rec.text}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+});
 
 const Footer = React.memo(({ isDarkMode }) => (
   <footer className={`py-12 px-6 border-t ${
@@ -2210,6 +2304,7 @@ const App = () => {
           <LeadershipSection isDarkMode={isDarkMode} />
           <EducationSection isDarkMode={isDarkMode} />
           <SkillsSection isDarkMode={isDarkMode} />
+          <RecommendationsSection isDarkMode={isDarkMode} />
           <Footer isDarkMode={isDarkMode} />
         </>
       )}
@@ -2244,6 +2339,18 @@ const App = () => {
         @keyframes zoom-in { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .animate-spin-slow { animation: spin-slow 20s linear infinite; }
+        @keyframes scroll-horizontal {
+          0% { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+        .animate-scroll-horizontal {
+          animation: scroll-horizontal 40s linear infinite;
+          display: flex;
+          width: fit-content;
+        }
+        .animate-scroll-horizontal:hover {
+          animation-play-state: paused;
+        }
       `}</style>
     </div>
   );
