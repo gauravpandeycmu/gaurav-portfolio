@@ -121,8 +121,12 @@ When answering questions:
 - Highlight both technical depth and leadership experience
 - Reference specific technologies, projects, and courses when appropriate
 - Be enthusiastic but professional
-- Format your responses using clean markdown: use **bold** for emphasis, \`code\` for technical terms, and line breaks for readability
-- Avoid long paragraphs - use bullet points or short sentences when listing information
+- ALWAYS format your responses using markdown:
+  - Use **bold** for emphasis on key numbers, years, technologies, or important points
+  - Use \`code\` for technical terms, programming languages, tools, and frameworks
+  - Use line breaks (\n) to separate paragraphs for better readability
+  - Use bullet points (-) when listing multiple items
+- Examples: "I have **3 years** of experience with \`Kubernetes\`" or "I worked with \`AWS\`, \`Docker\`, and \`Spring Boot\`"
 - If asked about something not in this context, politely say you don't have that information but can discuss related topics
 `;
 
@@ -340,7 +344,7 @@ const TintedLogo = React.memo(({ src, alt }) => (
     {/* iOS-style theme color tint overlay */}
     <div 
       className="absolute inset-0"
-      style={{
+    style={{
         backgroundColor: 'var(--theme-primary)',
         mixBlendMode: 'color',
         opacity: 0.7
@@ -391,9 +395,91 @@ const useTypewriter = (text, speed = 10, shouldAnimate = true) => {
   return displayedText;
 };
 
-const AIMessage = React.memo(({ text, animate }) => {
-  const typedText = useTypewriter(text, 5, animate);
-  return <span>{typedText}</span>;
+
+// Simple markdown renderer for AI messages (lazy loaded - only used when chat opens)
+const renderMarkdown = (text, isDarkMode = true) => {
+  if (!text) return null;
+  
+  // Split by line breaks
+  const lines = text.split('\n');
+  
+  return lines.map((line, lineIndex) => {
+    if (!line.trim()) {
+      return <br key={lineIndex} />;
+    }
+    
+    // Simple replacement approach - process in order: code, bold, then italic
+    let processed = line;
+    const parts = [];
+    let key = 0;
+    let lastIndex = 0;
+    
+    // Find all matches with their positions
+    const matches = [];
+    
+    // Code blocks (highest priority)
+    let codeRegex = /`([^`]+)`/g;
+    let match;
+    while ((match = codeRegex.exec(processed)) !== null) {
+      matches.push({ start: match.index, end: match.index + match[0].length, type: 'code', content: match[1] });
+    }
+    
+    // Bold (must check it's not inside code)
+    let boldRegex = /\*\*([^*]+)\*\*/g;
+    while ((match = boldRegex.exec(processed)) !== null) {
+      // Check if this bold is inside any code block
+      const insideCode = matches.some(m => m.type === 'code' && match.index >= m.start && match.index < m.end);
+      if (!insideCode) {
+        matches.push({ start: match.index, end: match.index + match[0].length, type: 'bold', content: match[1] });
+      }
+    }
+    
+    // Sort matches by position
+    matches.sort((a, b) => a.start - b.start);
+    
+    // Build parts array
+    matches.forEach((match) => {
+      // Add text before match
+      if (match.start > lastIndex) {
+        parts.push({ type: 'text', content: processed.substring(lastIndex, match.start), key: key++ });
+      }
+      // Add formatted match
+      parts.push({ type: match.type, content: match.content, key: key++ });
+      lastIndex = match.end;
+    });
+    
+    // Add remaining text
+    if (lastIndex < processed.length) {
+      parts.push({ type: 'text', content: processed.substring(lastIndex), key: key++ });
+    }
+    
+    // If no matches, add whole line
+    if (parts.length === 0) {
+      parts.push({ type: 'text', content: processed, key: key++ });
+    }
+    
+    return (
+      <span key={lineIndex}>
+        {parts.map((part) => {
+          if (part.type === 'bold') {
+            return <strong key={part.key} className="font-bold">{part.content}</strong>;
+          } else if (part.type === 'italic') {
+            return <em key={part.key} className="italic">{part.content}</em>;
+          } else if (part.type === 'code') {
+            return <code key={part.key} className={`${isDarkMode ? 'bg-white/10' : 'bg-black/10'} px-1.5 py-0.5 rounded text-xs font-mono`}>{part.content}</code>;
+          } else {
+            return <span key={part.key}>{part.content}</span>;
+          }
+        })}
+        {lineIndex < lines.length - 1 && <br />}
+      </span>
+    );
+  });
+};
+
+const AIMessage = React.memo(({ text, animate, isDarkMode }) => {
+  const typedText = useTypewriter(text, 3.5, animate); // 70% of 5ms = 3.5ms (faster typing)
+  return <span className="whitespace-pre-wrap">{renderMarkdown(typedText, isDarkMode)}</span>;
 });
 
 const InteractiveBackground = React.memo(({ themeColor, isDarkMode }) => {
@@ -1265,7 +1351,6 @@ const App = () => {
     { role: 'assistant', text: "Hi! I'm Gaurav's virtual assistant. I'm here to answer questions about his software engineering journey, CMU coursework, or the systems he's built. Ask away!", animate: false }
   ]);
   const [isChatLoading, setIsChatLoading] = useState(false);
-  const [isFirstAIResponse, setIsFirstAIResponse] = useState(true);
   
   // Refs
   const chatEndRef = useRef(null);
@@ -1335,16 +1420,16 @@ const App = () => {
   const handleThemeChange = useCallback((newThemeKey, e) => {
     e.stopPropagation();
     const newColor = themes[newThemeKey].bg[isDarkMode ? 'dark' : 'light'];
-    
+
     // Immediate theme change for seamless transition
-    setActiveTheme(newThemeKey);
-    localStorage.setItem('portfolio_theme', newThemeKey);
+      setActiveTheme(newThemeKey);
+      localStorage.setItem('portfolio_theme', newThemeKey);
     
     // Ripple effect for visual feedback
     setRipple({ active: true, x: e.clientX, y: e.clientY, color: newColor });
     
     // Close menu smoothly
-    setIsThemeClosing(true);
+      setIsThemeClosing(true);
     setTimeout(() => { 
       setShowThemeMenu(false); 
       setIsThemeClosing(false); 
@@ -1407,10 +1492,10 @@ const App = () => {
       } else {
         // Desktop: use native smooth scroll
         element.scrollIntoView({ behavior: 'smooth' });
-        // Re-enable spy after animation completes (approx 1s)
-        setTimeout(() => {
-          isManualScroll.current = false;
-        }, 1000);
+    // Re-enable spy after animation completes (approx 1s)
+    setTimeout(() => {
+      isManualScroll.current = false;
+    }, 1000);
       }
     }
   }, []);
@@ -1420,6 +1505,8 @@ const App = () => {
       const rect = aiButtonRef.current.getBoundingClientRect();
       setChatOrigin({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
     }
+    // When reopening chat, disable animation for all existing messages
+    setMessages(prev => prev.map(msg => ({ ...msg, animate: false })));
     setIsChatOpen(true);
   }, []);
 
@@ -1434,12 +1521,10 @@ const App = () => {
     
     // Check if API key is configured
     if (!apiKey) {
-      const shouldAnimate = isFirstAIResponse;
-      setIsFirstAIResponse(false);
       setMessages(prev => [...prev, { 
         role: 'assistant', 
         text: "API key not configured. Please set VITE_GEMINI_API_KEY in your environment variables.", 
-        animate: shouldAnimate 
+        animate: true 
       }]);
       return;
     }
@@ -1466,10 +1551,8 @@ const App = () => {
       
       const data = await response.json();
       const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "I seem to be disconnected from the mainframe. Try again?";
-      // Only animate the first AI response, subsequent ones load instantly
-      const shouldAnimate = isFirstAIResponse;
-      setIsFirstAIResponse(false);
-      setMessages(prev => [...prev, { role: 'assistant', text: aiText, animate: shouldAnimate }]);
+      // All new AI responses should have typing animation
+      setMessages(prev => [...prev, { role: 'assistant', text: aiText, animate: true }]);
     } catch (error) {
       console.error('Gemini API Error:', error);
       const errorMessage = error.message?.includes('API key') || error.message?.includes('401')
@@ -1477,10 +1560,8 @@ const App = () => {
         : error.message?.includes('quota') || error.message?.includes('429')
         ? "Rate limit exceeded. Please try again in a moment."
         : `Connection Error: ${error.message || 'Neural link unstable. Try again?'}`;
-      // Only animate the first AI response, subsequent ones load instantly
-      const shouldAnimate = isFirstAIResponse;
-      setIsFirstAIResponse(false);
-      setMessages(prev => [...prev, { role: 'assistant', text: errorMessage, animate: shouldAnimate }]);
+      // All new AI responses should have typing animation
+      setMessages(prev => [...prev, { role: 'assistant', text: errorMessage, animate: true }]);
     } finally {
       setIsChatLoading(false);
     }
@@ -1676,8 +1757,8 @@ const App = () => {
             }`}>
               <div className="flex items-center gap-3 sm:gap-4 min-w-0">
                 <div className="flex-shrink-0">
-                  <BrainReactor active={isChatLoading} theme={themes[activeTheme]} />
-                </div>
+                <BrainReactor active={isChatLoading} theme={themes[activeTheme]} />
+              </div>
                 <div className="min-w-0">
                   <h3 className={`font-black text-lg sm:text-xl tracking-tight truncate ${
                     isDarkMode ? 'text-white' : 'text-slate-900'
@@ -1685,7 +1766,7 @@ const App = () => {
                   <p className={`text-[10px] sm:text-[11px] font-bold uppercase tracking-widest ${
                     isDarkMode ? 'text-slate-500' : 'text-slate-600'
                   }`}>Powered by Gemini 2.5</p>
-                </div>
+            </div>
               </div>
               <button onClick={closeChat} className={`p-2 sm:p-3 rounded-full transition-all hover:rotate-90 active:scale-90 z-20 flex-shrink-0 ${
                 isDarkMode 
@@ -1697,19 +1778,42 @@ const App = () => {
             </div>
             <div className="relative flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6 scroll-smooth z-10 min-h-0">
               <div className={`absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(var(--theme-glow),0.5)_0%,_transparent_70%)] opacity-20 pointer-events-none fixed`} />
-              {messages.map((msg, idx) => (
-                <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-slide-up`} style={{ animationDelay: `${idx * 0.05}s` }}>
-                  <div className={`max-w-[85%] sm:max-w-[80%] p-3 sm:p-4 rounded-2xl text-xs sm:text-sm leading-relaxed font-medium shadow-lg backdrop-blur-md ${
-                    msg.role === 'user' 
-                      ? `bg-[var(--theme-primary)]/90 text-white rounded-tr-sm shadow-[var(--theme-primary)]/20 border border-[var(--theme-primary)]/40` 
-                      : isDarkMode
-                        ? 'bg-white/5 text-slate-200 rounded-tl-sm border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.2)]'
-                        : 'bg-white/80 text-slate-800 rounded-tl-sm border border-slate-200/50 shadow-[0_4px_20px_rgba(0,0,0,0.1)]'
-                  }`}>
-                    {msg.role === 'assistant' ? <AIMessage text={msg.text} animate={msg.animate} /> : msg.text}
+              {messages.map((msg, idx) => {
+                const handleMessageMouseMove = (e) => {
+                  if (typeof window !== 'undefined' && window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  e.currentTarget.style.setProperty('--x', `${e.clientX - rect.left}px`);
+                  e.currentTarget.style.setProperty('--y', `${e.clientY - rect.top}px`);
+                };
+                
+                return (
+                  <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-slide-up`} style={{ animationDelay: `${idx * 0.05}s` }}>
+                    <div 
+                      onMouseMove={handleMessageMouseMove}
+                      className={`relative max-w-[85%] sm:max-w-[80%] p-3 sm:p-4 rounded-2xl text-xs sm:text-sm leading-relaxed font-medium shadow-lg backdrop-blur-md overflow-hidden group/msg ${
+                        msg.role === 'user' 
+                          ? `bg-[var(--theme-primary)]/90 text-white rounded-tr-sm shadow-[var(--theme-primary)]/20 border border-[var(--theme-primary)]/40` 
+                          : isDarkMode
+                            ? 'bg-white/5 text-slate-200 rounded-tl-sm border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.2)]'
+                            : 'bg-white/80 text-slate-800 rounded-tl-sm border border-slate-200/50 shadow-[0_4px_20px_rgba(0,0,0,0.1)]'
+                      }`}
+                    >
+                      {/* Subtle spotlight effect - more subtle than cards */}
+                      <div 
+                        className="absolute inset-0 opacity-20 md:opacity-0 md:group-hover/msg:opacity-20 transition-opacity duration-500 pointer-events-none" 
+                        style={{ background: `radial-gradient(400px circle at var(--x, 50%) var(--y, 50%), rgba(var(--theme-glow), 0.12), transparent 50%)` }} 
+                      />
+                      <div 
+                        className="md:hidden absolute inset-0 opacity-15 transition-opacity duration-500 pointer-events-none" 
+                        style={{ background: `radial-gradient(400px circle at var(--x, 50%) var(--y, 50%), rgba(var(--theme-glow), 0.08), transparent 50%)` }} 
+                      />
+                      <div className="relative z-10">
+                        {msg.role === 'assistant' ? <AIMessage text={msg.text} animate={msg.animate} isDarkMode={isDarkMode} /> : msg.text}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
               {isChatLoading && (
                 <div className="flex justify-start animate-slide-up">
                   <div className={`p-4 rounded-2xl rounded-tl-sm border flex items-center gap-2 ${
@@ -1797,7 +1901,7 @@ const App = () => {
                   onClick={toggleProfile}
                   className={`
                      absolute top-full left-0 mt-4 z-50 transform-gpu
-                     transition-all duration-700 ease-[cubic-bezier(0.68,-0.6,0.32,1.6)] cursor-pointer origin-top-left
+                    transition-all duration-700 ease-[cubic-bezier(0.68,-0.6,0.32,1.6)] cursor-pointer origin-top-left
                      will-change-[width,height,transform,opacity]
                     ${isProfileExpanded 
                       ? 'w-64 h-80 opacity-100 translate-y-0 scale-100' // Open state
@@ -1838,8 +1942,8 @@ const App = () => {
                         loading="lazy"
                         decoding="async"
                       />
-                    </div>
-                    
+               </div>
+
                     {/* Subtle edge blur layer for Vision OS softness */}
                     <div 
                       className="absolute inset-0 pointer-events-none"
