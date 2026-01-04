@@ -1673,10 +1673,10 @@ const App = () => {
       } else {
         // Desktop: use native smooth scroll
         element.scrollIntoView({ behavior: 'smooth' });
-        // Re-enable spy after animation completes (approx 1s)
+    // Re-enable spy after animation completes (approx 1s)
         // Use longer timeout to ensure scroll has fully settled
-        setTimeout(() => {
-          isManualScroll.current = false;
+    setTimeout(() => {
+      isManualScroll.current = false;
           manualTargetSection.current = null;
         }, 1200); // Increased to ensure scroll has fully settled
       }
@@ -1936,20 +1936,25 @@ const App = () => {
             className={`
               relative w-full sm:max-w-lg max-h-[90vh] sm:max-h-[600px] h-[75vh] sm:h-[600px]
               backdrop-blur-[40px] 
-              border border-[var(--theme-primary)]/30
+              border-2 border-[var(--theme-primary)]/40
               rounded-t-[2.5rem] sm:rounded-[2.5rem] 
               shadow-[0_0_100px_-20px_rgba(0,0,0,0.8)]
+              shadow-[var(--theme-primary)]/20
               flex flex-col overflow-hidden box-border
-              ${isDarkMode ? 'bg-[#050505]/95' : 'bg-white/95'}
+              ${isDarkMode ? 'bg-[#050505]/95' : 'bg-gradient-to-br from-white/85 via-[var(--theme-primary)]/12 to-[var(--theme-accent)]/12'}
               ${isClosing ? 'animate-spring-out' : 'animate-spring-up'}
             `}
             style={{ transformOrigin: window.innerWidth < 640 ? 'bottom center' : `${chatOrigin.x}px ${chatOrigin.y}px` }}
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-[var(--theme-primary)]/20 via-transparent to-[var(--theme-accent)]/20 opacity-50 pointer-events-none" />
-            <div className={`relative p-4 sm:p-6 border-b flex justify-between items-center backdrop-blur-xl flex-shrink-0 ${
+            <div className={`absolute inset-0 bg-gradient-to-br pointer-events-none ${
+              isDarkMode 
+                ? 'from-[var(--theme-primary)]/20 via-transparent to-[var(--theme-accent)]/20 opacity-50' 
+                : 'from-[var(--theme-primary)]/18 via-[var(--theme-accent)]/12 to-[var(--theme-primary)]/18 opacity-75'
+            }`} />
+            <div className={`relative p-4 sm:p-6 border-b-2 flex justify-between items-center backdrop-blur-xl flex-shrink-0 ${
               isDarkMode 
                 ? 'border-white/5 bg-black/40' 
-                : 'border-slate-200/50 bg-white/60'
+                : 'border-[var(--theme-primary)]/30 bg-gradient-to-r from-[var(--theme-primary)]/10 via-white/70 to-[var(--theme-accent)]/10 shadow-[0_2px_10px_rgba(0,0,0,0.05)]'
             }`}>
               <div className="flex items-center gap-3 sm:gap-4 min-w-0">
                 <div className="flex-shrink-0">
@@ -1958,18 +1963,18 @@ const App = () => {
                 <div className="min-w-0">
                   <h3 className={`font-black text-lg sm:text-xl tracking-tight truncate ${
                     isDarkMode ? 'text-white' : 'text-slate-900'
-                  }`}>Gaurav AI</h3>
+                  }`} style={!isDarkMode ? { background: 'linear-gradient(135deg, var(--theme-primary), var(--theme-accent))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' } : {}}>Gaurav AI</h3>
                   <p className={`text-[10px] sm:text-[11px] font-bold uppercase tracking-widest ${
-                    isDarkMode ? 'text-slate-500' : 'text-slate-600'
+                    isDarkMode ? 'text-slate-500' : 'text-[var(--theme-primary)]'
                   }`}>Powered by Gemini 2.5</p>
             </div>
               </div>
               <button onClick={closeChat} className={`p-2 sm:p-3 rounded-full transition-all hover:rotate-90 active:scale-90 z-20 flex-shrink-0 ${
                 isDarkMode 
                   ? 'hover:bg-white/10' 
-                  : 'hover:bg-slate-200/50'
-              }`}><X size={18} className={`sm:w-5 sm:h-5 ${
-                isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                  : 'hover:bg-[var(--theme-primary)]/10'
+              }`}><X size={18} className={`sm:w-5 sm:h-5 transition-colors ${
+                isDarkMode ? 'text-slate-400' : 'text-slate-700 hover:text-[var(--theme-primary)]'
               }`} /></button>
             </div>
             <div className="relative flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6 scroll-smooth z-10 min-h-0">
@@ -1991,7 +1996,7 @@ const App = () => {
                           ? `bg-[var(--theme-primary)]/90 text-white rounded-tr-sm shadow-[var(--theme-primary)]/20 border border-[var(--theme-primary)]/40` 
                           : isDarkMode
                             ? 'bg-white/5 text-slate-200 rounded-tl-sm border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.2)]'
-                            : 'bg-white/80 text-slate-800 rounded-tl-sm border border-slate-200/50 shadow-[0_4px_20px_rgba(0,0,0,0.1)]'
+                            : 'bg-gradient-to-br from-white/90 to-[var(--theme-primary)]/5 text-slate-900 rounded-tl-sm border border-[var(--theme-primary)]/20 shadow-[0_4px_20px_rgba(0,0,0,0.1)]'
                       }`}
                     >
                       {/* Subtle spotlight effect - more subtle than cards */}
@@ -2015,7 +2020,7 @@ const App = () => {
                   <div className={`p-4 rounded-2xl rounded-tl-sm border flex items-center gap-2 ${
                     isDarkMode 
                       ? 'bg-white/5 border-white/10' 
-                      : 'bg-white/80 border-slate-200/50'
+                      : 'bg-gradient-to-br from-white/90 to-[var(--theme-primary)]/5 border-[var(--theme-primary)]/20'
                   }`}>
                     <div className="w-1 h-4 bg-[var(--theme-primary)] rounded-full animate-[wave_1s_ease-in-out_infinite]" />
                     <div className="w-1 h-6 bg-[var(--theme-primary)] rounded-full animate-[wave_1s_ease-in-out_0.1s_infinite]" />
@@ -2028,18 +2033,20 @@ const App = () => {
               )}
               <div ref={chatEndRef} />
             </div>
-            <form onSubmit={handleSendMessage} className={`relative p-3 sm:p-5 border-t backdrop-blur-xl z-20 flex-shrink-0 ${
+            <form onSubmit={handleSendMessage} className={`relative p-3 sm:p-5 border-t-2 backdrop-blur-xl z-20 flex-shrink-0 ${
               isDarkMode 
                 ? 'border-white/10 bg-black/40' 
-                : 'border-slate-200/50 bg-white/60'
+                : 'border-[var(--theme-primary)]/30 bg-gradient-to-r from-[var(--theme-primary)]/10 via-white/70 to-[var(--theme-accent)]/10 shadow-[0_-2px_10px_rgba(0,0,0,0.05)]'
             }`}>
               <div className="flex gap-2 sm:gap-3 items-end">
                 <div className="flex-1 relative group">
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-accent)] rounded-2xl opacity-20 group-hover:opacity-50 transition duration-500 blur-sm" />
-                  <input type="text" value={chatInput} onChange={(e) => setChatInput(e.target.value)} placeholder="Ask about projects..." className={`relative w-full border rounded-2xl px-4 sm:px-5 py-3 sm:py-4 text-xs sm:text-sm placeholder-slate-500 focus:outline-none transition-all shadow-inner ${
+                  <div className={`absolute -inset-0.5 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-accent)] rounded-2xl transition duration-500 blur-sm ${
+                    isDarkMode ? 'opacity-20 group-hover:opacity-50' : 'opacity-30 group-hover:opacity-60'
+                  }`} />
+                  <input type="text" value={chatInput} onChange={(e) => setChatInput(e.target.value)} placeholder="Ask about projects..." style={!isDarkMode ? { color: '#0f172a' } : {}} className={`relative w-full border-2 rounded-2xl px-4 sm:px-5 py-3 sm:py-4 text-xs sm:text-sm placeholder-slate-500 focus:outline-none transition-all shadow-inner ${
                     isDarkMode 
                       ? 'bg-[#0a0a0a] border-white/10 text-white focus:border-white/30' 
-                      : 'bg-white/90 border-slate-200/50 text-slate-900 focus:border-slate-300/70'
+                      : 'bg-white/98 border-[var(--theme-primary)]/40 text-slate-900 focus:border-[var(--theme-primary)]/70 focus:ring-2 focus:ring-[var(--theme-primary)]/30 shadow-[var(--theme-primary)]/10'
                   }`} />
                 </div>
                 <button type="submit" disabled={isChatLoading || !chatInput.trim()} className="p-3 sm:p-4 rounded-2xl bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)]/90 text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(0,0,0,0.3)] shadow-[var(--theme-primary)]/20 flex-shrink-0"><Send size={18} className="sm:w-5 sm:h-5" /></button>
