@@ -325,7 +325,7 @@ const skillsData = [
 // --- UTILITY COMPONENTS ---
 
 const TintedLogo = React.memo(({ src, alt }) => (
-  <div className="relative w-full h-full">
+  <div className="relative w-full h-full" style={{ aspectRatio: '1/1' }}>
     {/* Base image - fills container */}
     <img 
       src={src}
@@ -335,6 +335,8 @@ const TintedLogo = React.memo(({ src, alt }) => (
       decoding="async"
       style={{
         filter: 'grayscale(100%) brightness(0.5)',
+        aspectRatio: '1/1',
+        objectFit: 'cover'
       }}
       onError={(e) => {
         console.error(`Failed to load logo: ${src}`);
@@ -848,7 +850,7 @@ const ExperienceSection = React.memo(({ isDarkMode }) => {
                 <div className="relative z-10 flex-1">
                   <div className="flex items-center gap-6 mb-8">
                     {/* Replaced standard Icon with Tinted Logo for iOS-like theming */}
-                    <div className="w-16 h-16 rounded-2xl bg-[var(--theme-primary)] bg-opacity-10 overflow-hidden">
+                    <div className="w-16 h-16 rounded-2xl bg-[var(--theme-primary)] bg-opacity-10 overflow-hidden flex-shrink-0" style={{ aspectRatio: '1/1' }}>
                       <TintedLogo src={job.logo} alt={job.company} />
                     </div>
                     <h4 className={`text-2xl font-black tracking-tight uppercase ${
@@ -1034,7 +1036,7 @@ const LeadershipSection = React.memo(({ isDarkMode }) => {
                   <div className="relative z-10 flex-1">
                     <div className="flex items-center gap-6 mb-8">
                       {/* Replaced standard Icon with Tinted Logo for iOS-like theming */}
-                      <div className="w-16 h-16 rounded-2xl bg-[var(--theme-primary)] bg-opacity-10 overflow-hidden">
+                      <div className="w-16 h-16 rounded-2xl bg-[var(--theme-primary)] bg-opacity-10 overflow-hidden flex-shrink-0" style={{ aspectRatio: '1/1' }}>
                         <TintedLogo src={role.logo} alt={role.org} />
                       </div>
                       <h4 className={`text-2xl font-black tracking-tight uppercase flex items-center gap-3 ${
@@ -1126,7 +1128,7 @@ const EducationSection = React.memo(({ isDarkMode }) => {
                  <div className="md:hidden absolute inset-0 opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: `radial-gradient(800px circle at var(--x) var(--y), rgba(var(--theme-glow), 0.4), transparent 40%)` }} />
                 <div className="relative z-10">
                   <div className="flex items-center gap-6 mb-8">
-                    <div className="w-16 h-16 rounded-2xl bg-[var(--theme-primary)] bg-opacity-10 overflow-hidden">
+                    <div className="w-16 h-16 rounded-2xl bg-[var(--theme-primary)] bg-opacity-10 overflow-hidden flex-shrink-0" style={{ aspectRatio: '1/1' }}>
                       <TintedLogo src={edu.logo} alt={edu.school} />
                     </div>
                     <h4 className={`text-xl font-black tracking-tight uppercase leading-snug ${
@@ -1238,9 +1240,9 @@ const SkillsSection = React.memo(({ isDarkMode }) => (
               ? 'bg-white/[0.03] border-white/5 hover:border-white/20' 
               : 'bg-white/60 border-slate-200/50 hover:border-slate-300/70'
           }`}>
-            <div className="flex items-center gap-4 mb-6">
-              <div className="text-[var(--theme-primary)] group-hover:scale-110 transition-transform">{React.cloneElement(s.icon, { size: 24 })}</div>
-              <h4 className={`text-xs font-black uppercase tracking-[0.2em] ${
+            <div className="flex items-center gap-3 md:gap-4 mb-6">
+              <div className="text-[var(--theme-primary)] group-hover:scale-110 transition-transform flex-shrink-0">{React.cloneElement(s.icon, { size: 24 })}</div>
+              <h4 className={`text-[10px] md:text-xs font-black uppercase tracking-[0.1em] md:tracking-[0.2em] break-words leading-tight ${
                 isDarkMode ? 'text-white' : 'text-slate-900'
               }`}>{categoryName}</h4>
             </div>
@@ -1787,7 +1789,7 @@ const App = () => {
                 };
                 
                 return (
-                  <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-slide-up`} style={{ animationDelay: `${idx * 0.05}s` }}>
+                <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-slide-up`} style={{ animationDelay: `${idx * 0.05}s` }}>
                     <div 
                       onMouseMove={handleMessageMouseMove}
                       className={`relative max-w-[85%] sm:max-w-[80%] p-3 sm:p-4 rounded-2xl text-xs sm:text-sm leading-relaxed font-medium shadow-lg backdrop-blur-md overflow-hidden group/msg ${
@@ -1809,8 +1811,8 @@ const App = () => {
                       />
                       <div className="relative z-10">
                         {msg.role === 'assistant' ? <AIMessage text={msg.text} animate={msg.animate} isDarkMode={isDarkMode} /> : msg.text}
-                      </div>
-                    </div>
+                  </div>
+                </div>
                   </div>
                 );
               })}
