@@ -3,7 +3,7 @@ import {
   Github, Linkedin, Mail, Terminal as TerminalIcon, Cloud, Zap, Database, Monitor,
   Briefcase, Globe, Eye, Scan, Award, Heart, Home, Code, Cpu,
   Sparkles, Send, X, ArrowUpRight, Check, Users, GraduationCap, FileText, ExternalLink,
-  Palette, Sun, Moon
+  Palette, Sun, Moon, Star
 } from 'lucide-react';
 
 // --- CONFIGURATION & DATA ---
@@ -172,7 +172,8 @@ const navItems = [
   { id: 'projects', label: 'Projects', icon: <Code size={18} /> },
   { id: 'leadership', label: 'Activities', icon: <Users size={18} /> },
   { id: 'education', label: 'Education', icon: <GraduationCap size={18} /> },
-  { id: 'skills', label: 'Skills', icon: <Cpu size={18} /> }
+  { id: 'skills', label: 'Skills', icon: <Cpu size={18} /> },
+  { id: 'recommendations', label: 'Recs', icon: <Star size={18} /> }
 ];
 
 const socialLinks = [
@@ -327,7 +328,12 @@ const recommendationsData = [
     name: "Pradeep Kamath",
     title: "Staff Software Engineer at Epsilon",
     date: "August 16, 2025",
-    text: "I had the pleasure of working with Gaurav, and I can confidently say he is a highly skilled and dedicated professional. With strong expertise in Java 17, Spring Framework, and Spring Boot, he has successfully contributed to building and enhancing complex web applications. His experience with AWS cloud services and proficiency in SnapLogic SaaS platform integration make him a valuable asset for any team that deals with cloud-based solutions and enterprise integrations. What truly stands out about Gaurav is his passion for learning new technologies, adaptability, and ability to quickly understand requirements and translate them into effective solutions. He is extremely committed to delivering quality work within timelines and can be relied upon to take ownership of tasks end-to-end. I strongly recommend Gaurav for any team looking for a skilled, motivated, and dependable engineer who can drive technology initiatives forward.",
+    text: [
+      "I had the pleasure of working with Gaurav, and I can confidently say he is a highly skilled and dedicated professional. With strong expertise in Java 17, Spring Framework, and Spring Boot, he has successfully contributed to building and enhancing complex web applications.",
+      "His experience with AWS cloud services and proficiency in SnapLogic SaaS platform integration make him a valuable asset for any team that deals with cloud-based solutions and enterprise integrations.",
+      "What truly stands out about Gaurav is his passion for learning new technologies, adaptability, and ability to quickly understand requirements and translate them into effective solutions. He is extremely committed to delivering quality work within timelines and can be relied upon to take ownership of tasks end-to-end.",
+      "I strongly recommend Gaurav for any team looking for a skilled, motivated, and dependable engineer who can drive technology initiatives forward."
+    ],
     linkedin: "https://www.linkedin.com/in/pradeep-kamath-b0bb1166",
     image: "/pradeep.jpeg"
   },
@@ -1280,14 +1286,14 @@ const SkillsSection = React.memo(({ isDarkMode }) => (
 ));
 
 const RecommendationsSection = React.memo(({ isDarkMode }) => {
-  // Duplicate recommendations for seamless loop
+  // Duplicate recommendations for seamless loop (only for desktop horizontal scroll)
   const duplicatedRecommendations = [...recommendationsData, ...recommendationsData];
   
   return (
-    <section id="recommendations" className="py-32 px-6 overflow-hidden">
+    <section id="recommendations" className="py-16 md:py-32 px-4 md:px-6 overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16 reveal">
-          <h2 className={`text-6xl font-black tracking-tighter uppercase mb-6 ${
+        <div className="text-center mb-12 md:mb-16 reveal">
+          <h2 className={`text-4xl md:text-6xl font-black tracking-tighter uppercase mb-4 md:mb-6 ${
             isDarkMode ? 'text-white' : 'text-slate-900'
           }`}>Recommendations<span className="text-[var(--theme-primary)]">.</span></h2>
           <p className={`font-black tracking-[0.6em] text-[10px] uppercase ${
@@ -1295,8 +1301,69 @@ const RecommendationsSection = React.memo(({ isDarkMode }) => {
           }`}>Professional Endorsements</p>
         </div>
         
-        {/* Scrolling Container */}
-        <div className="relative overflow-hidden py-4">
+        {/* Mobile: Vertical Stack */}
+        <div className="md:hidden space-y-6">
+          {recommendationsData.map((rec, idx) => (
+            <a
+              key={idx}
+              href={rec.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`block w-full p-5 rounded-2xl border backdrop-blur-3xl transition-all active:scale-[0.98] group ${
+                isDarkMode
+                  ? 'bg-white/[0.02] border-white/5 active:border-white/20'
+                  : 'bg-white/60 border-slate-200/50 active:border-slate-300/70'
+              }`}
+            >
+              <div className="flex items-start gap-4 mb-4">
+                <div className="flex-shrink-0">
+                  <div className="w-14 h-14 rounded-full overflow-hidden border-2" style={{ borderColor: 'var(--theme-primary)', aspectRatio: '1/1' }}>
+                    <img
+                      src={rec.image}
+                      alt={rec.name}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                      onError={(e) => {
+                        e.target.src = '/image_c1c534.jpg';
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className={`text-lg font-black mb-1 ${
+                    isDarkMode ? 'text-white' : 'text-slate-900'
+                  }`}>{rec.name}</h3>
+                  <p className={`text-xs font-bold mb-1 ${
+                    isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                  }`}>{rec.title}</p>
+                  <p className={`text-[10px] ${
+                    isDarkMode ? 'text-slate-500' : 'text-slate-500'
+                  }`}>{rec.date}</p>
+                </div>
+                <div className="flex-shrink-0 mt-1">
+                  <Linkedin size={18} className={`transition-transform group-active:scale-110 ${
+                    isDarkMode ? 'text-[#0077b5] group-active:text-[#00a0dc]' : 'text-[#0077b5] group-active:text-[#00a0dc]'
+                  }`} />
+                </div>
+              </div>
+              <div className={`text-xs leading-relaxed font-medium space-y-2.5 ${
+                isDarkMode ? 'text-slate-300' : 'text-slate-700'
+              }`}>
+                {Array.isArray(rec.text) ? (
+                  rec.text.map((paragraph, pIdx) => (
+                    <p key={pIdx}>{paragraph}</p>
+                  ))
+                ) : (
+                  <p>{rec.text}</p>
+                )}
+              </div>
+            </a>
+          ))}
+        </div>
+        
+        {/* Desktop: Horizontal Scrolling Container */}
+        <div className="hidden md:block relative overflow-hidden py-4">
           <div className="flex animate-scroll-horizontal gap-8 will-change-transform">
             {duplicatedRecommendations.map((rec, idx) => (
               <a
@@ -1304,7 +1371,7 @@ const RecommendationsSection = React.memo(({ isDarkMode }) => {
                 href={rec.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`flex-shrink-0 w-[85vw] sm:w-[500px] md:w-[600px] p-6 md:p-8 rounded-[2.5rem] border backdrop-blur-3xl transition-all hover:scale-[1.02] group cursor-pointer ${
+                className={`flex-shrink-0 w-[500px] md:w-[600px] p-6 md:p-8 rounded-[2.5rem] border backdrop-blur-3xl transition-all hover:scale-[1.02] group cursor-pointer ${
                   isDarkMode
                     ? 'bg-white/[0.02] border-white/5 hover:border-white/20'
                     : 'bg-white/60 border-slate-200/50 hover:border-slate-300/70'
@@ -1320,7 +1387,7 @@ const RecommendationsSection = React.memo(({ isDarkMode }) => {
                         loading="lazy"
                         decoding="async"
                         onError={(e) => {
-                          e.target.src = '/image_c1c534.jpg'; // Fallback to your profile image
+                          e.target.src = '/image_c1c534.jpg';
                         }}
                       />
                     </div>
@@ -1342,9 +1409,17 @@ const RecommendationsSection = React.memo(({ isDarkMode }) => {
                     }`} />
                   </div>
                 </div>
-                <p className={`text-sm leading-relaxed font-medium ${
+                <div className={`text-sm leading-relaxed font-medium space-y-3 ${
                   isDarkMode ? 'text-slate-300' : 'text-slate-700'
-                }`}>{rec.text}</p>
+                }`}>
+                  {Array.isArray(rec.text) ? (
+                    rec.text.map((paragraph, pIdx) => (
+                      <p key={pIdx}>{paragraph}</p>
+                    ))
+                  ) : (
+                    <p>{rec.text}</p>
+                  )}
+                </div>
               </a>
             ))}
           </div>
@@ -1402,9 +1477,9 @@ const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('portfolio_dark_mode');
-      return saved !== null ? saved === 'true' : true; // Default to dark
+      return saved !== null ? saved === 'true' : false; // Default to light mode
     }
-    return true;
+    return false; // Default to light mode
   });
   
   // -- NEW STATE FOR PROFILE EXPANSION --
@@ -1438,6 +1513,7 @@ const App = () => {
 
   // Manual Scroll Ref to prevent jitter
   const isManualScroll = useRef(false);
+  const manualTargetSection = useRef(null); // Track target section during manual navigation
 
   // Chat State
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -1546,8 +1622,15 @@ const App = () => {
   // Optimized Navigation Handler (Direct Jump)
   const handleNavClick = useCallback((id, e) => {
     e.preventDefault();
-    isManualScroll.current = true; // Disable scroll spy
-    setActiveSection(id); // Immediate UI update
+    
+    // CRITICAL: Set manual scroll flag and target section FIRST, before any state updates
+    // This prevents scroll spy from interfering during the animation
+    isManualScroll.current = true;
+    manualTargetSection.current = id; // Lock the target section
+    
+    // Immediately update to destination - this ensures circle animates from source to destination
+    // Use flushSync to ensure state update happens synchronously before any scroll events
+    setActiveSection(id);
 
     const element = document.getElementById(id);
     if (element) {
@@ -1578,9 +1661,11 @@ const App = () => {
             requestAnimationFrame(smoothScroll);
           } else {
             // Re-enable spy after animation completes
+            // Use longer timeout to ensure scroll has fully settled
             setTimeout(() => {
               isManualScroll.current = false;
-            }, 200);
+              manualTargetSection.current = null;
+            }, 400); // Increased from 200ms to 400ms to prevent immediate detection
           }
         };
         
@@ -1588,13 +1673,15 @@ const App = () => {
       } else {
         // Desktop: use native smooth scroll
         element.scrollIntoView({ behavior: 'smooth' });
-    // Re-enable spy after animation completes (approx 1s)
-    setTimeout(() => {
-      isManualScroll.current = false;
-    }, 1000);
+        // Re-enable spy after animation completes (approx 1s)
+        // Use longer timeout to ensure scroll has fully settled
+        setTimeout(() => {
+          isManualScroll.current = false;
+          manualTargetSection.current = null;
+        }, 1200); // Increased to ensure scroll has fully settled
       }
     }
-  }, []);
+  }, [activeSection]);
 
   const openChat = useCallback(() => {
     if (aiButtonRef.current) {
@@ -1718,13 +1805,26 @@ const App = () => {
       if (isProfileExpanded) setIsProfileExpanded(false);
 
       // 2. Active Section Spy (SKIP if manual scroll is active)
-      if (isManualScroll.current) return;
+      // CRITICAL: During manual navigation, don't update activeSection at all
+      // This ensures the circle animates smoothly from source to destination
+      if (isManualScroll.current) {
+        // CRITICAL: Completely ignore scroll spy during manual navigation
+        // Lock the activeSection to the manual target and don't allow any updates
+        if (manualTargetSection.current) {
+          // Force lock to target section - don't even check if it's different
+          // This prevents any intermediate section detection during scroll animation
+          if (activeSection !== manualTargetSection.current) {
+            setActiveSection(manualTargetSection.current);
+          }
+        }
+        return; // Exit early - don't run any scroll spy logic
+      }
 
       const viewportCenter = window.innerHeight / 2;
       let closestSection = activeSection;
       let minDistance = Infinity;
 
-      const sections = ['home', 'experience', 'projects', 'leadership', 'education', 'skills'];
+      const sections = ['home', 'experience', 'projects', 'leadership', 'education', 'skills', 'recommendations'];
       
       sections.forEach(id => {
         const element = document.getElementById(id);
@@ -2078,7 +2178,7 @@ const App = () => {
           <div className="w-[1px] h-6 bg-white/10 rounded-full mx-3"></div>
           
           {/* Navigation Pills - Improved Spacing for Mobile Circle Cutoff Fix */}
-          <div className={`grid grid-cols-6 ${isCompact ? 'gap-0 w-full' : 'gap-4 w-full'} flex-1 ${isExpanding ? 'transition-all duration-[1000ms] ease-[cubic-bezier(0.2,1.5,0.2,1)]' : 'transition-all duration-[900ms] ease-[cubic-bezier(0.34,1.6,0.64,1)]'} relative overflow-visible items-center`}>
+          <div className={`grid grid-cols-7 ${isCompact ? 'gap-0 w-full' : 'gap-4 w-full'} flex-1 ${isExpanding ? 'transition-all duration-[1000ms] ease-[cubic-bezier(0.2,1.5,0.2,1)]' : 'transition-all duration-[900ms] ease-[cubic-bezier(0.34,1.6,0.64,1)]'} relative overflow-visible items-center`}>
             {/* Active Pill Active Indicator - Now using theme primary color always */}
             <div 
               className={`
@@ -2089,8 +2189,8 @@ const App = () => {
               style={{ 
                 backgroundColor: 'var(--theme-primary)', 
                 opacity: isCompact ? 0.9 : 1, 
-                left: `calc(${navItems.findIndex(i => i.id === activeSection) * (100/6)}% + ${(100/12)}%)`, 
-                width: isCompact ? '36px' : `${100/6}%`, 
+                left: `calc(${navItems.findIndex(i => i.id === activeSection) * (100/7)}% + ${(100/14)}%)`, 
+                width: isCompact ? '36px' : `${100/7}%`, 
                 height: isCompact ? '36px' : '80%', 
                 top: '50%', 
                 transform: 'translate(-50%, -50%)', 
