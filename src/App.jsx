@@ -536,6 +536,7 @@ const renderMarkdown = (text, isDarkMode = true) => {
     markdownLinkPattern.lastIndex = 0;
     
     // Plain URLs (https:// or http://) - check it's not inside a code block or markdown link
+    // Match URL and trim trailing punctuation (., ,, ;, :, !, ?, ), ], }, etc.)
     const urlPattern = /(https?:\/\/[^\s<>"{}|\\^`\[\]]+)/g;
     while ((match = urlPattern.exec(line)) !== null) {
       const isInsideCode = patterns.some(p => 
@@ -545,12 +546,16 @@ const renderMarkdown = (text, isDarkMode = true) => {
         p.type === 'markdownLink' && match.index >= p.start && match.index < p.end
       );
       if (!isInsideCode && !isInsideMarkdownLink) {
+        // Trim trailing punctuation that's likely sentence-ending, not part of URL
+        let url = match[1];
+        url = url.replace(/[.,;:!?)\]}\s]+$/, '');
+        
         patterns.push({
           start: match.index,
           end: match.index + match[0].length,
           type: 'url',
-          content: match[1],
-          url: match[1],
+          content: url,
+          url: url,
           fullMatch: match[0]
         });
       }
@@ -654,17 +659,22 @@ const renderMarkdown = (text, isDarkMode = true) => {
     parts.forEach((part) => {
       if (part.type === 'text') {
         // Check for plain URLs in text parts
+        // Match URL and trim trailing punctuation (., ,, ;, :, !, ?, ), ], }, etc.)
         const urlPattern = /(https?:\/\/[^\s<>"{}|\\^`\[\]]+)/g;
         let match;
         const urlMatches = [];
         let textLastIndex = 0;
         
         while ((match = urlPattern.exec(part.content)) !== null) {
+          // Trim trailing punctuation that's likely sentence-ending, not part of URL
+          let url = match[1];
+          url = url.replace(/[.,;:!?)\]}\s]+$/, '');
+          
           urlMatches.push({
             start: match.index,
             end: match.index + match[0].length,
-            url: match[1],
-            content: match[1]
+            url: url,
+            content: url
           });
         }
         
