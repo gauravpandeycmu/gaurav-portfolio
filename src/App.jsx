@@ -127,13 +127,14 @@ When answering questions:
 - Reference specific technologies, projects, and courses when appropriate
 - Be enthusiastic but professional, with a warm and approachable tone
 - ALWAYS format your responses using markdown:
-  - Use **bold** for emphasis on key numbers, years, technologies, or important points
-  - Use \`code\` for technical terms, programming languages, tools, and frameworks
+  - Use **bold** for emphasis on key numbers, years, percentages, or important points
+  - CRITICAL: Use \`backticks\` for ALL technical terms, programming languages, tools, frameworks, libraries, models, services, and technologies (e.g., \`YOLOv3\`, \`AWS Rekognition\`, \`ResNet50\`, \`Grad-CAM\`, \`PoseNet\`, \`Python\`, \`Java\`, \`Kubernetes\`, \`Node.js\`, \`Spring Boot\`, \`AWS\`, \`Docker\`, \`Kafka\`, \`Spark\`, etc.)
   - Use line breaks (\n) to separate paragraphs for better readability
   - Avoid bullet points unless the question specifically asks for a list
 - Examples of good responses:
   - "I'm a Master's student at CMU with **3 years** of experience as a Software Engineer at Epsilon, where I worked extensively with \`Kubernetes\` and \`AWS\` to build scalable microservices."
-  - "I'm currently pursuing my Master's in Information Systems Management at Carnegie Mellon University, with a strong background in distributed systems and cloud architecture. I spent **3 years** as a Software Engineer at Epsilon, where I reduced data pipeline load times by **83%** and streamlined AWS costs by **60%**."
+  - "I'm currently pursuing my Master's in Information Systems Management at Carnegie Mellon University, with a strong background in distributed systems and cloud architecture. I spent **3 years** as a Software Engineer at Epsilon, where I reduced data pipeline load times by **83%** and streamlined \`AWS\` costs by **60%**."
+  - "I've worked on several impactful projects. One involved designing an edge surveillance module utilizing \`YOLOv3\` for social distancing detection and \`AWS Rekognition\`, reducing local storage by **90%**. I also developed an Image Classification project using \`ResNet50\` and \`Grad-CAM\`, and a \`PoseNet\` Recognition system for tracking hand gestures."
 - For "tell me about yourself" or similar introduction questions: Give a brief, engaging overview (3-4 sentences) covering: current status (CMU student), key experience (3 years at Epsilon), main skills/interests (distributed systems, cloud, AI/ML), and current goal (Summer 2026 internship). Keep it warm and personable.
 - If asked about something not in this context, politely say you don't have that information but can discuss related topics
 `;
@@ -513,13 +514,61 @@ const renderMarkdown = (text, isDarkMode = true) => {
     // Reset regex
     codePattern.lastIndex = 0;
     
-    // Bold (**text**) - check it's not inside a code block
+    // Markdown links [text](url) - check it's not inside a code block
+    const markdownLinkPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
+    while ((match = markdownLinkPattern.exec(line)) !== null) {
+      const isInsideCode = patterns.some(p => 
+        p.type === 'code' && match.index >= p.start && match.index < p.end
+      );
+      if (!isInsideCode) {
+        patterns.push({
+          start: match.index,
+          end: match.index + match[0].length,
+          type: 'markdownLink',
+          content: match[1], // link text
+          url: match[2], // link URL
+          fullMatch: match[0]
+        });
+      }
+    }
+    
+    // Reset regex
+    markdownLinkPattern.lastIndex = 0;
+    
+    // Plain URLs (https:// or http://) - check it's not inside a code block or markdown link
+    const urlPattern = /(https?:\/\/[^\s<>"{}|\\^`\[\]]+)/g;
+    while ((match = urlPattern.exec(line)) !== null) {
+      const isInsideCode = patterns.some(p => 
+        p.type === 'code' && match.index >= p.start && match.index < p.end
+      );
+      const isInsideMarkdownLink = patterns.some(p => 
+        p.type === 'markdownLink' && match.index >= p.start && match.index < p.end
+      );
+      if (!isInsideCode && !isInsideMarkdownLink) {
+        patterns.push({
+          start: match.index,
+          end: match.index + match[0].length,
+          type: 'url',
+          content: match[1],
+          url: match[1],
+          fullMatch: match[0]
+        });
+      }
+    }
+    
+    // Reset regex
+    urlPattern.lastIndex = 0;
+    
+    // Bold (**text**) - check it's not inside a code block or link
     const boldPattern = /\*\*([^*]+?)\*\*/g;
     while ((match = boldPattern.exec(line)) !== null) {
       const isInsideCode = patterns.some(p => 
         p.type === 'code' && match.index >= p.start && match.index < p.end
       );
-      if (!isInsideCode) {
+      const isInsideLink = patterns.some(p => 
+        (p.type === 'markdownLink' || p.type === 'url') && match.index >= p.start && match.index < p.end
+      );
+      if (!isInsideCode && !isInsideLink) {
         patterns.push({
           start: match.index,
           end: match.index + match[0].length,
@@ -533,13 +582,42 @@ const renderMarkdown = (text, isDarkMode = true) => {
     // Sort patterns by start position
     patterns.sort((a, b) => a.start - b.start);
     
-    // Remove overlapping patterns (keep code over bold)
+    // Remove overlapping patterns (keep code over everything, links over bold)
     const filteredPatterns = [];
     for (let i = 0; i < patterns.length; i++) {
       const current = patterns[i];
-      const overlaps = filteredPatterns.some(existing => 
-        (current.start < existing.end && current.end > existing.start)
-      );
+      
+      // If current is code, remove any existing patterns that overlap with it
+      if (current.type === 'code') {
+        // Remove overlapping non-code patterns
+        for (let j = filteredPatterns.length - 1; j >= 0; j--) {
+          const existing = filteredPatterns[j];
+          if (existing.type !== 'code' && 
+              current.start < existing.end && current.end > existing.start) {
+            filteredPatterns.splice(j, 1);
+          }
+        }
+        filteredPatterns.push(current);
+        continue;
+      }
+      
+      // For non-code patterns, check if they overlap with existing patterns
+      const overlaps = filteredPatterns.some(existing => {
+        // Code always wins - if existing is code and overlaps, skip current
+        if (existing.type === 'code' && 
+            current.start < existing.end && current.end > existing.start) {
+          return true;
+        }
+        // Links don't overlap with each other
+        if ((existing.type === 'markdownLink' || existing.type === 'url') && 
+            (current.type === 'markdownLink' || current.type === 'url') &&
+            current.start < existing.end && current.end > existing.start) {
+          return true;
+        }
+        // Other overlaps
+        return (current.start < existing.end && current.end > existing.start);
+      });
+      
       if (!overlaps) {
         filteredPatterns.push(current);
       }
@@ -552,7 +630,11 @@ const renderMarkdown = (text, isDarkMode = true) => {
         parts.push({ type: 'text', content: line.substring(lastIndex, pattern.start), key: key++ });
       }
       // Add formatted pattern
-      parts.push({ type: pattern.type, content: pattern.content, key: key++ });
+      if (pattern.type === 'markdownLink' || pattern.type === 'url') {
+        parts.push({ type: pattern.type, content: pattern.content, url: pattern.url, key: key++ });
+      } else {
+        parts.push({ type: pattern.type, content: pattern.content, key: key++ });
+      }
       lastIndex = pattern.end;
     });
     
@@ -566,9 +648,65 @@ const renderMarkdown = (text, isDarkMode = true) => {
       parts.push({ type: 'text', content: line, key: key++ });
     }
     
+    // Now process text parts for any remaining plain URLs that weren't caught by patterns
+    const finalParts = [];
+    let finalKey = 0;
+    parts.forEach((part) => {
+      if (part.type === 'text') {
+        // Check for plain URLs in text parts
+        const urlPattern = /(https?:\/\/[^\s<>"{}|\\^`\[\]]+)/g;
+        let match;
+        const urlMatches = [];
+        let textLastIndex = 0;
+        
+        while ((match = urlPattern.exec(part.content)) !== null) {
+          urlMatches.push({
+            start: match.index,
+            end: match.index + match[0].length,
+            url: match[1],
+            content: match[1]
+          });
+        }
+        
+        if (urlMatches.length > 0) {
+          urlMatches.forEach((urlMatch) => {
+            // Add text before URL
+            if (urlMatch.start > textLastIndex) {
+              finalParts.push({ 
+                type: 'text', 
+                content: part.content.substring(textLastIndex, urlMatch.start), 
+                key: finalKey++ 
+              });
+            }
+            // Add URL
+            finalParts.push({ 
+              type: 'url', 
+              content: urlMatch.content, 
+              url: urlMatch.url, 
+              key: finalKey++ 
+            });
+            textLastIndex = urlMatch.end;
+          });
+          
+          // Add remaining text
+          if (textLastIndex < part.content.length) {
+            finalParts.push({ 
+              type: 'text', 
+              content: part.content.substring(textLastIndex), 
+              key: finalKey++ 
+            });
+          }
+        } else {
+          finalParts.push({ ...part, key: finalKey++ });
+        }
+      } else {
+        finalParts.push({ ...part, key: finalKey++ });
+      }
+    });
+    
     return (
       <span key={lineIndex}>
-        {parts.map((part) => {
+        {finalParts.map((part) => {
           if (part.type === 'bold') {
             return <strong key={part.key} className="font-bold">{part.content}</strong>;
           } else if (part.type === 'code') {
@@ -580,6 +718,25 @@ const renderMarkdown = (text, isDarkMode = true) => {
                 {part.content}
               </code>
             );
+          } else if (part.type === 'markdownLink' || part.type === 'url') {
+            return (
+              <a
+                key={part.key}
+                href={part.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex items-center gap-1 font-medium transition-all duration-200 ${
+                  isDarkMode
+                    ? 'text-blue-400 hover:text-blue-300 underline decoration-blue-400/50 hover:decoration-blue-300/80 underline-offset-2'
+                    : 'text-blue-600 hover:text-blue-700 underline decoration-blue-500/50 hover:decoration-blue-600/80 underline-offset-2'
+                } hover:underline-offset-4`}
+              >
+                {part.content}
+                <svg className="w-3 h-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            );
           } else {
             return <span key={part.key}>{part.content}</span>;
           }
@@ -589,6 +746,7 @@ const renderMarkdown = (text, isDarkMode = true) => {
     );
   });
 };
+
 
 const AIMessage = React.memo(({ text, animate, isDarkMode }) => {
   const typedText = useTypewriter(text, 3.5, animate); // 70% of 5ms = 3.5ms (faster typing)
@@ -1838,9 +1996,14 @@ const App = () => {
 
 KEEP RESPONSES SHORT: 1-3 sentences for simple questions, 2-4 sentences for complex
 
-FORMATTING:
-- Use **bold** for numbers (e.g., **3 years**, **83%**)
-- Use \`backticks\` for tech terms (e.g., \`Java\`, \`Kubernetes\`)\n`;
+CRITICAL FORMATTING RULES (MUST FOLLOW):
+- Use **bold** for numbers, years, percentages (e.g., **3 years**, **83%**, **2022**)
+- ALWAYS wrap ALL technical terms, technologies, frameworks, tools, and programming languages in backticks: \`YOLOv3\`, \`AWS Rekognition\`, \`ResNet50\`, \`Grad-CAM\`, \`PoseNet\`, \`Python\`, \`Java\`, \`Kubernetes\`, \`Node.js\`, \`Spring Boot\`, \`AWS\`, \`Docker\`, etc.
+- Examples of CORRECT formatting:
+  * "I designed an edge surveillance module utilizing \`YOLOv3\` for social distancing detection and \`AWS Rekognition\`"
+  * "I developed an Image Classification project using \`ResNet50\` and \`Grad-CAM\`"
+  * "I built a \`PoseNet\` Recognition system for tracking hand gestures"
+- If you mention ANY technology, framework, tool, or programming language, it MUST be wrapped in backticks\n`;
       
       const promptWithContext = `You are Gaurav Pandey's AI assistant. Answer questions directly with actual information. Do NOT say "How can I help?" - just answer.
 
