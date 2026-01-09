@@ -909,131 +909,20 @@ const BrainReactor = React.memo(({ active }) => (
 ));
 
 // --- RESUME DOWNLOAD COMPONENT ---
-const ResumeDownloadButton = React.memo(({ isDarkMode }) => {
-  const [showPreview, setShowPreview] = useState(false);
-  const [isPreviewLoading, setIsPreviewLoading] = useState(true);
-  const previewTimeoutRef = useRef(null);
-
-  const resumeLinks = {
-    view: "https://drive.google.com/file/d/1lBFFDaMsckyL3M77AIsW0sZDdnfGB5eW/view?usp=sharing",
-    preview: "https://drive.google.com/file/d/1lBFFDaMsckyL3M77AIsW0sZDdnfGB5eW/preview"
-  };
-
-  const handleMouseEnter = () => {
-    previewTimeoutRef.current = setTimeout(() => {
-      setShowPreview(true);
-      setIsPreviewLoading(true); // Reset loading state when showing preview
-    }, 500); // Show preview after 500ms hover
-  };
-
-  const handleMouseLeave = () => {
-    if (previewTimeoutRef.current) {
-      clearTimeout(previewTimeoutRef.current);
-    }
-    setShowPreview(false);
-    setIsPreviewLoading(true); // Reset loading state when hiding
-  };
-
-  const handleIframeLoad = () => {
-    setIsPreviewLoading(false);
-  };
+// Simple button that opens the resume Google Drive link directly
+const ResumeDownloadButton = React.memo(() => {
+  const resumeLink = "https://drive.google.com/file/d/1lBFFDaMsckyL3M77AIsW0sZDdnfGB5eW/view?usp=sharing";
 
   return (
-    <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      {/* Main Resume Button */}
-      <a
-        href={resumeLinks.view}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="bg-[var(--theme-primary)] text-white px-8 md:px-10 py-4 md:py-5 rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] hover:translate-y-[-4px] transition-all shadow-[0_10px_40px_rgba(0,0,0,0.5)] flex items-center gap-3 active:scale-95 group border-t border-white/20 touch-manipulation min-h-[44px]"
-      >
-        <FileText size={18} className="group-hover:animate-bounce" />
-        <span>View Resume</span>
-      </a>
-
-      {/* Resume Preview Tooltip */}
-      {showPreview && (
-        <div 
-          className={`absolute bottom-full left-0 mb-4 w-[90vw] max-w-[400px] h-[520px] max-h-[60vh] rounded-2xl overflow-hidden shadow-2xl border z-50 ${
-            isDarkMode 
-              ? 'bg-black/95 border-white/20' 
-              : 'bg-white/95 border-slate-200/50'
-          }`}
-          style={{ 
-            transform: 'translateY(0)',
-            animation: 'slideDown 0.3s ease-out'
-          }}
-        >
-          <div className={`p-3 border-b flex items-center justify-between ${
-            isDarkMode ? 'border-white/10' : 'border-slate-200/50'
-          }`}>
-            <span className={`text-xs font-bold uppercase tracking-wider ${
-              isDarkMode ? 'text-white' : 'text-slate-900'
-            }`}>Resume Preview</span>
-            <button
-              onClick={() => setShowPreview(false)}
-              className={`p-1 rounded-lg transition-colors ${
-                isDarkMode 
-                  ? 'hover:bg-white/10 text-white' 
-                  : 'hover:bg-slate-100 text-slate-900'
-              }`}
-            >
-              <X size={14} />
-            </button>
-          </div>
-          
-          {/* Iframe Container with Loading Overlay */}
-          <div className="relative w-full h-[calc(100%-48px)]">
-            {/* Loading State */}
-            {isPreviewLoading && (
-              <div className={`absolute inset-0 flex flex-col items-center justify-center z-10 ${
-                isDarkMode ? 'bg-black/95' : 'bg-white/95'
-              }`}>
-                <div className="relative">
-                  {/* Spinning Circle */}
-                  <div className={`w-12 h-12 border-4 rounded-full ${
-                    isDarkMode 
-                      ? 'border-white/20 border-t-[var(--theme-primary)]' 
-                      : 'border-slate-200 border-t-[var(--theme-primary)]'
-                  } animate-spin`} />
-                  {/* Pulsing Dot */}
-                  <div className={`absolute inset-0 flex items-center justify-center`}>
-                    <div className={`w-3 h-3 rounded-full bg-[var(--theme-primary)] animate-pulse`} />
-                  </div>
-                </div>
-                <p className={`mt-4 text-sm font-medium ${
-                  isDarkMode ? 'text-slate-300' : 'text-slate-600'
-                }`}>Loading resume...</p>
-              </div>
-            )}
-            
-            {/* Iframe */}
-            <iframe
-              src={resumeLinks.preview}
-              className={`absolute inset-0 w-full h-full border-0 transition-opacity duration-300 ${
-                isPreviewLoading ? 'opacity-0' : 'opacity-100'
-              }`}
-              title="Resume Preview"
-              loading="lazy"
-              onLoad={handleIframeLoad}
-            />
-          </div>
-        </div>
-      )}
-
-      <style>{`
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
-    </div>
+    <a
+      href={resumeLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="bg-[var(--theme-primary)] text-white px-8 md:px-10 py-4 md:py-5 rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] hover:translate-y-[-4px] transition-all shadow-[0_10px_40px_rgba(0,0,0,0.5)] flex items-center gap-3 active:scale-95 group border-t border-white/20 touch-manipulation min-h-[44px]"
+    >
+      <FileText size={18} className="group-hover:animate-bounce" />
+      <span>View Resume</span>
+    </a>
   );
 });
 
@@ -1073,7 +962,7 @@ const HeroSection = React.memo(({ tagline, loaded, onDownload, socialLinks, isDa
         </div>
 
         <div className={`flex flex-wrap justify-start gap-4 md:gap-6 pt-4 md:pt-6 transition-all duration-1000 delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <ResumeDownloadButton isDarkMode={isDarkMode} />
+          <ResumeDownloadButton />
           <div className="flex gap-4">
             {socialLinks.map((social, i) => (
               <a 
