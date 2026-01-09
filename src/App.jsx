@@ -311,7 +311,7 @@ const educationData = [
     grade: "3.85 / 4",
     logo: "/cmu.jpg", 
     details: [
-      { term: "Fall 2025", courses: ["NoSQL Database Management", "Object Oriented Programming in Java", "Decision Making Under Uncertainty", "Organisation Design and Implementation", "Accounting and Finance", "Professional Speaking"] },
+      { term: "Fall 2025", courses: ["NoSQL Database Management", "Object Oriented Programming in Java", "Decision Making Under Uncertainty", "Organisation Design and Implementation", "Accounting and Finance", "Professional Speaking"], deansList: true },
       { term: "Spring 2026", courses: ["Cloud Computing (15-619)", "Agentic Technologies", "AI Model Development", "Distributed Systems", "Measuring Social", "Digital Transformation"], taRole: "NoSQL Database Management" }
     ]
   },
@@ -479,7 +479,7 @@ const useTypewriter = (text, speed = 10, shouldAnimate = true) => {
 
 
 // Simple markdown renderer for AI messages (lazy loaded - only used when chat opens)
-const renderMarkdown = (text, isDarkMode = true) => {
+const renderMarkdown = (text, isDarkMode = true, themePrimary = '#f43f5e') => {
   if (!text) return null;
   
   // Split by line breaks
@@ -720,10 +720,33 @@ const renderMarkdown = (text, isDarkMode = true) => {
           if (part.type === 'bold') {
             return <strong key={part.key} className="font-bold">{part.content}</strong>;
           } else if (part.type === 'code') {
+            // Use theme colors for code blocks - convert hex to rgba for opacity
+            const hexToRgba = (hex, alpha) => {
+              const r = parseInt(hex.slice(1, 3), 16);
+              const g = parseInt(hex.slice(3, 5), 16);
+              const b = parseInt(hex.slice(5, 7), 16);
+              return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+            };
+            
+            const themeColor = themePrimary;
+            // For dark mode: brighter text, lighter background. For light mode: darker text, lighter background
+            const codeTextColor = themeColor; // Use theme primary for text
+            const codeBgColor = isDarkMode 
+              ? hexToRgba(themeColor, 0.15) // 15% opacity theme color background in dark mode
+              : hexToRgba(themeColor, 0.1); // 10% opacity theme color background in light mode
+            const codeBorderColor = isDarkMode 
+              ? hexToRgba(themeColor, 0.3) // 30% opacity theme color border in dark mode
+              : hexToRgba(themeColor, 0.25); // 25% opacity theme color border in light mode
+            
             return (
               <code 
                 key={part.key} 
-                className={`${isDarkMode ? 'bg-white/10 text-rose-300' : 'bg-black/10 text-rose-600'} px-1.5 py-0.5 rounded text-xs font-mono border ${isDarkMode ? 'border-white/20' : 'border-black/20'}`}
+                className="px-1.5 py-0.5 rounded text-xs font-mono border"
+                style={{
+                  backgroundColor: codeBgColor,
+                  color: codeTextColor,
+                  borderColor: codeBorderColor
+                }}
               >
                 {part.content}
               </code>
@@ -758,9 +781,9 @@ const renderMarkdown = (text, isDarkMode = true) => {
 };
 
 
-const AIMessage = React.memo(({ text, animate, isDarkMode }) => {
+const AIMessage = React.memo(({ text, animate, isDarkMode, themePrimary }) => {
   const typedText = useTypewriter(text, 3.5, animate); // 70% of 5ms = 3.5ms (faster typing)
-  return <span className="whitespace-pre-wrap">{renderMarkdown(typedText, isDarkMode)}</span>;
+  return <span className="whitespace-pre-wrap">{renderMarkdown(typedText, isDarkMode, themePrimary)}</span>;
 });
 
 const InteractiveBackground = React.memo(({ themeColor, isDarkMode }) => {
@@ -1434,6 +1457,35 @@ const EducationSection = React.memo(({ isDarkMode }) => {
                               </li>
                             ))}
                           </ul>
+                          
+                          {/* Dean's List Achievement */}
+                          {sem.deansList && (
+                            <div className={`mt-4 p-4 rounded-xl border ${
+                              isDarkMode 
+                                ? 'bg-[var(--theme-primary)]/10 border-[var(--theme-primary)]/30' 
+                                : 'bg-[var(--theme-primary)]/15 border-[var(--theme-primary)]/40'
+                            }`}>
+                                <div className="flex items-center gap-3 mb-2">
+                                  <div className={`p-2 rounded-lg ${
+                                    isDarkMode 
+                                      ? 'bg-[var(--theme-primary)]/20' 
+                                      : 'bg-[var(--theme-primary)]/25'
+                                  }`}>
+                                    <Award size={14} className="text-[var(--theme-primary)]" />
+                                  </div>
+                                  <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${
+                                    isDarkMode ? 'text-[var(--theme-primary)]' : 'text-[var(--theme-primary)]'
+                                  }`}>
+                                    Dean's List
+                                  </span>
+                                </div>
+                                <p className={`text-xs font-medium ${
+                                  isDarkMode ? 'text-slate-300' : 'text-slate-700'
+                                }`}>
+                                  Recognized for academic excellence
+                                </p>
+                              </div>
+                          )}
                           
                           {/* Teaching Assistant Section */}
                           {sem.taRole && (
@@ -2331,7 +2383,7 @@ ASSISTANT RESPONSE:`;
                         style={{ background: `radial-gradient(400px circle at var(--x, 50%) var(--y, 50%), rgba(var(--theme-glow), 0.08), transparent 50%)` }} 
                       />
                       <div className="relative z-10">
-                        {msg.role === 'assistant' ? <AIMessage text={msg.text} animate={msg.animate} isDarkMode={isDarkMode} /> : msg.text}
+                        {msg.role === 'assistant' ? <AIMessage text={msg.text} animate={msg.animate} isDarkMode={isDarkMode} themePrimary={themes[activeTheme].primary} /> : msg.text}
                   </div>
                 </div>
                   </div>
@@ -2365,11 +2417,20 @@ ASSISTANT RESPONSE:`;
                   <div className={`absolute -inset-0.5 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-accent)] rounded-2xl transition duration-500 blur-sm ${
                     isDarkMode ? 'opacity-20 group-hover:opacity-50' : 'opacity-30 group-hover:opacity-60'
                   }`} />
-                  <input type="text" value={chatInput} onChange={(e) => setChatInput(e.target.value)} placeholder="Ask about projects..." style={!isDarkMode ? { color: '#0f172a' } : {}} className={`relative w-full border-2 rounded-2xl px-4 sm:px-5 py-3 sm:py-4 text-xs sm:text-sm placeholder-slate-500 focus:outline-none transition-all shadow-inner ${
+                  <input 
+                    type="text" 
+                    value={chatInput} 
+                    onChange={(e) => setChatInput(e.target.value)} 
+                    placeholder="Ask about projects..." 
+                    autoComplete="off"
+                    // Use 16px (text-base) minimum to prevent iOS Safari/Chrome from auto-zooming when input is focused on mobile
+                    style={!isDarkMode ? { color: '#0f172a' } : {}} 
+                    className={`relative w-full border-2 rounded-2xl px-4 sm:px-5 py-3 sm:py-4 text-base placeholder-slate-500 focus:outline-none transition-all shadow-inner touch-manipulation ${
                     isDarkMode 
                       ? 'bg-[#0a0a0a] border-white/10 text-white focus:border-white/30' 
                       : 'bg-white/98 border-[var(--theme-primary)]/40 text-slate-900 focus:border-[var(--theme-primary)]/70 focus:ring-2 focus:ring-[var(--theme-primary)]/30 shadow-[var(--theme-primary)]/10'
-                  }`} />
+                  }`} 
+                  />
                 </div>
                 <button type="submit" disabled={isChatLoading || !chatInput.trim()} className="p-3 sm:p-4 rounded-2xl bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)]/90 text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(0,0,0,0.3)] shadow-[var(--theme-primary)]/20 flex-shrink-0"><Send size={18} className="sm:w-5 sm:h-5" /></button>
               </div>
