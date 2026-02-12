@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect, useRef, useCallback, useMemo } from 'react';
 import { 
-  Github, Linkedin, Mail, Terminal as TerminalIcon, Cloud, Zap, Database, Monitor,
-  Briefcase, Globe, Eye, Scan, Award, Heart, Home, Code, Cpu,
+  Github, Linkedin, Mail, Zap, Monitor,
+  Briefcase, Globe, Eye, Scan, Award, Heart, Home, Code,
   Sparkles, Send, X, ArrowUpRight, Check, Users, GraduationCap, FileText, ExternalLink,
   Palette, Sun, Moon, Star
 } from 'lucide-react';
@@ -21,6 +21,7 @@ You are an AI representation of Gaurav Pandey. Speak in the first person ("I", "
 - Phone: +1 (412) 482-2656
 - LinkedIn: https://www.linkedin.com/in/gauravcmu
 - GitHub: https://github.com/gauravpandeycmu
+- Portfolio: https://gauravpandey.site
 
 **WORK EXPERIENCE (Total: ~3.5 years full-time + internships):**
 
@@ -35,6 +36,7 @@ You are an AI representation of Gaurav Pandey. Speak in the first person ("I", "
 2. **Software Engineering Intern at Epsilon** (Jan 2022 - July 2022) - 6 months
    - Reduced infrastructure costs by 10% by developing a hard-delete backend API
    - Upgraded 70+ vulnerable libraries and remediated 500+ code quality issues
+   - Strengthened security across 3 core repositories using Veracode scans and systematic remediation through SonarQube/PMD analysis
 
 3. **Research Intern - NLP at Centre for Cloud Computing** (May 2020 - Jun 2020) - 2 months
    - Improved translation accuracy by 20% for Telugu ASR system using ESPnet models
@@ -50,8 +52,9 @@ You are an AI representation of Gaurav Pandey. Speak in the first person ("I", "
 1. **Carnegie Mellon University** (Aug 2025 - Dec 2026)
    - Degree: Master in Information Systems Management
    - GPA: 3.85 / 4.0
+   - Dean's List: Fall 2025
    - Fall 2025 Courses: NoSQL Database Management, Object Oriented Programming in Java, Decision Making Under Uncertainty, Organisation Design and Implementation, Accounting and Finance, Professional Speaking
-   - Spring 2026 Courses: Cloud Computing (15-619), Agentic Technologies, AI Model Development, Distributed Systems, Measuring Social, Digital Transformation
+   - Spring 2026 Courses: Cloud Computing (15-619), Agentic Technologies, AI Model Development, Distributed Systems for ISM, Measuring Social, Digital Transformation
    - Teaching Assistant: NoSQL Database Management (Spring 2026)
 
 2. **PES University** (2018 - 2022)
@@ -66,23 +69,39 @@ Infrastructure & Cloud: AWS, Kubernetes (K8s), Docker, GCP, Azure
 Backend Frameworks: Spring Boot, Node.js
 Data & Messaging: Kafka, Spark
 DevOps & Tooling: Jenkins, Git, Kibana, SonarQube
+Frontend Frameworks: React, Angular
+Backend Frameworks (additional): Django
+Testing: TestNG
+Data/ML Libraries: Pandas, NumPy, PyTorch, TensorFlow
+Infrastructure & Data Platforms (additional): Terraform, CloudWatch, Cloudera, Databricks, Linux, boto3
 
 **KEY PROJECTS:**
 
-1. **Edge Surveillance Module**
+1. **MGM Resorts Social Activation Analysis** (Jan 2026 - Present)
+   - Partnering with MGM Resorts marketing leadership to analyze 2025 Las Vegas Grand Prix activations and identify engagement drivers
+   - Built a Brandwatch ingestion workflow in SQL to standardize post metadata and engagement fields across MGM and competitors
+   - Tech: SQL, Brandwatch, Marketing Analytics
+
+2. **Autoscaling Web Service on AWS (ALB, ASG, CloudWatch)** (Dec 2025 - Jan 2026)
+   - Engineered horizontal scaling automation in Python using boto3 to provision ALB, target groups, ASG, CloudWatch alarms, and target tracking policies
+   - Tuned evaluation periods, cooldowns, warm-up windows, and health check grace periods to optimize average and peak RPS while reducing instance uptime
+   - Migrated infrastructure to Terraform for reproducible and version-controlled deployments
+   - Tech: AWS, Python, Terraform, CloudWatch, boto3
+
+3. **Edge Surveillance Module**
    - Designed edge-based master/worker system handling 10+ video streams
    - Utilized YOLOv3 for social distancing violation detection
    - Leveraged AWS Rekognition to identify key frames, reducing local storage by 90%
    - Tech: Python, AWS, YOLOv3
 
-2. **Image Classification**
+4. **Image Classification**
    - Annotated 14k+ images into 8 classes using VGG Annotator
    - Used ResNet50 weights for transfer learning
    - Applied Grad-CAM for class activation maps and feature visualization
    - Tech: ResNet50, Machine Learning, Python
    - GitHub: https://github.com/gauravpandeycmu/EIP/tree/master/Phase%201/Session%205
 
-3. **PoseNet Recognition**
+5. **PoseNet Recognition**
    - Leveraged PoseNet to track hand gestures during lectures
    - Identified blackboard text even with blurry inputs
    - Tech: PoseNet, JavaScript, Transfer Learning
@@ -90,7 +109,7 @@ DevOps & Tooling: Jenkins, Git, Kibana, SonarQube
 **LEADERSHIP & ACTIVITIES:**
 
 1. **Google Cloud Sprint** (Feb 2021 - Apr 2021)
-   - Selected among 30 from 10,000+ applicants across India
+   - Selected among 30 from 15,000+ applicants across India
    - Worked on open-ended problem statements weekly related to GCP
    - Designed system architecture of Twitter with ~300M users
    - Awarded runner-up by senior leadership for final presentation
@@ -108,12 +127,14 @@ DevOps & Tooling: Jenkins, Git, Kibana, SonarQube
 - Saved 60% AWS costs through architectural optimization
 - Resolved 80+ production issues as on-call primary support
 - Delivered 120+ Jira user stories
-- Runner-up at Google Cloud Sprint (selected from 10,000+ applicants)
+- Runner-up at Google Cloud Sprint (selected from 15,000+ applicants)
 - Improved ML model performance by 18-20% in research projects
 - Upgraded 70+ vulnerable libraries and remediated 500+ code quality issues
+- Reduced infrastructure costs by 10% through hard-delete backend automation
+- Built production-style autoscaling workflows on AWS with Python + Terraform
 
 **CURRENT FOCUS:**
-Actively seeking Software/AI Engineer Summer Internship opportunities for Summer 2026. Strong background in distributed systems, cloud architecture, machine learning, and production support. Experience with full-stack development, microservices, and AI/ML applications.
+Actively seeking Software/AI Engineer Summer Internship opportunities for Summer 2026. Strong background in distributed systems, cloud architecture, production reliability, and machine learning. Experience with full-stack development, microservices, infra automation (AWS + Terraform), and AI/ML applications.
 
 When answering questions:
 - Keep responses CONCISE and natural-sounding:
@@ -181,7 +202,7 @@ const navItems = [
   { id: 'projects', label: 'Projects', icon: <Code size={18} /> },
   { id: 'leadership', label: 'Activities', icon: <Users size={18} /> },
   { id: 'education', label: 'Education', icon: <GraduationCap size={18} /> },
-  { id: 'skills', label: 'Skills', icon: <Cpu size={18} /> },
+  { id: 'articles', label: 'Articles', icon: <FileText size={18} /> },
   { id: 'recommendations', label: 'Recs', icon: <Star size={18} /> }
 ];
 
@@ -255,6 +276,20 @@ const experienceData = [
 
 const projectsData = [
   {
+    title: "MGM Resorts Social Activation Analysis",
+    desc: "Partnered with MGM Resorts marketing leadership to analyze 2025 Las Vegas Grand Prix social activations and identify engagement drivers for 2026 campaign concepts.\nBuilt a Brandwatch ingestion workflow in SQL to normalize post metadata and engagement fields across MGM and competitor content for structured analysis.",
+    tags: ["SQL", "Brandwatch", "Marketing Analytics"],
+    icon: <Globe />,
+    hideCta: true
+  },
+  {
+    title: "Autoscaling Web Service on AWS",
+    desc: "Engineered horizontal autoscaling automation in Python using boto3 to provision ALB, target groups, Auto Scaling groups, CloudWatch alarms, and target-tracking policies to meet RPS goals.\nTuned cooldowns, warm-up windows, health-check grace periods, and alarm thresholds; then migrated the infrastructure to Terraform for reproducible, version-controlled deployments.",
+    tags: ["AWS", "Python", "Terraform"],
+    icon: <Zap />,
+    hideCta: true
+  },
+  {
     title: "Edge Surveillance Module",
     desc: "Designed an edge-based master/worker system to handle 10+ video streams, utilizing YOLOv3 for social distancing violation detection. Leveraged AWS Rekognition to identify key frames, reducing local storage needs by 90%.",
     tags: ["Python", "AWS", "YOLOv3"],
@@ -325,11 +360,577 @@ const educationData = [
   }
 ];
 
-const skillsData = [
-  { cat: "Languages", items: ["Java", "Python", "JS", "C++", "SQL"], icon: <TerminalIcon /> },
-  { cat: "Infrastructure", items: ["AWS", "K8s", "Docker", "GCP", "Azure"], icon: <Cloud /> },
-  { Backends: ["Spring", "Node", "Kafka", "Spark"], icon: <Zap /> },
-  { cat: "Dev Tooling", items: ["Jenkins", "Git", "Kibana", "SonarQube"], icon: <Database /> }
+const articlesData = [
+  {
+    id: "attention-lstm",
+    title: "May I Have Your Attention?",
+    subtitle: "LSTM, GRU and Attention Mechanisms",
+    source: "Medium",
+    published: "Dec 3, 2020",
+    readTime: "4 min read",
+    link: "https://gauravpandeyyy.medium.com/may-i-have-your-attention-94c13ac73a51",
+    coverImage: "https://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-chain.png",
+    coverAlt: "LSTM cell diagram",
+    tags: ["Deep Learning", "NLP", "LSTM", "Attention"],
+    summary:
+      "A deep dive from the original Medium post covering why plain RNNs struggle with long-term dependencies, how LSTM/GRU gating improves sequence modeling, and how attention upgrades seq2seq architectures.",
+    content: [
+      {
+        heading: "LSTM",
+        paragraphs: [
+          "Like RNNs, Long Short Term Memory is a class of deep learning model able to model temporal sequences using prior context to inform current and future prediction.",
+          "A standard RNN carries prior information through hidden state feedback, but multiplicative state updates make long-term dependencies difficult to retain and can overwrite unrelated context.",
+          "LSTMs are an upgrade over RNNs in that they were designed to upgrade the model's memory additively, and selectively using various gates.",
+          "Adding a FORGET gate: the forget gate acts upon the current input x_t and previous hidden state h_{t-1} to selectively forget information that might not be relevant to the current time step.",
+          "Maintaining a Cell State: LSTMs maintain long-term memory in the cell state so the model can preserve useful context strength across timesteps.",
+          "Adding an UPDATE gate: the update gate selectively filters and updates the cell state so only relevant information is written.",
+          "Adding an INPUT gate: the input gate selects the information from current input and previous hidden state that should be added to the cell state."
+        ],
+        figures: [
+          {
+            src: "https://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-chain.png",
+            caption: "LSTM architecture overview.",
+            source: "Understanding LSTM Networks - colah's blog"
+          }
+        ]
+      },
+      {
+        heading: "GRU",
+        paragraphs: [
+          "Gated Recurrent Units simplify LSTM by unifying input and forget behavior and replacing separate cell-state handling with hidden-state-focused updates.",
+          "In a GRU architecture, the previous hidden state is updated by selected information from a temporary state while carrying forward everything else.",
+          "Unlike LSTMs (which combine previous cell state, previous hidden state, and current input through separate gates), GRUs make fewer updates and therefore use fewer parameters.",
+          "Because of that lighter architecture, GRUs are generally faster to train with comparable performance."
+        ],
+        figures: [
+          {
+            src: "https://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-var-GRU.png",
+            caption: "GRU architecture variant.",
+            source: "Understanding LSTM Networks - colah's blog"
+          }
+        ]
+      },
+      {
+        heading: "ATTENTION - building blocks",
+        paragraphs: [
+          "The attention mechanism gained momentum in NLP encoder-decoder systems, where models like seq2seq are used for tasks such as translation and summarization.",
+          "A key drawback of classic seq2seq is that the decoder relies heavily on the final encoder output, causing information loss from earlier timesteps.",
+          "Attention modifies this by combining decoder state with all encoder hidden vectors and learning how much weight each encoder output should receive.",
+          "This dynamic weighting improves context retention and leads to significantly stronger performance across NLP benchmarks."
+        ],
+        figures: [
+          {
+            caption: "Fig 4 in the original Medium post (traditional seq2seq context bottleneck).",
+            source: "Medium original figure",
+            sourceUrl: "https://gauravpandeyyy.medium.com/may-i-have-your-attention-94c13ac73a51"
+          },
+          {
+            caption: "Fig 5 in the original Medium post (attention-enhanced seq2seq flow).",
+            source: "Medium original figure",
+            sourceUrl: "https://gauravpandeyyy.medium.com/may-i-have-your-attention-94c13ac73a51"
+          }
+        ],
+      },
+      {
+        heading: "Original article notes",
+        paragraphs: [
+          "The original post also labels intermediate diagrams as Fig 4 and Fig 5 while discussing where context compression fails and how attention resolves that issue.",
+          "If a specific Medium-hosted image URL fails to load in future, the section still keeps the full textual explanation so readers do not lose continuity."
+        ]
+      }
+    ]
+  },
+  {
+    id: "redis-security",
+    title: "Security Analysis for In-Memory NoSQL Database (Redis)",
+    subtitle: "Research paper on Redis threat modeling and hardening",
+    source: "CMU Research Report",
+    published: "2026",
+    readTime: "Long-form paper",
+    paperMeta: {
+      title: "Security Analysis for in-memory NoSQL Database (Redis)",
+      author: "Gaurav Pandey",
+      affiliation: "Carnegie Mellon University, Heinz College, Pittsburgh, PA",
+      email: "gauravpa@andrew.cmu.edu"
+    },
+    tags: ["Redis", "Security", "NoSQL", "Threat Modeling"],
+    summary:
+      "Full text from the final report, including all core sections and references.",
+    fullText: `Abstract— This paper provides a comprehensive security
+analysis of Redis, a leading in-memory NoSQL database initially
+designed to operate within trusted networks. This foundational
+assumption created security challenges as its adoption expanded
+to public deployments. The analysis traces the evolution of Redis's
+security model, from its early reliance on a simple optional
+password to the introduction of modern features like Protected
+Mode, Transport Layer Security (TLS), and granular Access
+Control Lists (ACLs) in later versions.
+The paper performs a deep dive into significant historical and
+modern threats, including large-scale ransomware attacks, Lua
+script injection vulnerabilities, and Denial of Service (DoS)
+exploits. A comparative analysis with traditional Relational
+Database Management Systems (RDBMS) is presented,
+contrasting their approaches to authentication, encryption, and
+auditing. Finally, the paper evaluates the performance impact of
+enabling key security features and concludes by recommending a
+multi-layered security strategy encompassing network,
+configuration, and application-level best practices to harden Redis
+deployments effectively.
+Keywords—Redis, NoSQL Security, In-memory Database,
+Vulnerability Analysis, Threat Modeling, Access Control List (ACL),
+Performance analysis
+I. INTRODUCTION
+The growth of internet usage has led to many database
+implementations to cater to specific application needs.
+Traditionally, relational databases dominated the market as the
+prevalent choice for database. These offered higher consistency
+but had rigid schema and had issues with scalability. With the
+introduction of MongoDB, Redis and other NoSQL databases in
+2009, there has been a dramatic shift towards their utilization for
+specific applications.
+Among these new highly scalable databases, Redis is a
+leader for in memory key value-based data storage. With its
+preference for lower latency, it quickly became a component to
+existing database implementation offering high speed caching
+and improving read throughput of the data. Initially designed to
+run on trusted networks only, it did not offer many security
+features. As the adoption of Redis has increased and the database
+has become more mature with public deployments, this initial
+security assumption has posed certain challenges in its
+development lifecycle.
+This paper aims to provide a comprehensive security
+analysis of Redis. It begins by establishing foundational
+understanding of the core architecture and persistence
+mechanism. It then brings into the discussion the various
+security features available today such as Access Control Lists
+(ACL) and TLS encryption. Subsequently, the paper performs a
+deep dive into the most known threats like injection
+vulnerabilities and Denial of Service (DoS) exploits. After a
+security-based comparison to relational databases the paper
+concludes by recommending security enhancements and the
+performance impact of introducing them.
+II. BACKGROUND
+Redis, which stands for REmote DIctionary Server, is an
+open-source key-value-based NoSQL data structure which
+utilizes in-memory operations to provide extremely high
+throughput and lower latency by keeping the primary data in
+Random Access Memory (RAM). Therefore, instead of storing
+and operating on slower persistent disk storages, Redis opts for
+extremely fast RAM.
+Architecturally, Redis runs on a single-threaded model. This
+simplifies the development process and helps avoid any
+performance disruption due to constant context switching. This
+also means it is easier for some long-running commands to block
+the complete server and therefore makes it vulnerable to Denial
+of Service attacks.
+It ensures durability using two persistent storage options,
+namely, Append Only File (AOF) logging, which logs write
+operations that the server receives and RDB snapshots, which
+are point-in-time dumps of the dataset.
+RDB allows faster restarts with big datasets compared to
+AOF and an excellent option as its a single small file-based
+option to store backups every hour, days. These backups can be
+used to restore the database back to the previous condition. But
+it should be noted that in this case of disaster recovery it can only
+be moved back to a previous version and intermediate data after
+the backup was created won’t be restored.
+AOF makes Redis far more durable as it allows different
+sync options like every second, every query and the performance
+is not affected in some configurations as it runs on a background
+thread without impacting the main thread. The AOF log is an
+append only file [17] and is usually bigger when compared to
+RDB snapshots.
+III. EVOLUTION OF REDIS SECURITY MODEL
+This section provides a brief overview of the different phases
+of security layer Redis development has progressed. (More will
+be discussed in the later sections) When Redis was first
+
+-- 1 of 6 --
+
+introduced in 2009, it was under the direct assumption that it will
+only be run on trusted and protected local networks. From Redis
+1.0 – 5.0, it had only a basic username password based
+authentication system. This too was an optional feature which
+allowed the transmission of such data using simple text.
+This demonstrates the lack of focus for security during the
+early years of Redis due to their assumption of running it on a
+secured network layer.
+Following the phase 1, Redis introduced protected mode in
+version 3.2 onwards. This was done to prevent hackers from
+gaining read/write access to Redis database with no password
+setup.
+During the phase 3, Redis has introduced multiple security
+features like Access Control Lists (ACL) to manage role based
+access to database and configure it as well as other features like
+SSL/TLS Encryption.
+IV. REDIS SECURITY MODEL AND PRACTICES
+The classic Redis model is unique from other NoSQL
+databases as it is reliant on a trusted network that is not
+accessible to the public internet to reduce the likelihood of
+unauthorized access. [1] Since Redis 1.0 launched in 2009 there
+have been many improvements done to allow Redis 6.0+ to run
+on public internet
+Some of the ways that the Redis documentation discusses
+security enforcement are:
+A. Deployment Security
+Applications using older versions of Redis (1.0 – 5.0) should
+note that the original Redis implementation was designed to
+utilize trusted network as the database security level. Apart from
+that, client-side encryption although extremely popular, comes
+with issues pertaining to lack of features like searching,
+increment and comparisons.
+It is also advised to maintain adequate Reboot schedules
+while ensuring enough cluster to maintain functionality to not
+break the write/read quorum.
+B. Cluster Security
+[2] Cluster access permits operation related to performance
+management like creation of databases and visualization of
+statistics. Database access on the other hand only permits
+actions related to data (read/write to DB)
+Redis 6.0, introduced Access Control mechanism and it is
+highly recommended to activate Redis support for role-based
+LDAP (Lightweight Directory Access Protocol) authentication
+use so that database users don’t have access to the cluster.
+C. Database Security
+In the native implementation of Redis it allows a default
+user. This user has the access to database by only specifying
+shared secret. This was done for Enterprise application prior to
+6 therefore if your application uses latest then it is recommended
+to deactivate default user.
+V. THREAT MODELING AND MODERN ATTACKS
+The massive popularity of Redis has created some issues in
+real-world deployments without trusted networks/
+misconfigurations. These can be classified in three categories
+being the large-scale ransomware attack on Redis, exploits for
+application-level injection and denial of service attacks.
+A. Historical largescale Ransomware attack
+One of the major security flaws of Redis is discussed in the paper
+[12] by Anastasija. As discussed earlier, Redis provided no
+default Authentication. This was done to prioritize performance
+as resolving passwords adds latency to each operation. Also,
+although Redis was designed for trusted networks only, in
+execution, people failed to protect it and exposed the database to
+all incoming Ip request.
+These exposed, unprotected databases become the inevitable
+target of ransomware attacks with the help of Shodan. (Shodan
+is a search engine to look up various types of servers [13]).
+Attackers were able to find a list of IP addresses that were
+responding to 6379 port (Default configuration for Redis). With
+the complete access to the databases, they were able to delete the
+entire database and even leave ransom notes in the form of
+bitcoin addresses.
+This affected more than 75% of open Redis servers [14]
+The fix was simple. The blog written by the primary creator
+of Redis (Salvatore Sanfilippo) mentions behind the rationale
+for introducing it. “The idea of protected mode is to listen to
+every address, but if the connection is not local, the server
+replies with an error explaining why it is not working as
+expected” [15]
+This approach has two advantages. Firstly, it brings
+transparency to the user on how to fix the problem and secondly,
+informs the user of the implications of disabling protected mode.
+B. Lua Scripting Insights
+Redis introduced Lua scripting [18] to allow local
+processing of commands. It provided an option to change the
+overall latency to execute some commands due to the local
+nature of execution.
+However, the database is not executing therefore it is meant
+only for proven commands which can save on latency.
+Although a beneficial feature, it allows server level injection
+through application. For example, if a hacker updates the Redis
+database query to be request by application by appending user
+input into that. Then they can run commands directly on the
+database without any access control.
+Therefore, the key to secure database lies with the
+application layer. A poor implementation of application-level
+code can make the database severely vulnerable to such attacks.
+The same was pointed out by Redis in 2024 in their vulnerability
+report [CVE-2024-31449] [19] that lua scripting can be used
+by an authenticated user to achieve remote control execution of
+the database. This vulnerability was tagged high with a score of
+7/10.
+To avoid such situations Redis suggests to firstly restrict
+network access to limited authorized users and utilize techniques
+
+-- 2 of 6 --
+
+like firewalls as well as network level policies. Secondly, to use
+credentials for all parts of the database and lastly to limit only
+very limited users to run Lua scripts.
+C. Denial of service (DOS) attacks
+A high vulnerability to availability of a database is a DOS
+attack. In simple terms it means that a hacker tries to overload
+the servers with garbage, unwanted requests to the point that the
+server shuts down or makes it unavailable to public requests due
+to it handling these.
+The following vulnerability as discussed in [22] was
+addressed in 2025. The vulnerability allowed an unauthorized
+user to make the database unavailable to public requests. This
+could happen as in the default configuration Redis does not limit
+the output buffer for a user. This leads to possible unlimited size
+of this buffer leading to the service being down.
+The specific case where this was possible was when
+password authentication is enabled and the user sends a request
+with no password. In normal cases this will return NOAUTH as
+intended. But in case, the same command was run countless
+times then it would lead to the buffer being full eventually and
+the database becoming unavailable. Fortunately, this was fixed,
+and it does not exist in any version above 2.6. Although this was
+fixed, the recency of such a big security threat is noteworthy.
+VI. COMPARATIVE SECURITY ANALYSIS: NOSQL VS.
+RDBMS
+As mentioned in [5], big data applications are more
+vulnerable to injection attacks. They provide a weak default
+security layer and thus it is instead dependent on factors like
+database administration and application-level security [6].
+With scalability and high throughput in mind, Redis has the
+priority for performance and is therefore not very well optimized
+for enhanced security. [7] It also lacks support for auditing and
+nefarious attacks can insert data into Redis [8]
+A. Data Encryption
+“While the relational database encryption is significantly
+robust and mature, encryption is the weakest feature in NoSQL
+databases” Since Redis does not support encryption by default,
+all the data being stored and transmitted has no encryption (till
+5.0) and is prone to misuse.
+With no built-in encryption in Redis, the Append Only File
+logs and RDB snapshots are protected through application-level
+security. Although client-side encryption is possible it becomes a
+lackluster option to the disadvantages like some Redis commands
+not working when enabled.
+B. Authentication
+[9] Authentication is the process of validating user’s identity.
+RDBMS is a mature system with specific role-based Access
+Control which allow it to have roles for SELECT, UPDATE,
+INSERT, DELETE commands and therefore gives freedom to
+setup the principle of least privilege.
+Redis on the other hand only had an optional password
+option till 5.0. This was also shared across the complete server
+and was transmitted in unencrypted text. But the security
+features in Redis have been evolving with increased versions.
+The introduction of ACL in 6.0 makes it possible to have the
+similar level of security that relational databases offer. It allows
+for multiple individuals to have permissions and to allow/reject
+based on a pattern. The Redis implementation is still not that
+granular when compared to relational databases.
+In NoSQL databases there is no option to allow access to
+only specific distributed system. [6] Therefore, when a user is
+accessing one part of the system, they have access to the entire
+cluster nodes. This makes them far more vulnerable to attacks.
+Even the ACL that was introduced in Redis 6.0 version, it is far
+less granular than the RDBMS implementation.
+C. Auditing
+According to Oracle [12] Auditing is the monitoring and
+recording of configured database actions, from both database
+users and non-database users. Although all major relational
+database systems support auditing, most non-relational
+databases like Redis don’t support it. This is a crucial feature
+which Redis and other NoSQL databases lack.
+Relational databases have built-in capabilities for auditing.
+They can be utilized for the creation of extremely detailed set of
+logs for both success and failure scenarios. Apart from that log
+entry is also possible for any modifications to the data,
+enhancements to schema and changes in the role-based security.
+As is evident, relational databases cover all areas when it comes
+to auditing and logs.
+Redis on the other hand does not have any built-in auditing
+features. Instead of using the database for logs, the core
+responsibility lies in the hands of the application developer.
+There is a work around to use MONITOR command but it is
+generally not usable due to it's performance impact. With that
+said, “slow log” in MONITOR can be used to identify the
+commands which take more time to run.
+D. Injection Vulnerabilities
+In this case both Redis and relational databases are
+susceptible to injection attacks.
+[40] For relational databases the most common vulnerability
+is SQL Injection. This can allow a person to circumvent the
+authorization setup and allow to run sql commands on the server.
+But due to the fixed schema there are ways to update queries to
+prevent against such threats.
+As Redis does not support SQL, it is not prone to SQL
+injection but instead to script injection through Lua scripts.
+VII. RECOMMENDED SECURITY ENHANCEMENTS
+As is evident from the discussion in previous sections, a
+strong and well thought security is paramount with a Redis
+deployment and multiple areas need to be carefully analyzed to
+ensure its safe from all the vulnerabilities. We cannot rely just
+
+-- 3 of 6 --
+
+about application-level security to maintain high availability.
+These practices are crucial to successfully run Redis in
+production setting to prevent it from internal as well as external
+threats. [33]
+A. Network level Security
+This is the layer that Redis expects to be the most robust and
+should allow only authorized users and actions to be sent to the
+database.
+Firstly, to limit IP Using “bind” in Redis.conf file, we can
+limit the IP addresses that the database should listen to. In case
+the client application runs on the same network as the Redis
+server then using bind 127.0.0.1 -::1 for bind is the safest option.
+On the other hand, in case of distributed systems, we should bind
+Redis to main servers location (IP) and also ensure that it's not
+accessible to the public. [27]
+Secondly, by implementing a default deny policy on usual
+TCP ports (6379) and enabling only specific IP address for
+incoming requests.
+Lastly, since earlier versions of Redis lacked encryption, we
+can introduce encryption at the network level. By using Redis 6.0 or
+later we can utilize the native TLS level encryption that Redis
+provides. [27]
+B. Operating System level Security
+In order to maintain the Principle of Least Privilege (POLP)
+the Redis should not be executed as the root user. The database
+administrator should make an unprivileged user only for Redis
+executions which should not have access to shell.
+The Redis database is configured using Redis.conf file and
+it is important to keep this safe. Therefore, there should be
+specific permissions that allow only root users to access the
+configuration file. [32]
+C. Configuration Security
+For authentication on per query level make sure to enable
+“requirepass” which makes the “AUTH” command available.
+Keeping this turned on will significantly improve in protection
+based brute force attacks. [3]
+Apart from authentication, following Access Control
+Lists(ACL) practices which were introduced in Redis 6.0 and
+later for user level roles assignment is advisable.
+Some commands can be renamed which can be dangerous if
+run by unauthorized users. For example, FLUSHALL command
+can erase entire data.
+As discussed in earlier section, Redis was susceptible to out
+of memory type Denial Of Service attacks. Using
+“maxmemory” we can set the threshold memory and associated
+it to some task.
+D. Encryption
+Apart from using TLS Encryption for the network layer we
+can also enforce simple encryption to further improve security.
+LUKS is a tool which can be used for file level encryption for
+linux and Amazon has AWS EBS Encryption in order to do the
+same. [23]
+Client-side encryption can also be implemented by
+encrypting request being sent over by the client.
+E. Securing Architecture
+[25] Redis Sentinel is a distributed system which actively
+monitors the status of its instances. It is advised to keep the
+external port of Sentinel behind a firewall.
+In a Redis Cluster based setup, its TCP port acts as the
+middle ground for various important exchanges. Therefore,
+according to the Redis cluster guide documentation, TLS is
+highly recommended (version 6.0+)
+F. Application level security and Auditing
+As covered in before, Redis lacks a robust Auditing system.
+“slowlog-log-slower-than” can be used to note commands
+which are taking longer than the expected time and therefore
+find performance bottlenecks and also possibly detect DOS
+attacks.
+VIII. PERFORMANCE ANALYSIS OF SECURITY FEATURES
+Although the previous section discusses security practices for
+different scenarios, it is important to know the performance
+impact associated with each feature to make an informed
+decision.
+A. Transport Layer Security
+Using TLS we can encrypt network level traffic from the
+server to client and vice versa. But, the continuous encryption and decryption as well
+as the initial connection establishment adds in incremental
+computational cost. [34]
+Benchmarking research on TLS Protocol found that [35] the
+selection criteria of particular encryption/decryption technique
+can have major implications on performance.
+
+-- 4 of 6 --
+
+B. Access Control Lists (ACLs)
+The introduction of ACL in 6.0 was an improvement on the
+password-based model used earlier. But this came with defined drawback
+in performance.
+Each and every command that is executed by the client must
+pass through the defined ACLs to validate if the said request is
+allowed to perform the action or not.
+C. Append Only File (AOF) Fsync Policies
+AOF is an interesting feature that helps to improve the data
+durability of Redis with the help of logging database states at
+frequent intervals. Redis offers multiple configurations in
+“appendfsync” command.
+No: fastest mode, highest loss risk.
+everysec: practical middle ground.
+always: strongest durability with significant performance overhead.
+IX. CONCLUSION
+The paper provides a comprehensive security analysis of
+Redis and covers its growth from initial tool designed only for
+trusted networks to being actively deployed on public facing
+networks. The initial philosophy which prioritized performance
+over security led to vulnerabilities including large-scale
+ransomware attacks.
+The analysis concludes that Redis security is weaker on a
+public network when compared to RDBMS but that is because
+it was intended to be run on trusted networks only. Through
+iteration, many of its original flaws have been fixed. Protected
+mode and ACL introduced in Redis 6.0 makes it closer to
+relational databases.
+X. FUTURE WORK
+After the discussions presented in this paper, there are
+several future research options that could enhance the
+application of Redis Security.
+Firstly, while the paper discusses the performance impact of
+security features, a further quantitative study can be performed.
+Second, since Redis does not have built-in auditing support,
+research could be done towards developing an open-source tool
+to scan available Redis deployments and look for
+misconfigurations.
+Thirdly, a comparison based study for the different cloud
+hosted Redis services like AWS ElastiCache, Google Cloud
+Memorystore and Azure Cache for Redis would be insightful.
+Fourth, a particular threat model for Kubernetes based
+environments can be established.
+Lastly, future research could investigate the security
+implications of Redis in Artificial Intelligence and ML
+pipelines.
+REFERENCES
+[1] https://Redis.io/docs/latest/operate/rs/security/recommended-security-practices/
+[2] https://Redis.io/docs/latest/operate/rs/security/access-control/
+[3] https://goteleport.com/blog/secure-Redis/
+[4] A Comparative Study Of NoSQL System Vulnerabilities With Big Data
+[5] https://Redis.io/compare/elasticache/
+[6] Cobb, M. NoSQL security: Do NoSQL database security features stack up to RDBMS?
+[7] Noiumkar P. and Chomsiri T., A Comparison the Level of Security on Top 5 Open Source NoSQLDatabases.
+[8] Dadapeer, Indravasan, N. and G. A Survey on Security of NoSQL Databases.
+[9] Farik, Mohammed & Lal, Nilesh & Prasad, Shalendra. A Review Of Authentication Methods.
+[10] https://www.getastra.com/blog/security-audit/security-audits/
+[11] https://docs.oracle.com/en/database/oracle/oracle-database/18/dbseg/introduction-to-auditing.html
+[12] NoSQL security: can my data-driven decision-making be affected from outside?
+[13] https://en.wikipedia.org/wiki/Shodan_(website)
+[14] https://www.imperva.com/blog/archive/new-research-shows-75-of-open-Redis-servers-infected/
+[15] https://antirez.com/news/118
+[16] https://Redis.io/docs/latest/operate/oss_and_stack/management/persistence/
+[17] Nikiforova, A., Daskevics, A., & Azeroual, O. (2020).
+[18] https://Redis.io/docs/latest/develop/programmability/eval-intro/
+[19] https://Redis.io/blog/security-advisory-cve-2024-31449-cve-2024-31227-cve-2024-31228/
+[20] Warzecha, P., & Toman, P. (2021). NoSQL Injection.
+[21] Manadhata, P. K., & Wing, J. M. (2011). An Attack Surface Metric.
+[22] https://nvd.nist.gov/vuln/detail/CVE-2025-21605
+[23] Amazon Web Services. (2025). At-rest encryption for Amazon ElastiCache.
+[24] Redis.io. Access Control List documentation.
+[25] Redis.io. High availability with Redis Sentinel.
+[26] Redis.io. Redis Cluster specification.
+[27] Redis.io. Redis Security documentation.
+[28] Redis.io. Using Redis as an LRU cache.
+[29] Redis.io. Encryption in Redis Enterprise Software.
+[30] Saltzer, J. H., & Schroeder, M. D. (1975). The Protection of Information in Computer Systems.
+[31] Snyk.io. (2024). 10 Redis security best practices.
+[32] Yildiz, O. (2024). Mastering Redis Security.
+[33] https://Redis.io/docs/latest/operate/oss_and_stack/management/security/
+[34] Probabilistic Data Structures in the Wild: A Security Analysis of Redis.
+[35] TLS Protocol Analysis Using IoTST.
+[36] https://learn.microsoft.com/en-us/azure/Redis/best-practices-performance
+[37] Understanding Redis Persistence: RDB vs. AOF.
+[38] https://moldstud.com/articles/p-in-depth-comparison-of-Redis-persistence-mechanisms-exploring-rdb-aof-and-hybrid-approaches
+[39] https://betterstack.com/community/questions/how-to-log-all-or-slow-Redis-queries/
+[40] L. Ma, D. Zhao, Y. Gao and C. Zhao, Research on SQL Injection Attack and Prevention Technology.`,
+    content: []
+  }
 ];
 
 const recommendationsData = [
@@ -911,7 +1512,7 @@ const BrainReactor = React.memo(({ active }) => (
 // --- RESUME DOWNLOAD COMPONENT ---
 // Simple button that opens the resume Google Drive link directly
 const ResumeDownloadButton = React.memo(() => {
-  const resumeLink = "https://drive.google.com/file/d/1lBFFDaMsckyL3M77AIsW0sZDdnfGB5eW/view?usp=sharing";
+  const resumeLink = "https://drive.google.com/file/d/1H8ZTNXFufDtUX8RLPM-vY65j8p47s6Sw/view?usp=sharing";
 
   return (
     <a
@@ -1142,24 +1743,32 @@ const ProjectsSection = React.memo(({ isDarkMode }) => {
                 }`}>{p.title}</h3>
                 <p className={`text-base leading-relaxed mb-8 font-medium ${
                   isDarkMode ? 'text-slate-400' : 'text-slate-600'
-                }`}>{p.desc}</p>
+                }`} style={{ whiteSpace: 'pre-line' }}>{p.desc}</p>
                 
                 {/* Dynamic Footer: Tech Brief or Explicit Link */}
                 <div className={`mt-auto pt-6 border-t flex items-center justify-between ${
                   isDarkMode ? 'border-white/5' : 'border-slate-200/50'
                 }`}>
-                  {p.link ? (
-                    <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-[var(--theme-primary)] group-hover/card:underline">
-                      View Project <ExternalLink size={14} />
-                    </div>
+                  {p.hideCta ? (
+                    <span className={`text-[10px] font-black uppercase tracking-[0.3em] ${
+                      isDarkMode ? 'text-slate-600' : 'text-slate-500'
+                    }`}>-</span>
                   ) : (
-                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[var(--theme-primary)]">View Details</span>
+                    <>
+                      {p.link ? (
+                        <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-[var(--theme-primary)] group-hover/card:underline">
+                          View Project <ExternalLink size={14} />
+                        </div>
+                      ) : (
+                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[var(--theme-primary)]">View Details</span>
+                      )}
+                      <ArrowUpRight className={`transition-all ${p.link ? 'group-hover/card:translate-x-1 group-hover/card:-translate-y-1' : ''} ${
+                        isDarkMode 
+                          ? 'text-slate-600 group-hover:text-white' 
+                          : 'text-slate-500 group-hover:text-slate-900'
+                      }`} size={18} />
+                    </>
                   )}
-                  <ArrowUpRight className={`transition-all ${p.link ? 'group-hover/card:translate-x-1 group-hover/card:-translate-y-1' : ''} ${
-                    isDarkMode 
-                      ? 'text-slate-600 group-hover:text-white' 
-                      : 'text-slate-500 group-hover:text-slate-900'
-                  }`} size={18} />
                 </div>
               </div>
             </CardTag>
@@ -1424,63 +2033,479 @@ const EducationSection = React.memo(({ isDarkMode }) => {
   );
 });
 
-const SkillsSection = React.memo(({ isDarkMode }) => (
-  <section id="skills" className="py-32 px-6">
-    <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_2fr] gap-20">
-      <div className="reveal">
-        <h2 className={`text-6xl font-black tracking-tighter uppercase leading-none mb-10 italic ${
+const ArticlesSection = React.memo(({ isDarkMode, onOpenArticle }) => (
+  <section id="articles" className="py-32 px-6">
+    <div className="max-w-7xl mx-auto">
+      <div className="text-center mb-14 reveal">
+        <h2 className={`text-4xl md:text-6xl font-black tracking-tighter uppercase mb-5 ${
           isDarkMode ? 'text-white' : 'text-slate-900'
-        }`}>Core <br />Stack<span className="text-[var(--theme-primary)]">.</span></h2>
-        <div className="space-y-6">
-           <p className={`text-lg font-medium leading-relaxed ${
-             isDarkMode ? 'text-slate-400' : 'text-slate-600'
-           }`}>A specialized toolkit for cloud architecture and high-load backend optimization.</p>
-           <div className={`flex items-center gap-4 p-6 border rounded-[2rem] group transition-colors ${
-             isDarkMode 
-               ? 'bg-white/5 border-white/5 hover:bg-white/10' 
-               : 'bg-white/60 border-slate-200/50 hover:bg-white/80'
-           }`}>
-             <Award className="text-[var(--theme-primary)]" size={32} />
-             <div>
-               <div className={`text-xs font-black uppercase tracking-widest mb-1 ${
-                 isDarkMode ? 'text-slate-300' : 'text-slate-700'
-               }`}>Top Honors</div>
-               <div className={`text-sm font-bold ${
-                 isDarkMode ? 'text-slate-500' : 'text-slate-600'
-               }`}>Runner-up @ Google Cloud Sprint</div>
-             </div>
-           </div>
-        </div>
+        }`}>
+          Articles<span className="text-[var(--theme-primary)]">.</span>
+        </h2>
+        <p className={`text-sm md:text-base font-medium max-w-3xl mx-auto ${
+          isDarkMode ? 'text-slate-400' : 'text-slate-600'
+        }`}>
+          Two long-form pieces from my writing journey - one on sequence models and attention, and one research-style security analysis on Redis deployments.
+        </p>
       </div>
-      <div className="grid grid-cols-2 gap-6 reveal">
-        {skillsData.map((s, i) => {
-          const categoryName = s.cat || Object.keys(s)[0];
-          const items = s.items || Object.values(s)[0];
-          return (
-          <div key={i} className={`p-8 border rounded-[2rem] group transition-all hover:translate-y-[-4px] ${
-            isDarkMode 
-              ? 'bg-white/[0.03] border-white/5 hover:border-white/20' 
-              : 'bg-white/60 border-slate-200/50 hover:border-slate-300/70'
-          }`}>
-            <div className="flex items-center gap-3 md:gap-4 mb-6">
-              <div className="text-[var(--theme-primary)] group-hover:scale-110 transition-transform flex-shrink-0">{React.cloneElement(s.icon, { size: 24 })}</div>
-              <h4 className={`text-[10px] md:text-xs font-black uppercase tracking-[0.1em] md:tracking-[0.2em] break-words leading-tight ${
+
+      <div className="grid lg:grid-cols-2 gap-8 reveal">
+        {[...articlesData]
+          .sort((a, b) => {
+            if (a.id === 'redis-security') return -1;
+            if (b.id === 'redis-security') return 1;
+            return 0;
+          })
+          .map((article) => (
+          <button
+            key={article.id}
+            type="button"
+            onClick={() => onOpenArticle(article)}
+            className={`group text-left p-0 rounded-[2rem] border overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_50px_-20px_rgba(var(--theme-glow),0.5)] ${
+              isDarkMode
+                ? 'bg-white/[0.03] border-white/10 hover:border-white/25'
+                : 'bg-white/80 border-slate-200/60 hover:border-slate-300/80'
+            }`}
+          >
+            {article.coverImage ? (
+              <div className="h-56 overflow-hidden relative">
+                <img
+                  src={article.coverImage}
+                  alt={article.coverAlt || article.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/90">{article.source}</span>
+                  <ArrowUpRight size={18} className="text-white/90" />
+                </div>
+              </div>
+            ) : (
+              <div className={`h-40 relative overflow-hidden ${
+                isDarkMode ? 'bg-slate-900' : 'bg-slate-100'
+              }`}>
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(var(--theme-glow),0.5),transparent_60%)]" />
+                <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(var(--theme-glow),0.35),transparent_55%)]" />
+                <div className="relative h-full px-6 py-5 flex items-end justify-between">
+                  <div className={`inline-flex items-center gap-2 rounded-full px-3 py-1 border ${
+                    isDarkMode ? 'border-white/15 bg-white/5' : 'border-slate-300/70 bg-white/80'
+                  }`}>
+                    <FileText size={13} className="text-[var(--theme-primary)]" />
+                    <span className={`text-[10px] font-black uppercase tracking-[0.14em] ${
+                      isDarkMode ? 'text-slate-300' : 'text-slate-700'
+                    }`}>
+                      Research Paper
+                    </span>
+                  </div>
+                  <ArrowUpRight size={18} className={isDarkMode ? 'text-slate-300' : 'text-slate-700'} />
+                </div>
+              </div>
+            )}
+
+            <div className="p-7 md:p-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className={`p-2 rounded-xl ${
+                  isDarkMode ? 'bg-white/10' : 'bg-[var(--theme-primary)]/10'
+                }`}>
+                  <FileText size={16} className="text-[var(--theme-primary)]" />
+                </div>
+                <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${
+                  isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                }`}>
+                  {article.published} - {article.readTime}
+                </span>
+              </div>
+
+              <h3 className={`text-2xl md:text-3xl font-black tracking-tight mb-2 leading-tight ${
                 isDarkMode ? 'text-white' : 'text-slate-900'
-              }`}>{categoryName}</h4>
+              }`}>
+                {article.title}
+              </h3>
+              <p className={`text-sm font-semibold mb-4 ${
+                isDarkMode ? 'text-[var(--theme-primary)]' : 'text-[var(--theme-primary)]'
+              }`}>
+                {article.subtitle}
+              </p>
+              <p className={`text-sm leading-relaxed mb-5 ${
+                isDarkMode ? 'text-slate-300' : 'text-slate-700'
+              }`}>
+                {article.summary}
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {article.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className={`text-[10px] font-bold px-3 py-1 rounded-full border ${
+                      isDarkMode
+                        ? 'text-slate-300 border-white/15 bg-white/5'
+                        : 'text-slate-700 border-slate-300/70 bg-white/80'
+                    }`}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
-            <div className="flex flex-wrap gap-x-4 gap-y-2">
-              {items.map(item => <span key={item} className={`text-xs font-bold transition-colors cursor-default ${
-                isDarkMode 
-                  ? 'text-slate-500 hover:text-white' 
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}>{item}</span>)}
-            </div>
-          </div>
-        )})}
+          </button>
+        ))}
       </div>
     </div>
   </section>
 ));
+
+const ArticleReaderOverlay = React.memo(({ article, isDarkMode, onClose }) => {
+  if (!article) return null;
+  const isPaperMode = Boolean(article.paperMeta && article.fullText);
+
+  const paperBlocks = React.useMemo(() => {
+    if (!article.fullText) return [];
+
+    const lines = article.fullText.split('\n');
+    const blocks = [];
+    let paragraphBuffer = [];
+
+    const flushParagraph = () => {
+      if (!paragraphBuffer.length) return;
+      blocks.push({ type: 'paragraph', text: paragraphBuffer.join(' ').replace(/\s+/g, ' ').trim() });
+      paragraphBuffer = [];
+    };
+
+    lines.forEach((rawLine) => {
+      const line = rawLine.trim().replace(/\t+/g, ' ');
+
+      if (!line) {
+        flushParagraph();
+        blocks.push({ type: 'spacer' });
+        return;
+      }
+
+      const isMainHeading = /^[IVX]+\.\s/.test(line) || line === "REFERENCES";
+      const isSubHeading = /^[A-Z]\.\s/.test(line);
+      const isPageMarker = /^--\s\d+\sof\s\d+\s--$/.test(line);
+      const isReference = /^\[\d+\]/.test(line);
+      const isBullet = /^[-•]\s/.test(line);
+      const isSpecialStandalone =
+        line.startsWith("Abstract—") ||
+        line.startsWith("Keywords—") ||
+        line.startsWith("No:") ||
+        line.startsWith("everysec:") ||
+        line.startsWith("always:");
+
+      if (isPageMarker || isMainHeading || isSubHeading || isReference || isBullet || isSpecialStandalone) {
+        flushParagraph();
+        blocks.push({
+          type: isPageMarker
+            ? 'page'
+            : isMainHeading
+              ? 'mainHeading'
+              : isSubHeading
+                ? 'subHeading'
+                : isReference
+                  ? 'reference'
+                  : isBullet
+                    ? 'bullet'
+                    : 'line',
+          text: line
+        });
+        return;
+      }
+
+      paragraphBuffer.push(line);
+    });
+
+    flushParagraph();
+    return blocks;
+  }, [article.fullText]);
+
+  const renderPaperLine = (line, index) => {
+    const trimmed = line.trim();
+    if (!trimmed) return <div key={`sp-${index}`} className="h-4" />;
+
+    const isMainHeading = /^[IVX]+\.\s/.test(trimmed) || trimmed === "REFERENCES";
+    const isSubHeading = /^[A-Z]\.\s/.test(trimmed);
+    const isPageMarker = /^--\s\d+\sof\s\d+\s--$/.test(trimmed);
+
+    return (
+      <p
+        key={`ln-${index}`}
+        className={`whitespace-pre-wrap ${
+          isPageMarker
+            ? isDarkMode
+              ? 'text-slate-500 text-xs text-center'
+              : 'text-slate-500 text-xs text-center'
+            : isMainHeading
+              ? isDarkMode
+                ? 'text-white font-black text-base mt-5 mb-2'
+                : 'text-slate-900 font-black text-base mt-5 mb-2'
+              : isSubHeading
+                ? isDarkMode
+                  ? 'text-slate-100 font-bold text-sm mt-3 mb-1'
+                  : 'text-slate-900 font-bold text-sm mt-3 mb-1'
+                : isDarkMode
+                  ? 'text-slate-300 text-sm md:text-[15px] leading-relaxed'
+                  : 'text-slate-700 text-sm md:text-[15px] leading-relaxed'
+        }`}
+      >
+        {line}
+      </p>
+    );
+  };
+
+  return (
+    <div
+      className={`fixed inset-0 z-[95] flex items-center justify-center p-3 md:p-6 backdrop-blur-sm ${
+        isDarkMode ? 'bg-black/70' : 'bg-slate-900/45'
+      }`}
+    >
+      <div className="absolute inset-0" onClick={onClose} />
+      <div
+        className={`relative w-full max-w-5xl max-h-[92vh] rounded-[2rem] border overflow-hidden ${
+          isDarkMode
+            ? 'bg-[#0a0a0f]/95 border-white/10'
+            : 'bg-white/95 border-slate-200/80'
+        }`}
+      >
+        <div className={`px-6 md:px-8 py-5 border-b flex items-start justify-between gap-4 ${
+          isDarkMode ? 'border-white/10' : 'border-slate-200/80'
+        }`}>
+          <div>
+            <p className={`text-[10px] font-black uppercase tracking-[0.2em] mb-2 ${
+              isDarkMode ? 'text-slate-400' : 'text-slate-600'
+            }`}>
+              {article.source} - {article.published}
+            </p>
+            {!isPaperMode && (
+              <>
+                <h3 className={`text-2xl md:text-3xl font-black tracking-tight ${
+                  isDarkMode ? 'text-white' : 'text-slate-900'
+                }`}>
+                  {article.title}
+                </h3>
+                <p className={`text-sm mt-1 font-semibold ${
+                  isDarkMode ? 'text-[var(--theme-primary)]' : 'text-[var(--theme-primary)]'
+                }`}>
+                  {article.subtitle}
+                </p>
+              </>
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className={`p-2 rounded-full transition-colors ${
+              isDarkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'
+            }`}
+            aria-label="Close article"
+          >
+            <X size={20} className={isDarkMode ? 'text-slate-300' : 'text-slate-700'} />
+          </button>
+        </div>
+
+        <div className="overflow-y-auto max-h-[calc(92vh-96px)] px-6 md:px-8 py-6 md:py-7">
+          {article.coverImage && (
+            <div className="mb-6 rounded-2xl overflow-hidden border border-white/10">
+              <img
+                src={article.coverImage}
+                alt={article.coverAlt || article.title}
+                className="w-full h-auto object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          )}
+
+          {!isPaperMode && (
+            <p className={`text-base leading-relaxed mb-7 ${
+              isDarkMode ? 'text-slate-300' : 'text-slate-700'
+            }`}>
+              {article.summary}
+            </p>
+          )}
+
+          {article.fullText ? (
+            <div className="space-y-0">
+              {article.paperMeta && (
+                <div className="mb-8 text-center">
+                  <h4 className={`text-xl md:text-2xl font-black tracking-tight ${
+                    isDarkMode ? 'text-white' : 'text-slate-900'
+                  }`}>
+                    {article.paperMeta.title}
+                  </h4>
+                  <p className={`mt-3 text-base font-bold ${
+                    isDarkMode ? 'text-slate-200' : 'text-slate-800'
+                  }`}>
+                    {article.paperMeta.author}
+                  </p>
+                  <p className={`text-sm ${
+                    isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                  }`}>
+                    {article.paperMeta.affiliation}
+                  </p>
+                  <p className={`text-sm ${
+                    isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                  }`}>
+                    {article.paperMeta.email}
+                  </p>
+                </div>
+              )}
+              <div>
+                {paperBlocks.map((block, index) => {
+                  if (block.type === 'spacer') {
+                    return <div key={`sp-${index}`} className="h-4" />;
+                  }
+                  if (block.type === 'page') return null;
+                  if (block.type === 'mainHeading') {
+                    return (
+                      <p
+                        key={`mh-${index}`}
+                        className={`font-black text-base mt-5 mb-2 ${
+                          isDarkMode ? 'text-white' : 'text-slate-900'
+                        }`}
+                      >
+                        {block.text}
+                      </p>
+                    );
+                  }
+                  if (block.type === 'subHeading') {
+                    return (
+                      <p
+                        key={`sh-${index}`}
+                        className={`font-bold text-sm mt-3 mb-1 ${
+                          isDarkMode ? 'text-slate-100' : 'text-slate-900'
+                        }`}
+                      >
+                        {block.text}
+                      </p>
+                    );
+                  }
+                  if (block.type === 'reference' || block.type === 'bullet' || block.type === 'line') {
+                    return renderPaperLine(block.text, index);
+                  }
+                  return (
+                    <p
+                      key={`p-${index}`}
+                      className={`text-sm md:text-[15px] leading-relaxed ${
+                        isDarkMode ? 'text-slate-300' : 'text-slate-700'
+                      }`}
+                    >
+                      {block.text}
+                    </p>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-7">
+              {article.content.map((part) => (
+                <section key={part.heading}>
+                  <h4 className={`text-lg md:text-xl font-black tracking-tight mb-3 ${
+                    isDarkMode ? 'text-white' : 'text-slate-900'
+                  }`}>
+                    {part.heading}
+                  </h4>
+                  <div className="space-y-4">
+                    {part.paragraphs.map((paragraph, idx) => (
+                      <p
+                        key={`${part.heading}-${idx}`}
+                        className={`text-sm md:text-[15px] leading-relaxed ${
+                          isDarkMode ? 'text-slate-300' : 'text-slate-700'
+                        }`}
+                      >
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                  {part.figures?.length > 0 && (
+                    <div className="mt-5 space-y-4">
+                      {part.figures.map((figure, figIdx) => (
+                        <div
+                          key={`${part.heading}-fig-${figIdx}`}
+                          className={`rounded-2xl border overflow-hidden ${
+                            isDarkMode ? 'border-white/10 bg-white/[0.02]' : 'border-slate-200/80 bg-slate-50'
+                          }`}
+                        >
+                          {figure.src ? (
+                            <img
+                              src={figure.src}
+                              alt={figure.caption || `${part.heading} figure ${figIdx + 1}`}
+                              className="w-full h-auto object-contain"
+                              loading="lazy"
+                              decoding="async"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                              }}
+                            />
+                          ) : (
+                            <div className={`px-4 py-5 text-sm ${
+                              isDarkMode ? 'text-slate-300' : 'text-slate-700'
+                            }`}>
+                              Figure available in original post.
+                            </div>
+                          )}
+                          <div className={`px-4 py-3 border-t text-xs ${
+                            isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200/80 text-slate-600'
+                          }`}>
+                            <span className="font-semibold">{figure.caption}</span>
+                            {figure.source && <span>{`  Source: ${figure.source}`}</span>}
+                            {figure.sourceUrl && (
+                              <a
+                                href={figure.sourceUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="ml-2 font-bold text-[var(--theme-primary)] hover:underline"
+                              >
+                                Open
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </section>
+              ))}
+            </div>
+          )}
+
+          <div className={`mt-8 pt-6 border-t flex flex-wrap items-center gap-3 ${
+            isDarkMode ? 'border-white/10' : 'border-slate-200/80'
+          }`}>
+            {article.tags.map((tag) => (
+              <span
+                key={tag}
+                className={`text-[10px] font-bold px-3 py-1 rounded-full border ${
+                  isDarkMode
+                    ? 'text-slate-300 border-white/15 bg-white/5'
+                    : 'text-slate-700 border-slate-300/70 bg-slate-50'
+                }`}
+              >
+                {tag}
+              </span>
+            ))}
+            {article.link && (
+              <a
+                href={article.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`ml-auto inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.14em] px-4 py-2 rounded-full border transition-colors ${
+                  isDarkMode
+                    ? 'text-white border-white/20 hover:bg-white/10'
+                    : 'text-slate-900 border-slate-300 hover:bg-slate-100'
+                }`}
+              >
+                Read Original
+                <ExternalLink size={14} />
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+});
 
 const RecommendationsSection = React.memo(({ isDarkMode }) => {
   // Duplicate recommendations for seamless loop (only for desktop horizontal scroll)
@@ -1741,6 +2766,7 @@ const App = () => {
     { role: 'assistant', text: "Hi! I'm Gaurav's virtual assistant. I'm here to answer questions about his software engineering journey, CMU coursework, or the systems he's built. Ask away!", animate: false }
   ]);
   const [isChatLoading, setIsChatLoading] = useState(false);
+  const [activeArticle, setActiveArticle] = useState(null);
   
   // Refs
   const chatEndRef = useRef(null);
@@ -2008,6 +3034,23 @@ ASSISTANT RESPONSE:`;
   }, [messages, isChatOpen]);
 
   useEffect(() => {
+    if (!activeArticle) return;
+
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') setActiveArticle(null);
+    };
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [activeArticle]);
+
+  useEffect(() => {
     // Faster initial load - render hero immediately, defer rest
     setTimeout(() => setLoaded(true), 50);
     
@@ -2077,7 +3120,7 @@ ASSISTANT RESPONSE:`;
       let closestSection = activeSection;
       let minDistance = Infinity;
 
-      const sections = ['home', 'experience', 'projects', 'leadership', 'education', 'skills', 'recommendations'];
+      const sections = ['home', 'experience', 'projects', 'leadership', 'education', 'articles', 'recommendations'];
       
       sections.forEach(id => {
         const element = document.getElementById(id);
@@ -2161,6 +3204,14 @@ ASSISTANT RESPONSE:`;
     }
   }, [isCompact]);
 
+  const openArticle = useCallback((article) => {
+    setActiveArticle(article);
+  }, []);
+
+  const closeArticle = useCallback(() => {
+    setActiveArticle(null);
+  }, []);
+
   return (
     <div 
       className={`min-h-screen font-sans selection:bg-blue-500/30 overflow-x-hidden ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`} 
@@ -2180,6 +3231,12 @@ ASSISTANT RESPONSE:`;
           style={{ left: ripple.x, top: ripple.y, backgroundColor: ripple.color, width: '10px', height: '10px', transform: 'translate(-50%, -50%)' }}
         />
       )}
+
+      <ArticleReaderOverlay
+        article={activeArticle}
+        isDarkMode={isDarkMode}
+        onClose={closeArticle}
+      />
 
       {/* --- AI Chat Modal --- */}
       {isChatOpen && (
@@ -2457,7 +3514,7 @@ ASSISTANT RESPONSE:`;
           <div className="w-[1px] h-6 bg-white/10 rounded-full mx-3"></div>
           
           {/* Navigation Pills - Improved Spacing for Mobile Circle Cutoff Fix */}
-          <div className={`grid grid-cols-7 ${isCompact ? 'gap-0 w-full' : 'gap-4 w-full'} flex-1 ${isExpanding ? 'transition-all duration-[1000ms] ease-[cubic-bezier(0.2,1.5,0.2,1)]' : 'transition-all duration-[900ms] ease-[cubic-bezier(0.34,1.6,0.64,1)]'} relative overflow-visible items-center`}>
+          <div className={`grid ${isCompact ? 'gap-0 w-full' : 'gap-4 w-full'} flex-1 ${isExpanding ? 'transition-all duration-[1000ms] ease-[cubic-bezier(0.2,1.5,0.2,1)]' : 'transition-all duration-[900ms] ease-[cubic-bezier(0.34,1.6,0.64,1)]'} relative overflow-visible items-center`} style={{ gridTemplateColumns: `repeat(${navItems.length}, minmax(0, 1fr))` }}>
             {/* Active Pill Active Indicator - Now using theme primary color always */}
             <div 
               className={`
@@ -2468,8 +3525,8 @@ ASSISTANT RESPONSE:`;
               style={{ 
                 backgroundColor: 'var(--theme-primary)', 
                 opacity: isCompact ? 0.9 : 1, 
-                left: `calc(${navItems.findIndex(i => i.id === activeSection) * (100/7)}% + ${(100/14)}%)`, 
-                width: isCompact ? '36px' : `${100/7}%`, 
+                left: `calc(${navItems.findIndex(i => i.id === activeSection) * (100/navItems.length)}% + ${(100/(navItems.length * 2))}%)`, 
+                width: isCompact ? '36px' : `${100/navItems.length}%`, 
                 height: isCompact ? '36px' : '80%', 
                 top: '50%', 
                 transform: 'translate(-50%, -50%)', 
@@ -2682,7 +3739,7 @@ ASSISTANT RESPONSE:`;
           <ProjectsSection isDarkMode={isDarkMode} />
           <LeadershipSection isDarkMode={isDarkMode} />
           <EducationSection isDarkMode={isDarkMode} />
-          <SkillsSection isDarkMode={isDarkMode} />
+          <ArticlesSection isDarkMode={isDarkMode} onOpenArticle={openArticle} />
           <RecommendationsSection isDarkMode={isDarkMode} />
           <Footer isDarkMode={isDarkMode} activeTheme={activeTheme} />
         </>
