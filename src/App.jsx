@@ -3730,20 +3730,22 @@ ASSISTANT RESPONSE:`;
       </div>
 
       {/* --- SECTIONS --- */}
-      <HeroSection tagline={tagline} loaded={loaded} socialLinks={socialLinks} isDarkMode={isDarkMode} />
+      <main id="main-content">
+        <HeroSection tagline={tagline} loaded={loaded} socialLinks={socialLinks} isDarkMode={isDarkMode} />
 
-      {/* Deferred Content */}
-      {renderBelowFold && (
-        <>
-          <ExperienceSection isDarkMode={isDarkMode} />
-          <ProjectsSection isDarkMode={isDarkMode} />
-          <LeadershipSection isDarkMode={isDarkMode} />
-          <EducationSection isDarkMode={isDarkMode} />
-          <ArticlesSection isDarkMode={isDarkMode} onOpenArticle={openArticle} />
-          <RecommendationsSection isDarkMode={isDarkMode} />
-          <Footer isDarkMode={isDarkMode} activeTheme={activeTheme} />
-        </>
-      )}
+        {/* Deferred Content */}
+        {renderBelowFold && (
+          <>
+            <ExperienceSection isDarkMode={isDarkMode} />
+            <ProjectsSection isDarkMode={isDarkMode} />
+            <LeadershipSection isDarkMode={isDarkMode} />
+            <EducationSection isDarkMode={isDarkMode} />
+            <ArticlesSection isDarkMode={isDarkMode} onOpenArticle={openArticle} />
+            <RecommendationsSection isDarkMode={isDarkMode} />
+            <Footer isDarkMode={isDarkMode} activeTheme={activeTheme} />
+          </>
+        )}
+      </main>
 
       <style>{`
         html { scroll-behavior: smooth; }

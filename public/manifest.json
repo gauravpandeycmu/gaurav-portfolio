@@ -1,11 +1,15 @@
 {
   "name": "Gaurav Pandey Portfolio",
   "short_name": "Gaurav Portfolio",
-  "description": "Software Engineer & CMU Graduate Student Portfolio",
+  "description": "Portfolio of Gaurav Pandey - Software Engineer and AI Engineer focused on distributed systems, cloud, and machine learning.",
+  "lang": "en-US",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#0c0a09",
   "theme_color": "#f43f5e",
+  "categories": ["portfolio", "technology", "education", "business"],
   "icons": [
     {
       "src": "/bulba.svg",
