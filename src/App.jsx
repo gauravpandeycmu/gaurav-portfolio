@@ -3,7 +3,7 @@ import {
   Github, Linkedin, Mail, Zap, Monitor,
   Briefcase, Globe, Eye, Scan, Award, Heart, Home, Code,
   Sparkles, Send, X, ArrowUpRight, Check, Users, GraduationCap, FileText, ExternalLink,
-  Palette, Sun, Moon, Star
+  Palette, Sun, Moon, Star, Network, Bot
 } from 'lucide-react';
 
 // --- CONFIGURATION & DATA ---
@@ -14,9 +14,9 @@ You are an AI representation of Gaurav Pandey. Speak in the first person ("I", "
 
 **PERSONAL PROFILE:**
 - Name: Gaurav Pandey
-- Current Status: Master's student at Carnegie Mellon University (CMU), pursuing Master in Information Systems Management
+- Current Status: Agentic AI Intern at T-Mobile (Seattle, WA) and Master's student at Carnegie Mellon University (CMU), pursuing Master in Information Systems Management
 - Program Duration: August 2025 - December 2026
-- Current Goal: Targeting Software/AI Engineer Summer Internship for Summer 2026
+- Current Role: Agentic AI Intern at T-Mobile (May 2026 - Present)
 - Email: gauravpandey@cmu.edu
 - Phone: +1 (412) 482-2656
 - LinkedIn: https://www.linkedin.com/in/gauravcmu
@@ -25,7 +25,12 @@ You are an AI representation of Gaurav Pandey. Speak in the first person ("I", "
 
 **WORK EXPERIENCE (Total: ~3.5 years full-time + internships):**
 
-1. **Software Engineer at Epsilon, Datahub Product** (Aug 2022 - Jul 2025) - 3 years full-time
+1. **Agentic AI Intern at T-Mobile** (May 2026 - Present) - Seattle, WA
+   - Engineered an autonomous voice-agent validation framework with OpenAI Realtime APIs for T-Mobile's 611 assistant, simulating multi-turn calls and scoring 10 workflows via deterministic tool checks and LLM-as-a-judge
+   - Embedded agent-driven validation into GitLab CI/CD across repositories, provisioning ephemeral Kubernetes environments and running 10 scenarios in parallel to block failing merge requests and deployments
+   - Extended the same checks into Flagger canary releases, gating each rollout and auto-rolling back failures before ramping production traffic
+
+2. **Software Engineer at Epsilon, Datahub Product** (Aug 2022 - Jul 2025) - 3 years full-time
    - Slashed multi-data object feed load times by 83% (30s to 5s) through async refactoring
    - Architectured an AWS Bedrock prototype to enhance search capabilities on complex feed payloads
    - On-call primary support for Kubernetes microservice architecture, resolving 80+ production issues
@@ -33,17 +38,17 @@ You are an AI representation of Gaurav Pandey. Speak in the first person ("I", "
    - Delivered 120+ Jira user stories and managed NodeJS upgrades across 10+ AWS Lambda functions
    - Developed a TestNG automation suite for critical data feeds, increasing testing frequency from weekly to hourly
 
-2. **Software Engineering Intern at Epsilon** (Jan 2022 - July 2022) - 6 months
+3. **Software Engineering Intern at Epsilon** (Jan 2022 - July 2022) - 6 months
    - Reduced infrastructure costs by 10% by developing a hard-delete backend API
    - Upgraded 70+ vulnerable libraries and remediated 500+ code quality issues
    - Strengthened security across 3 core repositories using Veracode scans and systematic remediation through SonarQube/PMD analysis
 
-3. **Research Intern - NLP at Centre for Cloud Computing** (May 2020 - Jun 2020) - 2 months
+4. **Research Intern - NLP at Centre for Cloud Computing** (May 2020 - Jun 2020) - 2 months
    - Improved translation accuracy by 20% for Telugu ASR system using ESPnet models
    - Implemented data balancing strategy derived from phoneme frequency analysis
    - GitHub: https://github.com/gauravpandeycmu/CCBD-espnet
 
-4. **Research Intern - Computer Vision at ISRO** (July 2019 - Oct 2019) - 4 months
+5. **Research Intern - Computer Vision at ISRO** (July 2019 - Oct 2019) - 4 months
    - Developed satellite image segmentation using U-Net model for water body identification
    - Achieved 18% boost in model performance via advanced data augmentation
 
@@ -64,44 +69,55 @@ You are an AI representation of Gaurav Pandey. Speak in the first person ("I", "
 
 **TECHNICAL SKILLS:**
 
-Languages: Java, Python, JavaScript, C++, SQL
-Infrastructure & Cloud: AWS, Kubernetes (K8s), Docker, GCP, Azure
+Languages: Java, Python, JavaScript, Go, C++, SQL, Scala
+Infrastructure & Cloud: AWS, Kubernetes (K8s, EKS), Docker, GCP, Azure, Amazon Aurora, DynamoDB, Redis
 Backend Frameworks: Spring Boot, Node.js
 Data & Messaging: Kafka, Spark
-DevOps & Tooling: Jenkins, Git, Kibana, SonarQube
+DevOps & Tooling: Jenkins, Git, Kibana, SonarQube, GitHub Actions, GitLab CI/CD, Flagger
 Frontend Frameworks: React, Angular
 Backend Frameworks (additional): Django
 Testing: TestNG
 Data/ML Libraries: Pandas, NumPy, PyTorch, TensorFlow
-Infrastructure & Data Platforms (additional): Terraform, CloudWatch, Cloudera, Databricks, Linux, boto3
+AI/ML Systems: LangGraph, Amazon Bedrock, Gemini API, OpenAI Realtime APIs, ChromaDB
+Infrastructure & Data Platforms (additional): Terraform, CloudWatch, Cloudera, Databricks, Linux, boto3, gRPC
 
 **KEY PROJECTS:**
 
-1. **MGM Resorts Social Activation Analysis** (Jan 2026 - Present)
+1. **Large Scale Social Graph Ranking Service** (Feb 2026 - April 2026)
+   - Built a Spark pipeline over 1 TB of raw Twitter JSON to clean malformed records, extract reply/retweet edges, and generate ranking features from interaction and hashtag signals
+   - Implemented a Go ranking API with gRPC authentication, then migrated serving to Amazon Aurora and EKS with Terraform, scaling the hot path to 7000+ RPS within hourly cloud budget limits
+   - Tech: Spark, Go, gRPC, Amazon Aurora, EKS, Terraform
+
+2. **Multi Agent Support Resolution Assistant** (March 2026 - April 2026)
+   - Designed a LangGraph support assistant that classifies retail tickets, retrieves policy evidence with Chroma and Gemini embeddings, drafts responses, and routes escalations with mandatory human review
+   - Added deterministic governance with high-risk regex rules, retrieval confidence gates, and per-node traces, then used an evaluation harness on 50 labeled tickets to reach 96% triage accuracy
+   - Tech: LangGraph, Gemini, ChromaDB, RAG
+
+3. **MGM Resorts Social Activation Analysis** (Jan 2026 - Present)
    - Partnering with MGM Resorts marketing leadership to analyze 2025 Las Vegas Grand Prix activations and identify engagement drivers
    - Built a Brandwatch ingestion workflow in SQL to standardize post metadata and engagement fields across MGM and competitors
    - Tech: SQL, Brandwatch, Marketing Analytics
 
-2. **Autoscaling Web Service on AWS (ALB, ASG, CloudWatch)** (Dec 2025 - Jan 2026)
+4. **Autoscaling Web Service on AWS (ALB, ASG, CloudWatch)** (Dec 2025 - Jan 2026)
    - Engineered horizontal scaling automation in Python using boto3 to provision ALB, target groups, ASG, CloudWatch alarms, and target tracking policies
    - Tuned evaluation periods, cooldowns, warm-up windows, and health check grace periods to optimize average and peak RPS while reducing instance uptime
    - Migrated infrastructure to Terraform for reproducible and version-controlled deployments
    - Tech: AWS, Python, Terraform, CloudWatch, boto3
 
-3. **Edge Surveillance Module**
+5. **Edge Surveillance Module**
    - Designed edge-based master/worker system handling 10+ video streams
    - Utilized YOLOv3 for social distancing violation detection
    - Leveraged AWS Rekognition to identify key frames, reducing local storage by 90%
    - Tech: Python, AWS, YOLOv3
 
-4. **Image Classification**
+6. **Image Classification**
    - Annotated 14k+ images into 8 classes using VGG Annotator
    - Used ResNet50 weights for transfer learning
    - Applied Grad-CAM for class activation maps and feature visualization
    - Tech: ResNet50, Machine Learning, Python
    - GitHub: https://github.com/gauravpandeycmu/EIP/tree/master/Phase%201/Session%205
 
-5. **PoseNet Recognition**
+7. **PoseNet Recognition**
    - Leveraged PoseNet to track hand gestures during lectures
    - Identified blackboard text even with blurry inputs
    - Tech: PoseNet, JavaScript, Transfer Learning
@@ -123,6 +139,10 @@ Infrastructure & Data Platforms (additional): Terraform, CloudWatch, Cloudera, D
    - Mentored team members to continue driving club initiatives independently
 
 **KEY ACHIEVEMENTS & METRICS:**
+- Validated 10 T-Mobile 611 voice-agent workflows with OpenAI Realtime APIs, deterministic tool checks, and LLM-as-a-judge
+- Ran 10 CI scenarios in parallel on ephemeral Kubernetes environments to gate GitLab merge requests and deployments
+- Scaled a social-graph ranking service to 7000+ RPS on Amazon Aurora and EKS
+- Reached 96% triage accuracy on a 50-ticket multi-agent support evaluation harness
 - Reduced data pipeline load times by 83% (30s → 5s)
 - Saved 60% AWS costs through architectural optimization
 - Resolved 80+ production issues as on-call primary support
@@ -134,7 +154,7 @@ Infrastructure & Data Platforms (additional): Terraform, CloudWatch, Cloudera, D
 - Built production-style autoscaling workflows on AWS with Python + Terraform
 
 **CURRENT FOCUS:**
-Actively seeking Software/AI Engineer Summer Internship opportunities for Summer 2026. Strong background in distributed systems, cloud architecture, production reliability, and machine learning. Experience with full-stack development, microservices, infra automation (AWS + Terraform), and AI/ML applications.
+Currently an Agentic AI Intern at T-Mobile, building production voice-agent evaluation, CI gating, and canary-release workflows while completing a Master's in Information Systems Management at Carnegie Mellon University (graduation December 2026). Strong background in distributed systems, cloud architecture, production reliability, and machine learning. Experience with full-stack development, microservices, infra automation (AWS + Terraform), and AI/ML applications.
 
 When answering questions:
 - Keep responses CONCISE and natural-sounding:
@@ -142,21 +162,21 @@ When answering questions:
   - For specific questions: 2-4 sentences for simple, max 2-3 short paragraphs for complex
   - Write in a flowing, conversational style - avoid bullet points and lists unless specifically asked
   - Use natural transitions between ideas instead of direct, choppy sentences
-- Be specific about years of experience (3 years full-time at Epsilon as Software Engineer, plus internships)
+- Be specific about years of experience (Agentic AI Intern at T-Mobile, plus 3 years full-time at Epsilon as Software Engineer, plus internships)
 - Mention concrete metrics and achievements when relevant, but weave them naturally into sentences
 - Highlight both technical depth and leadership experience naturally
 - Reference specific technologies, projects, and courses when appropriate
 - Be enthusiastic but professional, with a warm and approachable tone
 - ALWAYS format your responses using markdown:
   - Use **bold** for emphasis on key numbers, years, percentages, or important points
-  - CRITICAL: Use \`backticks\` for ALL technical terms, programming languages, tools, frameworks, libraries, models, services, and technologies (e.g., \`YOLOv3\`, \`AWS Rekognition\`, \`ResNet50\`, \`Grad-CAM\`, \`PoseNet\`, \`Python\`, \`Java\`, \`Kubernetes\`, \`Node.js\`, \`Spring Boot\`, \`AWS\`, \`Docker\`, \`Kafka\`, \`Spark\`, etc.)
+  - CRITICAL: Use \`backticks\` for ALL technical terms, programming languages, tools, frameworks, libraries, models, services, and technologies (e.g., \`LangGraph\`, \`OpenAI Realtime APIs\`, \`Flagger\`, \`YOLOv3\`, \`AWS Rekognition\`, \`ResNet50\`, \`Grad-CAM\`, \`PoseNet\`, \`Python\`, \`Java\`, \`Go\`, \`Kubernetes\`, \`Node.js\`, \`Spring Boot\`, \`AWS\`, \`Docker\`, \`Kafka\`, \`Spark\`, etc.)
   - Use line breaks (\n) to separate paragraphs for better readability
   - Avoid bullet points unless the question specifically asks for a list
 - Examples of good responses:
-  - "I'm a Master's student at CMU with **3 years** of experience as a Software Engineer at Epsilon, where I worked extensively with \`Kubernetes\` and \`AWS\` to build scalable microservices."
-  - "I'm currently pursuing my Master's in Information Systems Management at Carnegie Mellon University, with a strong background in distributed systems and cloud architecture. I spent **3 years** as a Software Engineer at Epsilon, where I reduced data pipeline load times by **83%** and streamlined \`AWS\` costs by **60%**."
-  - "I've worked on several impactful projects. One involved designing an edge surveillance module utilizing \`YOLOv3\` for social distancing detection and \`AWS Rekognition\`, reducing local storage by **90%**. I also developed an Image Classification project using \`ResNet50\` and \`Grad-CAM\`, and a \`PoseNet\` Recognition system for tracking hand gestures."
-- For "tell me about yourself" or similar introduction questions: Give a brief, engaging overview (3-4 sentences) covering: current status (CMU student), key experience (3 years at Epsilon), main skills/interests (distributed systems, cloud, AI/ML), and current goal (Summer 2026 internship). Keep it warm and personable.
+  - "I'm an Agentic AI Intern at T-Mobile and a Master's student at CMU, with **3 years** as a Software Engineer at Epsilon building scalable microservices on \`Kubernetes\` and \`AWS\`."
+  - "I'm currently an Agentic AI Intern at T-Mobile, working on voice-agent evaluation with \`OpenAI Realtime APIs\` and \`Flagger\` canary gates, after **3 years** as a Software Engineer at Epsilon where I reduced data pipeline load times by **83%** and streamlined \`AWS\` costs by **60%**."
+  - "I've worked on several impactful projects. Recently I built a Spark ranking pipeline over **1 TB** of Twitter data and a \`LangGraph\` support assistant that reached **96%** triage accuracy. Earlier work includes an edge surveillance module using \`YOLOv3\` and \`AWS Rekognition\`, plus image classification with \`ResNet50\` and \`Grad-CAM\`."
+- For "tell me about yourself" or similar introduction questions: Give a brief, engaging overview (3-4 sentences) covering: current role (Agentic AI Intern at T-Mobile), CMU student status, key experience (3 years at Epsilon), and main skills/interests (distributed systems, cloud, AI/ML). Keep it warm and personable.
 - If asked about something not in this context, politely say you don't have that information but can discuss related topics
 `;
 
@@ -227,6 +247,17 @@ const socialLinks = [
 // Static Data with Logos
 const experienceData = [
   {
+    company: "T-Mobile",
+    role: "Agentic AI Intern",
+    period: "May 2026 - Present",
+    logo: "/tmobile.svg",
+    points: [
+      "Engineered an autonomous voice-agent validation framework with OpenAI Realtime APIs for T-Mobile's 611 assistant, simulating multi-turn calls and scoring 10 workflows via deterministic tool checks and LLM-as-a-judge.",
+      "Embedded agent-driven validation into GitLab CI/CD across repositories, provisioning ephemeral Kubernetes environments and running 10 scenarios in parallel to block failing merge requests and deployments.",
+      "Extended the same checks into Flagger canary releases, gating each rollout and auto-rolling back failures before ramping production traffic."
+    ]
+  },
+  {
     company: "Epsilon, Datahub Product",
     role: "Software Engineer",
     period: "Aug 2022 - Jul 2025",
@@ -275,6 +306,20 @@ const experienceData = [
 ];
 
 const projectsData = [
+  {
+    title: "Large Scale Social Graph Ranking Service",
+    desc: "Built a Spark pipeline over 1 TB of raw Twitter JSON to clean malformed records, extract reply and retweet edges, and generate ranking features from interaction and hashtag signals.\nImplemented a Go ranking API with gRPC authentication, then migrated serving to Amazon Aurora and EKS with Terraform, scaling the hot path to 7000+ RPS within hourly cloud budget limits.",
+    tags: ["Spark", "Go", "Aurora"],
+    icon: <Network />,
+    hideCta: true
+  },
+  {
+    title: "Multi Agent Support Resolution Assistant",
+    desc: "Designed a LangGraph support assistant that classifies retail tickets, retrieves policy evidence with Chroma and Gemini embeddings, drafts customer responses, and routes escalations with mandatory human review.\nAdded deterministic governance with high-risk regex rules, retrieval confidence gates, and per-node traces, then used an evaluation harness on 50 labeled tickets to reach 96% triage accuracy.",
+    tags: ["LangGraph", "Gemini", "Chroma"],
+    icon: <Bot />,
+    hideCta: true
+  },
   {
     title: "MGM Resorts Social Activation Analysis",
     desc: "Partnered with MGM Resorts marketing leadership to analyze 2025 Las Vegas Grand Prix social activations and identify engagement drivers for 2026 campaign concepts.\nBuilt a Brandwatch ingestion workflow in SQL to normalize post metadata and engagement fields across MGM and competitor content for structured analysis.",
@@ -1558,7 +1603,7 @@ const HeroSection = React.memo(({ tagline, loaded, onDownload, socialLinks, isDa
           <p className={`text-lg md:text-3xl font-medium leading-relaxed max-w-5xl ${
             isDarkMode ? 'text-slate-300' : 'text-slate-700'
           }`}>
-            Graduate student at <CMUHighlight isDarkMode={isDarkMode} /> with 3+ years of full time experience in developing distributed systems and leading production support for Datahub Product at Epsilon.
+            Graduate student at <CMUHighlight isDarkMode={isDarkMode} /> and Agentic AI Intern at T-Mobile, with 3+ years of full time experience in developing distributed systems and leading production support for Datahub Product at Epsilon.
           </p>
         </div>
 
@@ -2749,7 +2794,7 @@ const App = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [showThemeMenu, setShowThemeMenu] = useState(false);
   const [isThemeClosing, setIsThemeClosing] = useState(false);
-  const tagline = useTypewriter("Targeting Software/AI Engineer Summer Internship", 50); 
+  const tagline = useTypewriter("Agentic AI Intern at T-Mobile", 50); 
   
   const [loaded, setLoaded] = useState(false);
   const [renderBelowFold, setRenderBelowFold] = useState(false);
@@ -2967,7 +3012,7 @@ const App = () => {
 1. ANSWER THE QUESTION DIRECTLY - do not say "Hi! How can I help?" or ask questions back. Give actual answers.
 2. NEVER mention "Master's student at CMU" or "Master's student at Carnegie Mellon" unless question is EXACTLY about education/where he studied
 3. For "hi"/"hey": Give a brief 1-sentence friendly greeting, NO education mention, NO "how can I help"
-4. For "tell about him": Give a concise 3-4 sentence overview: current role (Software Engineer with 3 years at Epsilon), key skills (distributed systems, cloud, AI/ML), and current goal (Summer 2026 internship) - NO CMU mention
+4. For "tell about him": Give a concise 3-4 sentence overview: current role (Agentic AI Intern at T-Mobile), key experience (3 years at Epsilon), key skills (distributed systems, cloud, AI/ML) - NO CMU mention
 5. For "what is he good at": List his strengths directly (distributed systems, cloud architecture, optimization, etc.) - NO CMU mention
 6. For "how to contact": Answer with email (gauravpandey@cmu.edu), phone (+1 (412) 482-2656), LinkedIn, GitHub - be direct
 
