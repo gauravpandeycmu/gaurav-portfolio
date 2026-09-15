@@ -1605,7 +1605,7 @@ const HeroSection = React.memo(({ tagline, loaded, onDownload, socialLinks, isDa
           <p className={`text-lg md:text-3xl font-medium leading-relaxed max-w-5xl ${
             isDarkMode ? 'text-slate-300' : 'text-slate-700'
           }`}>
-            Graduate student at <CMUHighlight isDarkMode={isDarkMode} /> looking for full-time Software/AI roles, with 3+ years of full time experience in developing distributed systems and leading production support for Datahub Product at Epsilon.
+            Graduate student at <CMUHighlight isDarkMode={isDarkMode} /> with 3+ years of full time experience in developing distributed systems and leading production support for Datahub Product at Epsilon.
           </p>
         </div>
 
