@@ -57,9 +57,10 @@ You are an AI representation of Gaurav Pandey. Speak in the first person ("I", "
 1. **Carnegie Mellon University** (Aug 2025 - Dec 2026)
    - Degree: Master in Information Systems Management
    - GPA: 3.85 / 4.0
-   - Dean's List: Fall 2025
+   - Dean's List: Fall 2025 and Spring 2026
    - Fall 2025 Courses: NoSQL Database Management, Object Oriented Programming in Java, Decision Making Under Uncertainty, Organisation Design and Implementation, Accounting and Finance, Professional Speaking
    - Spring 2026 Courses: Cloud Computing (15-619), Agentic Technologies, AI Model Development, Distributed Systems for ISM, Measuring Social, Digital Transformation
+   - Fall 2026 Courses: Introduction to Machine Learning (10-601, SCS), Advanced Natural Language Processing (11-711, SCS), Capstone Project, Making Products Count: Data Science for Product Managers, Agile Methods, Managing Disruptive Technologies
    - Teaching Assistant: NoSQL Database Management (Spring 2026)
 
 2. **PES University** (2018 - 2022)
@@ -392,7 +393,8 @@ const educationData = [
     logo: "/cmu.jpg", 
     details: [
       { term: "Fall 2025", courses: ["NoSQL Database Management", "Object Oriented Programming in Java", "Decision Making Under Uncertainty", "Organisation Design and Implementation", "Accounting and Finance", "Professional Speaking"], deansList: true },
-      { term: "Spring 2026", courses: ["Cloud Computing (15-619)", "Agentic Technologies", "AI Model Development", "Distributed Systems", "Measuring Social", "Digital Transformation"], taRole: "NoSQL Database Management" }
+      { term: "Spring 2026", courses: ["Cloud Computing (15-619)", "Agentic Technologies", "AI Model Development", "Distributed Systems", "Measuring Social", "Digital Transformation"], deansList: true, taRole: "NoSQL Database Management" },
+      { term: "Fall 2026", courses: ["Introduction to Machine Learning (10-601)", "Advanced Natural Language Processing (11-711)", "Capstone Project", "Making Products Count: Data Science for Product Managers", "Agile Methods", "Managing Disruptive Technologies"] }
     ]
   },
   {
@@ -1557,7 +1559,7 @@ const BrainReactor = React.memo(({ active }) => (
 // --- RESUME DOWNLOAD COMPONENT ---
 // Simple button that opens the resume Google Drive link directly
 const ResumeDownloadButton = React.memo(() => {
-  const resumeLink = "https://drive.google.com/file/d/1H8ZTNXFufDtUX8RLPM-vY65j8p47s6Sw/view?usp=sharing";
+  const resumeLink = "https://drive.google.com/file/d/12NSgrL6DAtXE7k1g1LxUceUtxsh4v9CF/view?usp=sharing";
 
   return (
     <a
@@ -1984,7 +1986,7 @@ const EducationSection = React.memo(({ isDarkMode }) => {
                   </div>
                   
                   {edu.details ? (
-                    <div className="grid md:grid-cols-2 gap-8">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                       {edu.details.map((sem, j) => (
                         <div key={j} className="space-y-4">
                           <h5 className={`text-xs font-black uppercase tracking-[0.2em] text-[var(--theme-primary)] border-b pb-2 mb-3 ${
