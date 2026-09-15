@@ -14,9 +14,9 @@ You are an AI representation of Gaurav Pandey. Speak in the first person ("I", "
 
 **PERSONAL PROFILE:**
 - Name: Gaurav Pandey
-- Current Status: Agentic AI Intern at T-Mobile (Seattle, WA) and Master's student at Carnegie Mellon University (CMU), pursuing Master in Information Systems Management
+- Current Status: Master's student at Carnegie Mellon University (CMU), pursuing Master in Information Systems Management. Currently an Agentic AI Intern at T-Mobile (Seattle, WA)
 - Program Duration: August 2025 - December 2026
-- Current Role: Agentic AI Intern at T-Mobile (May 2026 - Present)
+- Current Goal: Looking for full-time Software/AI roles (graduation December 2026)
 - Email: gauravpandey@cmu.edu
 - Phone: +1 (412) 482-2656
 - LinkedIn: https://www.linkedin.com/in/gauravcmu
@@ -155,7 +155,7 @@ Infrastructure & Data Platforms (additional): Terraform, CloudWatch, Cloudera, D
 - Built production-style autoscaling workflows on AWS with Python + Terraform
 
 **CURRENT FOCUS:**
-Currently an Agentic AI Intern at T-Mobile, building production voice-agent evaluation, CI gating, and canary-release workflows while completing a Master's in Information Systems Management at Carnegie Mellon University (graduation December 2026). Strong background in distributed systems, cloud architecture, production reliability, and machine learning. Experience with full-stack development, microservices, infra automation (AWS + Terraform), and AI/ML applications.
+Looking for full-time Software/AI roles after graduating from Carnegie Mellon University in December 2026. Currently an Agentic AI Intern at T-Mobile, building production voice-agent evaluation, CI gating, and canary-release workflows. Strong background in distributed systems, cloud architecture, production reliability, and machine learning. Experience with full-stack development, microservices, infra automation (AWS + Terraform), and AI/ML applications.
 
 When answering questions:
 - Keep responses CONCISE and natural-sounding:
@@ -163,7 +163,7 @@ When answering questions:
   - For specific questions: 2-4 sentences for simple, max 2-3 short paragraphs for complex
   - Write in a flowing, conversational style - avoid bullet points and lists unless specifically asked
   - Use natural transitions between ideas instead of direct, choppy sentences
-- Be specific about years of experience (Agentic AI Intern at T-Mobile, plus 3 years full-time at Epsilon as Software Engineer, plus internships)
+- Be specific about years of experience (3 years full-time at Epsilon as Software Engineer, plus the current T-Mobile Agentic AI internship)
 - Mention concrete metrics and achievements when relevant, but weave them naturally into sentences
 - Highlight both technical depth and leadership experience naturally
 - Reference specific technologies, projects, and courses when appropriate
@@ -174,10 +174,10 @@ When answering questions:
   - Use line breaks (\n) to separate paragraphs for better readability
   - Avoid bullet points unless the question specifically asks for a list
 - Examples of good responses:
-  - "I'm an Agentic AI Intern at T-Mobile and a Master's student at CMU, with **3 years** as a Software Engineer at Epsilon building scalable microservices on \`Kubernetes\` and \`AWS\`."
-  - "I'm currently an Agentic AI Intern at T-Mobile, working on voice-agent evaluation with \`OpenAI Realtime APIs\` and \`Flagger\` canary gates, after **3 years** as a Software Engineer at Epsilon where I reduced data pipeline load times by **83%** and streamlined \`AWS\` costs by **60%**."
+  - "I'm a Master's student at CMU looking for full-time Software/AI roles, with **3 years** as a Software Engineer at Epsilon building scalable microservices on \`Kubernetes\` and \`AWS\`."
+  - "I'm currently looking for full-time Software/AI roles after an Agentic AI internship at T-Mobile, where I worked on voice-agent evaluation with \`OpenAI Realtime APIs\` and \`Flagger\` canary gates, plus **3 years** as a Software Engineer at Epsilon where I reduced data pipeline load times by **83%** and streamlined \`AWS\` costs by **60%**."
   - "I've worked on several impactful projects. Recently I built a Spark ranking pipeline over **1 TB** of Twitter data and a \`LangGraph\` support assistant that reached **96%** triage accuracy. Earlier work includes an edge surveillance module using \`YOLOv3\` and \`AWS Rekognition\`, plus image classification with \`ResNet50\` and \`Grad-CAM\`."
-- For "tell me about yourself" or similar introduction questions: Give a brief, engaging overview (3-4 sentences) covering: current role (Agentic AI Intern at T-Mobile), CMU student status, key experience (3 years at Epsilon), and main skills/interests (distributed systems, cloud, AI/ML). Keep it warm and personable.
+- For "tell me about yourself" or similar introduction questions: Give a brief, engaging overview (3-4 sentences) covering: current goal (full-time Software/AI roles), CMU student status, key experience (T-Mobile internship and 3 years at Epsilon), and main skills/interests (distributed systems, cloud, AI/ML). Keep it warm and personable.
 - If asked about something not in this context, politely say you don't have that information but can discuss related topics
 `;
 
@@ -1605,7 +1605,7 @@ const HeroSection = React.memo(({ tagline, loaded, onDownload, socialLinks, isDa
           <p className={`text-lg md:text-3xl font-medium leading-relaxed max-w-5xl ${
             isDarkMode ? 'text-slate-300' : 'text-slate-700'
           }`}>
-            Graduate student at <CMUHighlight isDarkMode={isDarkMode} /> and Agentic AI Intern at T-Mobile, with 3+ years of full time experience in developing distributed systems and leading production support for Datahub Product at Epsilon.
+            Graduate student at <CMUHighlight isDarkMode={isDarkMode} /> looking for full-time Software/AI roles, with 3+ years of full time experience in developing distributed systems and leading production support for Datahub Product at Epsilon.
           </p>
         </div>
 
@@ -1989,9 +1989,23 @@ const EducationSection = React.memo(({ isDarkMode }) => {
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                       {edu.details.map((sem, j) => (
                         <div key={j} className="space-y-4">
-                          <h5 className={`text-xs font-black uppercase tracking-[0.2em] text-[var(--theme-primary)] border-b pb-2 mb-3 ${
+                          <div className={`flex items-center justify-between gap-3 border-b pb-2 mb-3 ${
                             isDarkMode ? 'border-white/10' : 'border-slate-200/50'
-                          }`}>{sem.term}</h5>
+                          }`}>
+                            <h5 className="text-xs font-black uppercase tracking-[0.2em] text-[var(--theme-primary)]">
+                              {sem.term}
+                            </h5>
+                            {sem.deansList && (
+                              <span className={`inline-flex items-center gap-1.5 shrink-0 px-2 py-1 rounded-full text-[9px] font-black uppercase tracking-[0.16em] ${
+                                isDarkMode
+                                  ? 'bg-[var(--theme-primary)]/15 text-[var(--theme-primary)]'
+                                  : 'bg-[var(--theme-primary)]/10 text-[var(--theme-primary)]'
+                              }`}>
+                                <Award size={11} />
+                                Dean's List
+                              </span>
+                            )}
+                          </div>
                           <ul className="space-y-2">
                             {sem.courses.map((course, k) => (
                               <li key={k} className={`text-xs font-medium flex items-start gap-2 ${
@@ -2003,62 +2017,13 @@ const EducationSection = React.memo(({ isDarkMode }) => {
                             ))}
                           </ul>
                           
-                          {/* Dean's List Achievement */}
-                          {sem.deansList && (
-                            <div className={`mt-4 p-4 rounded-xl border ${
-                              isDarkMode 
-                                ? 'bg-[var(--theme-primary)]/10 border-[var(--theme-primary)]/30' 
-                                : 'bg-[var(--theme-primary)]/15 border-[var(--theme-primary)]/40'
-                            }`}>
-                                <div className="flex items-center gap-3 mb-2">
-                                  <div className={`p-2 rounded-lg ${
-                                    isDarkMode 
-                                      ? 'bg-[var(--theme-primary)]/20' 
-                                      : 'bg-[var(--theme-primary)]/25'
-                                  }`}>
-                                    <Award size={14} className="text-[var(--theme-primary)]" />
-                                  </div>
-                                  <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${
-                                    isDarkMode ? 'text-[var(--theme-primary)]' : 'text-[var(--theme-primary)]'
-                                  }`}>
-                                    Dean's List
-                                  </span>
-                                </div>
-                                <p className={`text-xs font-medium ${
-                                  isDarkMode ? 'text-slate-300' : 'text-slate-700'
-                                }`}>
-                                  Recognized for academic excellence
-                                </p>
-                              </div>
-                          )}
-                          
-                          {/* Teaching Assistant Section */}
                           {sem.taRole && (
-                            <div className={`mt-4 p-4 rounded-xl border ${
-                              isDarkMode 
-                                ? 'bg-[var(--theme-primary)]/10 border-[var(--theme-primary)]/30' 
-                                : 'bg-[var(--theme-primary)]/15 border-[var(--theme-primary)]/40'
+                            <p className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.16em] ${
+                              isDarkMode ? 'text-[var(--theme-primary)]' : 'text-[var(--theme-primary)]'
                             }`}>
-                                <div className="flex items-center gap-3 mb-2">
-                                  <div className={`p-2 rounded-lg ${
-                                    isDarkMode 
-                                      ? 'bg-[var(--theme-primary)]/20' 
-                                      : 'bg-[var(--theme-primary)]/25'
-                                  }`}>
-                                    <Users size={14} className="text-[var(--theme-primary)]" />
-                                  </div>
-                                  <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${
-                                    isDarkMode ? 'text-[var(--theme-primary)]' : 'text-[var(--theme-primary)]'
-                                  }`}>
-                                    Teaching Assistant
-                                  </span>
-                                </div>
-                                <p className={`text-sm font-bold ${
-                                  isDarkMode ? 'text-white' : 'text-slate-900'
-                                }`}>
-                                  {sem.taRole}
-                                </p>
-                              </div>
+                              <Users size={12} className="shrink-0" />
+                              TA · {sem.taRole}
+                            </p>
                           )}
                         </div>
                       ))}
@@ -2796,7 +2761,7 @@ const App = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [showThemeMenu, setShowThemeMenu] = useState(false);
   const [isThemeClosing, setIsThemeClosing] = useState(false);
-  const tagline = useTypewriter("Agentic AI Intern at T-Mobile", 50); 
+  const tagline = useTypewriter("Looking for Full-Time Software/AI Roles", 50); 
   
   const [loaded, setLoaded] = useState(false);
   const [renderBelowFold, setRenderBelowFold] = useState(false);
@@ -3014,7 +2979,7 @@ const App = () => {
 1. ANSWER THE QUESTION DIRECTLY - do not say "Hi! How can I help?" or ask questions back. Give actual answers.
 2. NEVER mention "Master's student at CMU" or "Master's student at Carnegie Mellon" unless question is EXACTLY about education/where he studied
 3. For "hi"/"hey": Give a brief 1-sentence friendly greeting, NO education mention, NO "how can I help"
-4. For "tell about him": Give a concise 3-4 sentence overview: current role (Agentic AI Intern at T-Mobile), key experience (3 years at Epsilon), key skills (distributed systems, cloud, AI/ML) - NO CMU mention
+4. For "tell about him": Give a concise 3-4 sentence overview: current goal (looking for full-time Software/AI roles), key experience (T-Mobile Agentic AI intern plus 3 years at Epsilon), key skills (distributed systems, cloud, AI/ML) - NO CMU mention
 5. For "what is he good at": List his strengths directly (distributed systems, cloud architecture, optimization, etc.) - NO CMU mention
 6. For "how to contact": Answer with email (gauravpandey@cmu.edu), phone (+1 (412) 482-2656), LinkedIn, GitHub - be direct
 
