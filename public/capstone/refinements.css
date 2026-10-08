@@ -1,0 +1,117 @@
+:root{color-scheme:light}
+.slide{transition:none;transform:none;will-change:auto}.slide.active{transform:none;opacity:1;visibility:visible;z-index:2}.slide.transition-out{visibility:visible;pointer-events:none;z-index:1}.masthead,footer{z-index:10}.pipeline{z-index:6}.progress>div{transition:width .7s cubic-bezier(.22,1,.36,1)}
+.twin-asset img,.survey-map,.lens-sheet{height:208px}
+body.presenting footer{opacity:0;pointer-events:none}
+body.presenting:after{content:'F or Esc to exit presentation mode';position:fixed;right:18px;bottom:10px;font-size:11px;color:var(--muted);z-index:20}
+.pipeline.compact{transform:translateY(306px) scale(.9)}
+.stage-slide .stage-media,.stage-slide .stage-media video{height:330px}
+.smooth-video{top:265px;height:252px}
+.smooth-note{top:537px}
+.pipeline.visible .flow-arrow:before{content:'';width:5px;height:5px;border-radius:50%;background:var(--purple);position:absolute;top:-2px;left:0;animation:flow-travel 2s ease-in-out infinite}
+@keyframes flow-travel{0%{transform:translateX(0);opacity:0}25%{opacity:1}85%{opacity:1}100%{transform:translateX(50px);opacity:0}}
+@media(prefers-reduced-motion:reduce){.pipeline.visible .flow-arrow:before{animation:none}}
+/* Preserve the full evidence frame: the containers match the encoded aspect. */
+.stage-media,.stage-media video,.stage-slide .stage-media,.stage-slide .stage-media video{width:704px;height:396px;top:204px;border-radius:12px}
+.stage-media video{position:static;box-shadow:0 12px 30px #192d3212}
+.stage-copy{left:816px;top:210px;width:390px}
+.stage-copy h3{margin-bottom:21px}.stage-copy p{font-size:25px}.copy-rule{margin:25px 0 22px}
+.pipeline.compact{transform:translateY(363px) scale(.46);transform-origin:50% 0}
+.pipeline.compact .flow-node small{display:none}
+.smooth-video{top:265px;width:1152px;height:324px;object-fit:contain;border-radius:12px}
+.smooth-note{top:600px;font-size:16px}
+.stage-slide[data-flow="smooth"] .pipeline.compact{transform:translateY(376px) scale(.46)}
+.stage-slide[data-flow="smooth"] .smooth-note{top:608px}
+.island-media,.island-media video{width:704px;height:396px;border-radius:12px}
+.island-copy{left:816px;width:390px}
+.broadcast iframe{width:100%;height:100%;border:0;border-radius:12px;background:#eee7f5}
+.external-video{display:inline-block;font-size:17px;color:var(--teal);margin-top:25px;text-decoration:none;border-bottom:1px solid #147d7850;padding-bottom:5px}
+.explain-columns{position:absolute;left:64px;right:64px;top:218px;display:grid;grid-template-columns:1fr 1fr;gap:95px}
+.explain-columns h3{color:var(--teal);margin-bottom:25px;font-size:32px}
+.explain-columns p{font-size:25px;line-height:1.5;color:var(--muted);margin-bottom:22px}
+.explain-columns>div+div{border-left:1px solid var(--line);padding-left:55px}
+.twin-hero{position:absolute;left:64px;top:210px;width:704px;height:374px;object-fit:contain;border-radius:12px}
+.kml-explanation{position:absolute;left:64px;top:216px;width:704px}.kml-explanation h3{color:var(--teal)}
+.kml-explanation p{font-size:25px;color:var(--muted);margin-top:20px}
+.coordinate-row{display:flex;justify-content:space-between;padding:27px 20px;background:var(--pale);border-radius:8px;font-size:26px;margin-top:35px}
+.coordinate-conversion{text-align:center;color:var(--muted);font-size:22px;padding:28px 0 0}.coordinate-row.local{margin-top:23px;color:var(--teal);background:#e3eeea}
+.zoom-pair{position:absolute;left:64px;right:64px;top:211px;display:grid;grid-template-columns:1fr 1fr;gap:32px}.zoom-pair h3{font-size:23px;color:var(--teal);margin-bottom:15px}.zoom-pair img{width:560px;height:315px;border-radius:12px}.zoom-pair p{margin-top:10px;font-size:17px;color:var(--muted)}
+.zoom-media{position:relative;width:560px;height:315px}.zoom-media video{width:100%;height:100%;object-fit:contain;border-radius:12px}.zoom-badge{position:absolute;top:15px;left:15px;background:#faf8f4ee;border:1px solid #ffffffc0;border-radius:10px;padding:12px 15px;pointer-events:none;min-width:152px;box-shadow:0 5px 25px #192d3220}.zoom-badge span{display:block;font-size:10px;letter-spacing:1.5px;color:var(--muted)}.zoom-badge strong{display:block;font-size:35px;color:var(--teal);margin:5px 0}.zoom-badge small{font-size:13px;color:var(--muted)}.zoom-explanation{top:580px!important;font-size:26px!important;color:var(--teal)}.zoom-provisional{position:absolute;left:64px;top:628px;font-size:13px;color:var(--muted)}
+.survey-story{position:absolute;left:64px;right:64px;top:215px;display:grid;grid-template-columns:repeat(3,1fr);gap:40px}.survey-story article{position:relative}.survey-story article+article:before{content:'→';position:absolute;left:-30px;top:160px;color:#a6b9ae;font-size:26px}.survey-story h3{font-size:24px;color:var(--teal);margin-bottom:25px}.survey-story .mini-label{font-size:11px}.kml-file{border:1px solid #d5ddd7;border-radius:12px;background:#fff;overflow:hidden;box-shadow:0 12px 30px #147d7809}.file-top{padding:15px 20px;background:#e3eeea;font-size:17px;color:var(--teal)}.file-top span{float:right}.kml-file>strong{display:block;margin:24px 20px 16px;color:var(--purple);font-size:28px}.kml-file dl{margin:0 20px 22px;display:grid;grid-template-columns:1fr 1fr;gap:15px;font-size:16px}.kml-file dt{color:var(--muted)}.kml-file dd{margin:0;text-align:right;color:var(--ink)}.file-bottom{padding:15px 20px;border-top:1px solid #e2e7e2;color:var(--muted);font-size:14px}.survey-story svg{width:100%;height:220px}.enu-values{display:flex;justify-content:space-around;background:#e3eeea;padding:18px 6px;border-radius:8px;color:var(--teal);font-size:13px}.enu-values b{display:block;margin-top:7px;font-size:21px}.survey-photo{position:relative;width:100%;margin-top:42px}.survey-photo img{width:100%;border-radius:10px}.survey-cross{position:absolute;left:25%;top:53.4%;width:19px;height:19px;border:1px solid #faf8f4;transform:translate(-50%,-50%);box-shadow:0 0 0 3px #147d7866}.survey-point-label{position:absolute;left:30%;top:39%;background:#faf8f4ed;padding:4px 8px;border-radius:4px;color:var(--teal);font-size:13px}.pixel-values{margin-top:18px;color:var(--muted);font-size:16px}.pixel-values b{float:right;color:var(--teal)}.survey-outcome{margin-top:26px;font-size:19px;line-height:1.5;color:var(--muted)}.survey-outcome strong{color:var(--teal);font-weight:500}.survey-ray{animation:survey-dash 3s linear infinite}.survey-pulse{animation:survey-beacon 2.5s ease-out infinite;transform-origin:68px 168px}@keyframes survey-dash{to{stroke-dashoffset:-48}}@keyframes survey-beacon{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.6);opacity:0}}.slide[data-title="KML survey"] .fineprint{font-size:13px;bottom:64px}
+.bottom-explanation{position:absolute;left:64px;top:590px;font-size:24px;max-width:1100px;line-height:1.4}.slide[data-title="Focal length"] .fineprint{bottom:66px;font-size:16px}
+.status-strip{position:absolute;left:64px;right:64px;top:563px;background:#e3eeea;color:var(--teal);border-radius:8px;font-size:23px;padding:20px 24px}
+.slide[data-title="Lens distortion"] .fineprint,.slide[data-title="How camera estimation works"] .fineprint{bottom:66px;font-size:16px}
+.match-labels{position:absolute;left:64px;right:64px;top:208px;display:grid;grid-template-columns:1fr 1fr;gap:32px;color:var(--teal);font-size:22px}
+.feature-matches{position:absolute;left:64px;top:250px;width:1152px;height:180px;object-fit:contain;background:#e8e7e3;border-radius:12px}
+.method-steps{position:absolute;left:64px;right:64px;top:460px;display:grid;grid-template-columns:repeat(3,1fr);gap:45px}.method-steps strong{font-size:26px;color:var(--teal)}.method-steps p{margin-top:15px;font-size:22px;line-height:1.45;color:var(--muted)}
+.slide[data-title="How OpenCV tracks"] .fineprint{bottom:66px;font-size:16px}
+.slide[data-title="How smoothing works"] .smooth-video{top:242px;height:270px;width:960px;left:160px}.slide[data-title="How smoothing works"] .pair-label{top:204px;left:160px;width:960px;font-size:22px}
+.smoothing-explanation{position:absolute;left:64px;right:64px;top:539px;display:grid;grid-template-columns:1fr 1fr;gap:65px;font-size:23px;line-height:1.45;color:var(--muted)}
+.slide[data-title="How smoothing works"] .fineprint{bottom:64px;font-size:16px}
+#contents-modal{max-height:85vh;overflow:auto}
+.traditional{top:212px;gap:65px}.traditional h3{font-size:29px}.traditional p{font-size:23px;margin-bottom:19px}.traditional>div+div{padding-left:42px}
+.research-note{bottom:68px;font-size:15px}.research-note a{color:var(--teal)}
+#distortion-canvas{position:absolute;left:64px;top:220px;width:1152px;height:310px}
+.slide[data-title="Lens distortion"] h2{font-size:40px;max-width:1100px}
+.distortion-explanation{position:absolute;left:64px;right:64px;top:547px;font-size:24px;line-height:1.4}
+.pipeline-lens{position:absolute;left:128px;right:128px;top:595px;font-size:17px;color:var(--muted);text-align:center}
+.slide[data-flow="overview"] .fineprint{display:none}
+.slide[data-title="How smoothing works"] .smooth-video{top:245px;width:1152px;height:324px;left:64px}
+.slide[data-title="How smoothing works"] .pair-label{left:64px;width:1152px}
+.slide[data-title="How smoothing works"] .smoothing-explanation{top:584px;font-size:18px;gap:40px}
+.slide[data-title="How smoothing works"] .fineprint{bottom:59px;font-size:13px}
+#geometry-canvas{position:absolute;left:64px;top:198px;width:1152px;height:400px}
+.animation-controls{position:absolute;left:64px;right:64px;top:606px;display:flex;align-items:center;gap:22px}
+.animation-controls button{border:1px solid var(--line);background:#e3eeea;padding:8px 15px;border-radius:7px;color:var(--teal);font-size:16px}
+.animation-controls input{flex:1;accent-color:var(--teal)}.animation-controls span{font-size:15px;color:var(--muted)}
+.slide[data-title="How camera estimation works"] .fineprint{bottom:58px;font-size:13px}
+.animation-controls a{font-size:16px;color:var(--teal);text-decoration:none;white-space:nowrap}
+#hardware-canvas{position:absolute;left:64px;top:198px;width:1152px;height:400px}
+#matches-canvas{position:absolute;left:64px;top:198px;width:1152px;height:400px}
+.inputs-divider{display:flex;align-items:center;justify-content:center}.inputs-divider h1{font-size:112px;letter-spacing:-5px;color:var(--teal)}
+.thanks-slide{background:#fff}.thanks-copy{position:absolute;top:160px;left:0;right:0;text-align:center;z-index:3}.thanks-copy h1{max-width:none;font-size:82px;letter-spacing:-3px;font-weight:500}.thanks-copy p{margin-top:18px;font-size:25px;letter-spacing:5px;color:var(--teal)}.thanks-rule{width:54px;height:1px;background:#147d7838;margin:25px auto}
+.closing-sea{position:absolute;inset:0;overflow:hidden;background:linear-gradient(180deg,#fff 43%,#f5fafb 84%,#fff 100%);pointer-events:none}.closing-sea canvas{position:absolute;left:0;top:285px;width:1280px;height:400px;mask-image:linear-gradient(transparent,#000 25%,#000 85%,transparent)}
+.race-runner{position:absolute;left:-250px;animation:fleet-pass 24s linear infinite;animation-play-state:paused;will-change:transform;filter:saturate(.55);opacity:.85}
+.race-runner img{width:100%;display:block;animation:ocean-bob var(--bob,2.4s) ease-in-out infinite;animation-delay:var(--phase,0s);animation-play-state:paused;transform-origin:55% 55%}
+.race-runner:before,.race-runner:after{content:'';position:absolute;right:87%;width:105px;top:60%;border-top:1px dashed #94b5bb80;transform:rotate(-3deg);transform-origin:right;animation:wake-flutter 1.8s ease-in-out infinite;animation-play-state:paused}
+.race-runner:after{top:69%;width:135px;transform:rotate(3deg);opacity:.55}
+.race-one{top:345px;width:135px;opacity:.55;animation-duration:29s;animation-delay:-20s;--bob:2.1s;--phase:-.5s}
+.race-two{top:400px;width:155px;opacity:.65;animation-duration:26s;animation-delay:-10s;--bob:2.7s;--phase:-1.2s}
+.race-three{top:442px;width:175px;animation-duration:24s;animation-delay:-16s;--bob:2.3s;--phase:-.8s}
+.race-four{top:496px;width:185px;animation-duration:25s;animation-delay:-5s;--bob:2.9s;--phase:-1.8s}
+.race-five{top:530px;width:205px;animation-duration:22s;animation-delay:-12s;--bob:2.5s;--phase:-.3s}
+.thanks-slide.active .race-runner,.thanks-slide.active .race-runner img,.thanks-slide.active .race-runner:before,.thanks-slide.active .race-runner:after{animation-play-state:running}
+@keyframes fleet-pass{from{transform:translate3d(0,0,0)}to{transform:translate3d(1800px,0,0)}}
+@keyframes ocean-bob{0%,100%{transform:translateY(1px) rotate(.5deg)}25%{transform:translateY(-4px) rotate(-1.5deg)}55%{transform:translateY(2px) rotate(1deg)}78%{transform:translateY(-2px) rotate(-.7deg)}}
+@keyframes wake-flutter{0%,100%{opacity:.45}50%{opacity:.8}}
+@media(prefers-reduced-motion:reduce){.race-runner,.race-runner img,.race-runner:before,.race-runner:after{animation:none!important}.race-one{transform:translateX(1120px)}.race-two{transform:translateX(650px)}.race-three{transform:translateX(990px)}.race-four{transform:translateX(380px)}.race-five{transform:translateX(810px)}}
+/* Aerial race revision: photographic surface, organic wakes, restrained motion. */
+.closing-sea{background:#fff}
+.closing-sea canvas{inset:0;width:1280px;height:720px;opacity:.65;mask-image:linear-gradient(transparent 35%,#000 60%,#000 89%,transparent 100%)}
+.race-runner{left:-450px;filter:saturate(.6);opacity:1;animation-name:aerial-pass}
+.race-runner:before,.race-runner:after{display:none}
+.race-runner img{animation-name:aerial-bob;transform-origin:82% 55%}
+.race-one{top:365px;width:295px;opacity:.76;animation-duration:30s;animation-delay:-17s}
+.race-two{top:407px;width:330px;opacity:.86;animation-duration:28s;animation-delay:-9s}
+.race-three{top:455px;width:370px;animation-duration:27s;animation-delay:-16s}
+.race-four{top:493px;width:400px;animation-duration:29s;animation-delay:-7s}
+.race-five{top:538px;width:440px;animation-duration:26s;animation-delay:-13s}
+@keyframes aerial-pass{from{transform:translate3d(0,0,0)}to{transform:translate3d(1900px,0,0)}}
+@keyframes aerial-bob{0%,100%{transform:translateY(.6px) rotate(.15deg)}28%{transform:translateY(-1.6px) rotate(-.6deg)}58%{transform:translateY(.8px) rotate(.4deg)}80%{transform:translateY(-.8px) rotate(-.2deg)}}
+.live-plan{position:absolute;left:64px;right:64px;top:222px;display:grid;grid-template-columns:repeat(3,1fr);gap:40px}.live-plan article{padding:0 25px 0 0}.live-plan article+article{border-left:1px solid var(--line);padding-left:30px}.live-plan h3{font-size:28px;color:var(--teal);margin-bottom:25px;line-height:1.25}.live-plan p{font-size:22px;color:var(--muted);line-height:1.45;margin-bottom:22px}.live-goal{position:absolute;left:64px;right:64px;top:590px;padding:18px 24px;border-radius:9px;background:#e3eeea;color:var(--teal);font-size:23px}
+#distortion-canvas{position:absolute;left:64px;top:198px;width:1152px;height:400px!important}
+.intro-white{background:#fff}.intro-art{position:absolute;inset:0;width:1280px;height:720px;object-fit:cover;pointer-events:none}.intro-white>.eyebrow,.intro-white>h1,.intro-white>.intro-lead{position:relative;z-index:1}.intro-white h1{max-width:720px;font-size:76px}.intro-white .intro-lead{font-size:26px;line-height:1.5;max-width:510px}
+.slide[data-title="How OpenCV tracks"] .fineprint{bottom:58px;font-size:13px}
+.hardware-controls{position:absolute;left:64px;right:64px;top:606px;display:flex;align-items:center;gap:22px}
+.hardware-controls button{border:1px solid var(--line);background:#e3eeea;padding:8px 15px;border-radius:7px;color:var(--teal);font-size:16px}
+.hardware-controls input{flex:1;accent-color:var(--teal)}.hardware-controls span{font-size:15px;color:var(--muted)}
+.slide[data-title="Hardware to software animation"] .fineprint{bottom:58px;font-size:13px}
+#contents{font-size:21px;letter-spacing:0}
+#angles-canvas{position:absolute;left:64px;top:198px;width:1152px;height:400px}
+.slide[data-title="Four camera values"] .fineprint{bottom:58px;font-size:13px}
+.tour-slide>.asset,.tour-slide>.asset-footage{display:none}
+#survey-tour{position:absolute;left:64px;top:196px;width:1152px;height:438px;border:0;border-radius:12px;background:#dcecf1}
+.tour-slide .fineprint{bottom:58px;font-size:13px}
+.thanks-slide .closing-sea{background:linear-gradient(#fff 46%,#f9fcfc 78%,#fff)}
+.thanks-slide .closing-sea canvas{inset:0;width:1280px;height:720px;opacity:1;mask-image:none}
+.future-flow .diagram-node{min-height:128px}
+.future-checks{top:402px}

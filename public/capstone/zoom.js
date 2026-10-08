@@ -1,0 +1,4 @@
+/* HFOV from existing provisional records; no invented calibrated lens zoom. */
+(()=>{const video=document.getElementById('zoom-sequence');let records;fetch('media/telemetry.json').then(r=>r.json()).then(d=>{records=d.frames;update();});
+function update(){if(!records)return;const r=records[Math.min(records.length-1,Math.floor(video.currentTime*25))],base=records.at(-1);document.getElementById('zoom-timestamp').textContent=`${r.nominal_s.toFixed(1)} s`;document.getElementById('zoom-hfov').textContent=r.available?`${r.horizontal_fov_deg.toFixed(1)}°`:'Unavailable';document.getElementById('zoom-factor').textContent=r.available?`${(r.effective_focal_px/base.effective_focal_px).toFixed(2)}× relative magnification`:'Insufficient evidence';}
+video.addEventListener('timeupdate',update);video.addEventListener('seeked',update);})();

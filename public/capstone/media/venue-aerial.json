@@ -1,0 +1,19 @@
+{
+  "extent": {
+    "xmin": 2015272.544227448,
+    "ymin": 5256240.984660272,
+    "xmax": 2017772.544227448,
+    "ymax": 5258740.984660272,
+    "spatialReference": {
+      "wkid": 102100,
+      "latestWkid": 3857
+    }
+  },
+  "source": "Esri World Imagery",
+  "attribution": "Esri, Maxar, Earthstar Geographics and the GIS User Community",
+  "projection": 3857,
+  "origin_lon_lat": [
+    18.118638,
+    42.641026
+  ]
+}

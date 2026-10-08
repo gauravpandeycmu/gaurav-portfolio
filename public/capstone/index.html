@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>BADASS Studios Capstone · Midterm</title>
+  <base href="/capstone/">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="refinements.css">
+</head>
+<body>
+  <main id="viewport" aria-label="Midterm presentation">
+    <div id="deck">
+      <div class="masthead"><span>BADASS STUDIOS CAPSTONE</span></div>
+
+      <section class="slide active intro-white" data-title="The problem" aria-label="The problem">
+        <img class="intro-art" src="media/intro-boat-white.png" alt="Concept illustration of a racing hydrofoil, coastal fort and camera viewing rays">
+        <div class="eyebrow">THE PROBLEM</div>
+        <h1>Where is the<br>camera looking?</h1>
+        <p class="lead intro-lead">Tracking hardware adds cost.<br>Calibration takes time.</p>
+      </section>
+
+      <section class="slide" data-title="The broadcast" aria-label="Race broadcast example">
+        <div class="eyebrow">THE RACE / IN CONTEXT</div><h2>E1 Dubrovnik GP</h2>
+        <div class="stage-media broadcast"><video data-media="broadcast-race" poster="media/broadcast-race.jpg" controls muted playsinline preload="metadata"></video></div>
+        <div class="stage-copy"><h3>Electric racing on water</h3><p>Hydrofoil boats race around Dubrovnik’s coastal course.</p><div class="copy-rule"></div><p class="secondary">Live coverage brings together shore cameras and onboard views.</p></div>
+      </section>
+
+      <section class="slide" data-title="Why camera state matters" aria-label="Broadcast augmented reality use case">
+        <div class="eyebrow">THE PROBLEM / CAMERA TRACKING</div><h2>Keep the camera state. Remove the hardware.</h2>
+        <div class="stage-media broadcast"><video data-media="broadcast-ar" poster="media/broadcast-ar.jpg" controls muted playsinline preload="metadata"></video></div>
+        <div class="stage-copy"><h3>BADASS Studios’ goal</h3><p>Remove dependency on dedicated camera-tracking hardware.</p><div class="copy-rule"></div><p class="secondary">Recover direction and zoom from video, so AR graphics stay aligned as the camera moves.</p></div>
+      </section>
+
+      <section class="slide" data-title="Four camera values" aria-label="Yaw pitch roll and field of view animation">
+        <div class="eyebrow">WHAT WE ESTIMATE</div><h2>Four values describe the camera view</h2>
+        <canvas id="angles-canvas" width="1152" height="400" aria-label="Camera demonstrating yaw left and right, pitch up and down, roll rotation, and horizontal field of view"></canvas>
+        <div class="hardware-controls"><button id="angles-play">Pause animation</button><button id="angles-replay">Replay</button><input id="angles-seek" type="range" min="0" max="32" step="0.1" value="0" aria-label="Camera values animation time"><span id="angles-time">0 / 32 s</span></div>
+      </section>
+
+      <section class="slide" data-title="Hardware to software animation" aria-label="Hardware tracking and software replacement animation">
+        <div class="eyebrow">THE PROBLEM / ANIMATED EXPLANATION</div><h2>Same camera information. A different source.</h2>
+        <canvas id="hardware-canvas" width="1152" height="400" aria-label="Animated venue calibration, head encoders, lens calibration and video-based camera estimation"></canvas>
+        <div class="hardware-controls"><button id="hardware-play">Pause animation</button><button id="hardware-replay">Replay</button><input id="hardware-seek" type="range" min="0" max="28" step="0.1" value="0" aria-label="Hardware animation time"><span id="hardware-time">0 / 28 s</span></div>
+      </section>
+
+      <section class="slide" data-title="Hardware and software" aria-label="Hardware calibration and software approach">
+        <div class="eyebrow">THE PROBLEM / OUR APPROACH</div><h2>Camera tracking without extra hardware</h2>
+        <div class="explain-columns traditional"><div><span class="mini-label">CONVENTIONAL SETUP</span><h3>Equip and align each camera</h3><p>Calibrate the lens, align the camera to the venue and check graphics against the image.</p><p>Specialist setup and support can include technicians travelling to the location.</p><p>For BADASS Studios, hardware and setup costs currently limit tracking coverage to one camera.</p></div><div><span class="mini-label">OUR SOFTWARE APPROACH</span><h3>Recover orientation and zoom from video</h3><p>Work backwards from visible landmarks and their known world coordinates.</p><p>Estimate yaw, pitch, roll and field of view without dedicated tracking sensors.</p><p>The goal: extend camera-state coverage to more cameras.</p></div></div>
+        <p class="fineprint research-note">Industry examples: <a href="https://mo-sys.com/products/e-sensor/" target="_blank" rel="noopener">Mo-Sys</a> · <a href="https://stype.tv/" target="_blank" rel="noopener">stYpe</a>.</p>
+      </section>
+
+      <section class="slide inputs-divider" data-title="Inputs" aria-label="Inputs section"><h1>Inputs</h1></section>
+
+      <section class="slide tour-slide" data-title="Survey fly-through" aria-label="Photo-based tour of camera origin and surveyed points">
+        <div class="eyebrow">THE INPUTS / IN THE REAL LOCATION</div><h2>From the camera to the surveyed world</h2>
+        <div class="asset twin-asset"><h3>Digital twin</h3><img src="media/twin.png" alt="Actual structural normals render of Dubrovnik in Unreal"><p>City geometry in Unreal</p><small>Structural render</small></div>
+        <div class="asset kml-asset"><h3>KML survey</h3>
+          <svg class="survey-map" viewBox="0 0 320 230" role="img" aria-label="Schematic of camera and known world landmarks">
+            <path d="M38 185 H295 M38 185 V22" fill="none" stroke="#cdd6d3" stroke-width="1.5"/>
+            <path d="M260 55 L76 140 M260 55 L119 181 M260 55 L130 83" fill="none" stroke="#cdd6d3" stroke-dasharray="5 6"/>
+            <circle cx="260" cy="55" r="8" fill="#147d78"/><text x="186" y="28">Camera 1</text>
+            <g fill="#8263ac"><circle cx="76" cy="140" r="6"/><circle cx="119" cy="181" r="6"/><circle cx="130" cy="83" r="6"/><circle cx="102" cy="117" r="6"/></g>
+            <text x="45" y="213">Surveyed landmarks</text>
+          </svg><p>World coordinates</p><small>Schematic</small>
+        </div>
+        <div class="asset lens-asset"><h3>Lens file</h3><div class="lens-sheet"><span>ZOOM / FOCUS</span><strong>Focal length</strong><strong>Distortion</strong><span>Canon calibration</span></div><p>Convention under review</p></div>
+        <div class="asset-footage"><h3>Race video</h3><p>1920 × 1080 <span>25 frames/s</span> Camera 1</p></div>
+        <iframe id="survey-tour" data-tour title="Photo-based survey fly-through"></iframe>
+      </section>
+
+      <section class="slide" data-title="Digital twin" aria-label="Digital twin input">
+        <div class="eyebrow">INPUT / DIGITAL TWIN</div><h2>A 3D version of the race location</h2>
+        <img class="twin-hero" src="media/twin.png" alt="Actual Unreal structural render of city geometry">
+        <div class="stage-copy"><h3>The race location in 3D</h3><p>A digital twin of the city, coastline and water environment.</p><div class="copy-rule"></div><p class="secondary">An input for connecting the race video to the venue’s geometry.</p></div>
+      </section>
+
+      <section class="slide" data-title="KML survey" aria-label="KML input explanation">
+        <div class="eyebrow">INPUT / KML</div><h2>Where the camera and landmarks are</h2>
+        <div class="survey-story">
+          <article><span class="mini-label">01 / THE GEOGRAPHIC FILE</span><h3>A named world point</h3><div class="kml-file"><div class="file-top">dubrovnik.kml <span>↗</span></div><strong>BXR-7</strong><dl><dt>Longitude</dt><dd>18.1118188°</dd><dt>Latitude</dt><dd>42.6391848°</dd><dt>Stored altitude</dt><dd>0 m</dd></dl><div class="file-bottom">KML stores geographic positions</div></div></article>
+          <article><span class="mini-label">02 / LOCAL SPACE</span><h3>Metres from our origin</h3><svg viewBox="0 0 340 220" role="img" aria-label="Surveyed camera and BXR-7 in a schematic local coordinate view"><path d="M20 175 L235 205 L320 100 L105 70 Z M62 123 L277 153 M105 70 L235 205 M20 175 L320 100" fill="none" stroke="#d5ddd7"/><path class="survey-ray" d="M276 66 L68 168" fill="none" stroke="#147d78" stroke-width="2" stroke-dasharray="6 6"/><path d="M276 66 V153" stroke="#8263ac" stroke-dasharray="3 5"/><circle cx="276" cy="66" r="7" fill="#147d78"/><circle cx="68" cy="168" r="7" fill="#8263ac"/><circle class="survey-pulse" cx="68" cy="168" r="15" fill="none" stroke="#8263ac"/><text x="198" y="43" fill="#147d78">Camera 1 · U 41 m</text><text x="22" y="201" fill="#8263ac">BXR-7</text><path d="M235 205 L267 210 M235 205 L251 183 M235 205 V175" stroke="#9baba1"/><text x="274" y="214" fill="#637276" font-size="11">E / N / U</text></svg><div class="enu-values"><span>E <b>−559.3</b></span><span>N <b>−204.5</b></span><span>U <b>≈ 0</b></span></div></article>
+          <article><span class="mini-label">03 / THE VIDEO</span><h3>The same named pixel</h3><div class="survey-photo"><img src="media/match-frame-0.jpg" alt="Actual fort sector at 190 seconds"><span class="survey-cross"></span><span class="survey-point-label">BXR-7</span></div><div class="pixel-values">Image location <b>1185, 355 px</b></div><p class="survey-outcome">Known world point + observed pixel<br><strong>constrain the camera view</strong></p></article>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Focal length" aria-label="Focal length and field of view">
+        <div class="eyebrow">INPUT / LENS</div><h2>Zoom changes how much we see</h2>
+        <div class="zoom-pair zoom-live"><div><h3>Wider reference · 225 s</h3><div class="zoom-media"><img src="media/zoom-tight.jpg" alt="Wider actual Camera 1 frame near 225 seconds"><div class="zoom-badge"><span>ESTIMATED HFOV</span><strong>44.3°</strong><small>1.00× reference</small></div></div></div><div><h3>Live change · <span id="zoom-timestamp">195.0 s</span></h3><div class="zoom-media"><video id="zoom-sequence" data-media="zoom-sequence" poster="media/zoom-wide.jpg" controls muted playsinline preload="metadata" loop></video><div class="zoom-badge"><span>ESTIMATED HFOV</span><strong id="zoom-hfov">36.5°</strong><small id="zoom-factor">1.24× relative magnification</small></div></div></div></div>
+      </section>
+
+      <section class="slide" data-title="Lens distortion" aria-label="Lens distortion input and limitation">
+        <div class="eyebrow">INPUT / LENS</div><h2>Equal pixel gaps. Different world spacing.</h2>
+        <canvas id="distortion-canvas" width="1152" height="400" aria-label="Step-by-step illustrative lens distortion, pixel gaps, corrected rays and a known-distance plane"></canvas>
+        <div class="hardware-controls"><button id="distortion-play">Pause animation</button><button id="distortion-replay">Replay</button><span id="distortion-step">1 / 4 · 10 seconds per step</span></div>
+      </section>
+
+      <section class="slide" data-title="Race footage" aria-label="The race recording">
+        <div class="eyebrow">THE RECORDING</div><h2>The video becomes our measurement</h2>
+        <div class="stage-media"><video data-media="race" poster="media/race.jpg" controls muted playsinline preload="metadata"></video></div>
+        <div class="stage-copy"><h3>A fixed camera position</h3><p>The view pans and zooms as the race unfolds.</p><div class="copy-rule"></div><p class="secondary">We recover direction<br>and field of view<br>from visible landmarks.</p></div>
+        <p class="fineprint">Actual Camera 1 race footage, 195–205 seconds.</p>
+      </section>
+
+      <section class="slide" data-title="The pipeline" data-flow="overview" aria-label="The software pipeline">
+        <div class="eyebrow">THE METHOD</div><h2>The software pipeline</h2>
+        <p class="subtitle">Mark known features once. Follow them as the camera moves.</p>
+        <div class="flow-explanations"><div><strong>Landmark pixels</strong><p>Follow land texture<br>with OpenCV</p></div><div><strong>Less small jitter</strong><p>Refine visible<br>measurements</p></div><div><strong>Camera state</strong><p>Match pixels to<br>surveyed world points</p></div></div>
+        <div class="world-input">Surveyed 3D points <span>+</span> fixed camera position <span>+</span> lens projection</div>
+        <p class="fineprint">Click any stage to see it work.</p>
+      </section>
+
+      <section class="slide stage-slide" data-title="Track points" data-flow="track" aria-label="Tracking known points">
+        <div class="eyebrow">01 / TRACK</div><h2>Follow the same points</h2>
+        <div class="stage-media"><video data-media="tracked" poster="media/tracked.jpg" controls muted playsinline preload="metadata"></video></div>
+        <div class="stage-copy"><h3>Mark once</h3><p>OpenCV follows recognizable wall features.</p><div class="copy-rule"></div><p class="secondary">Missing evidence<br>leaves a gap.</p></div>
+      </section>
+
+      <section class="slide" data-title="How OpenCV tracks" aria-label="OpenCV feature matching explanation">
+        <div class="eyebrow">01 / TRACK / INSIDE THE METHOD</div><h2>OpenCV follows texture on the land</h2>
+        <canvas id="matches-canvas" width="1152" height="400" aria-label="Animated real SIFT feature matches, magnified image patches, RANSAC check and predicted BXR point transfer"></canvas>
+        <div class="hardware-controls"><button id="matches-play">Pause animation</button><button id="matches-replay">Replay</button><input id="matches-seek" type="range" min="0" max="24" step="0.1" value="0" aria-label="Feature matching animation time"><span id="matches-time">0 / 24 s</span></div>
+      </section>
+
+      <section class="slide stage-slide" data-title="Smooth points" data-flow="smooth" aria-label="Smoothing tracked points">
+        <div class="eyebrow">02 / IMPROVE TRACKS</div><h2>Island tracking: fewer missing points</h2>
+        <p class="subtitle">On the full 30 s replay, short island gaps fall from <strong>9 to 2.</strong></p>
+        <div class="pair-label"><span>Smoothed reference tracking</span><span>With immediate recovery</span></div>
+        <video class="smooth-video" data-media="island-recovery" poster="media/island-recovery.jpg" controls muted playsinline preload="metadata" loop></video>
+      </section>
+
+      <section class="slide" data-title="How smoothing works" aria-label="Bounded island smoothing detail">
+        <div class="eyebrow">02 / INSIDE THE METHOD</div><h2>Jitter and missing points need different fixes</h2>
+        <div class="explain-columns"><div><span class="mini-label">SMOOTHING</span><h3>A visible point shakes slightly</h3><p>Filter the shared image motion, while responding to real pans and zooms.</p><p>Limit each correction to 1.5 pixels. Do not fill gaps.</p></div><div><span class="mini-label">RECOVERY</span><h3>A point disappears from the tracker</h3><p>Match the land to a reference image again and restore the point when evidence supports it.</p><p>The previous video demonstrates this improvement.</p></div></div>
+        <div class="status-strip">Smoothing makes small corrections. Recovery improves availability.</div>
+      </section>
+
+      <section class="slide stage-slide" data-title="Estimate camera" data-flow="solve" aria-label="Estimating camera angles">
+        <div class="eyebrow">03 / SOLVE</div><h2>Recover the camera angles</h2>
+        <div class="stage-media"><video data-media="estimate" poster="media/estimate.jpg" controls muted playsinline preload="metadata"></video></div>
+        <div class="stage-copy solve-copy"><h3>3D points + image pixels</h3><p>Adjust the camera until the projected points match.</p><div class="angle-list"><span>Yaw / pan</span><span>Pitch / tilt</span><span>Roll</span><span>Field of view</span></div><p class="secondary lens-limit">Current model: pinhole.<br>Lens distortion variants tested.<br>Convention still unresolved.</p></div>
+      </section>
+
+      <section class="slide" data-title="How camera estimation works" aria-label="Camera projection and validation explanation">
+        <div class="eyebrow">03 / SOLVE / ANIMATED EXPLANATION</div><h2>How 3D points reveal camera angles</h2>
+        <canvas id="geometry-canvas" width="1152" height="400" aria-label="Animated 3D camera projection with pan tilt zoom and point matching"></canvas>
+        <div class="animation-controls"><button id="geometry-play">Pause animation</button><button id="geometry-replay">Replay</button><a href="media/camera-geometry.mp4" target="_blank">Play MP4 ↗</a><button id="geometry-export">Export video</button><input id="geometry-seek" type="range" min="0" max="40" step="0.1" value="0" aria-label="Animation time"><span id="geometry-time">0 / 40 s</span></div>
+      </section>
+
+      <section class="slide" data-title="Camera demo" aria-label="Camera estimation demonstration">
+        <div class="eyebrow">THE DEMO</div><h2>The estimate follows the zoom</h2>
+        <p class="subtitle">A fixed 3D wireframe projects into the changing video.</p>
+        <div class="demo-labels"><span>First camera estimate held fixed</span><span>Camera estimate updated each frame</span></div>
+        <video id="comparison" data-media="comparison" poster="media/comparison.jpg" controls muted playsinline preload="metadata"></video>
+        <div class="telemetry"><span>Yaw <b id="yaw">—</b></span><span>Pitch <b id="pitch">—</b></span><span>Roll <b id="roll">—</b></span><span>HFOV <b id="fov">—</b></span><span id="source-time">195.0 s</span></div>
+      </section>
+
+      <section class="slide" data-title="Current evidence" aria-label="Current results and limitations">
+        <div class="eyebrow">THE EVIDENCE</div><h2>What works today</h2>
+        <img class="site-evidence" src="media/demo-site.png" alt="The actual camera review webpage showing changing yaw, pitch, roll and HFOV">
+        <div class="evidence-numbers"><div><strong>750</strong><p>provisional estimates<br>over 30 seconds</p></div><div><strong>4.01 <small>px</small></strong><p>median BXR-6 agreement<br>with manual clicks</p><span>6 sampled frames · excluded from fit</span></div></div>
+      </section>
+
+      <section class="slide" data-title="Next: island" aria-label="Next island experiment">
+        <div class="eyebrow">WHAT NEXT?</div><h2>Extend the solve to Lokrum</h2>
+        <div class="island-media"><video data-media="island" poster="media/island.jpg" controls muted playsinline preload="metadata"></video></div>
+        <div class="island-copy"><span class="mini-label">TODAY</span><h3>Island points<br>already track</h3><span class="mini-label next-label">NEXT</span><p>Identify the same features in Unreal.<br>Record their 3D coordinates.</p><p class="secondary">Solve one frame.<br>Check excluded features.</p></div>
+      </section>
+
+      <section class="slide" data-title="Next demonstration" aria-label="Next demonstration and deliverable">
+        <div class="eyebrow">THE NEXT DEMONSTRATION</div><h2>A virtual camera that follows the race</h2>
+        <div class="future-flow"><div class="diagram-node">Verified island<br>3D landmarks</div><div class="horizontal-line"></div><div class="diagram-node">Camera estimates<br>on an island clip</div><div class="horizontal-line"></div><div class="diagram-node">Camera-direction<br>ground truth<br>using the twin</div></div>
+        <div class="future-checks"><span>Check excluded features</span><span>Show loss and recovery</span><span>Compare direction + FOV</span></div>
+        <h3 class="final-output">Time-indexed camera state for the whole video</h3>
+      </section>
+
+      <section class="slide" data-title="Next: live system" aria-label="Live feasibility and optimisation plan">
+        <div class="eyebrow">NEXT / LIVE FEASIBILITY</div><h2>Can the whole system run live?</h2>
+        <div class="live-plan"><article><span class="mini-label">01 / RUN TOGETHER</span><h3>One complete pipeline</h3><p>Read video → track points → refine motion → estimate camera → send state.</p><p>Replay at the original video rate, using only information available at that moment.</p></article><article><span class="mini-label">02 / MEASURE</span><h3>Speed and reliability</h3><p>Measure end-to-end delay, sustained frame rate and available camera states.</p><p>Test tracking loss, recovery time and incorrect confident outputs.</p></article><article><span class="mini-label">03 / OPTIMISE + RETEST</span><h3>Find the bottlenecks</h3><p>Profile slow stages. Reduce cost and bound queues so delay cannot keep growing.</p><p>Recheck accuracy after every optimisation. Then test a live input.</p></article></div>
+      </section>
+
+      <section class="slide thanks-slide" data-title="Thank you / Q&A" aria-label="Thank you and questions">
+        <div class="closing-sea" aria-hidden="true"><canvas id="closing-water" width="1280" height="720"></canvas></div>
+        <div class="thanks-copy"><h1>Thank you.</h1><p>Q&amp;A</p><div class="thanks-rule"></div></div>
+      </section>
+
+      <div id="pipeline" class="pipeline" aria-label="Interactive pipeline diagram">
+        <button class="flow-node" data-stage="track"><span>Track points</span><small>OpenCV</small></button><div class="flow-arrow"></div>
+        <button class="flow-node" data-stage="smooth"><span>Smooth points</span><small>Bounded refinement</small></button><div class="flow-arrow"></div>
+        <button class="flow-node" data-stage="solve"><span>Estimate camera</span><small>3D geometry + camera model</small></button>
+      </div>
+      <footer><button id="contents" title="Slide list" aria-label="Show slide list">☰</button><div class="nav"><button id="previous" aria-label="Previous slide">←</button><span id="page-count">01 / 23</span><button id="next" aria-label="Next slide">→</button><button id="fullscreen" aria-label="Toggle full screen" title="Full screen (F)">⛶</button></div></footer>
+      <div class="progress"><div id="progress-fill"></div></div>
+    </div>
+  </main>
+  <dialog id="site-modal"><button id="close-site" aria-label="Close review website">×</button><iframe title="Original camera review website" id="site-frame"></iframe><p>Yaw / pitch / roll and HFOV are provisional. “Zoom” on the original page means HFOV in degrees.</p></dialog>
+  <dialog id="contents-modal"><h2>Slides</h2><div id="contents-list"></div><button id="close-contents">Close</button></dialog>
+  <script src="app.js"></script>
+  <script src="geometry.js"></script>
+  <script src="hardware-v2.js"></script>
+  <script src="matches.js"></script>
+  <script src="zoom.js"></script>
+  <script src="angles.js"></script>
+  <script src="distortion.js"></script>
+  <script src="closing.js"></script>
+</body>
+</html>
