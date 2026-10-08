@@ -116,5 +116,10 @@ body.presenting:after{content:'F or Esc to exit presentation mode';position:fixe
 .future-flow .diagram-node{min-height:128px}
 .future-checks{top:402px}
 .agenda-list{position:absolute;left:80px;top:218px;width:1050px;list-style:none;margin:0;padding:0}
-.agenda-list li{display:flex;align-items:center;gap:40px;padding:18px 0;border-bottom:1px solid #cbd9d750;font-size:32px;letter-spacing:-.5px}
+.agenda-list li{display:flex;align-items:center;gap:40px;padding:14px 0;border-bottom:1px solid #cbd9d750;font-size:32px;letter-spacing:-.5px}
 .agenda-list li:last-child{border-bottom:0}.agenda-list span{font-size:20px;letter-spacing:1px;color:var(--teal);width:40px;font-variant-numeric:tabular-nums}
+.person-slide h2{font-size:53px;max-width:770px}.person-degree{position:absolute;left:64px;top:184px;font-size:21px;color:var(--muted)}
+.person-photo{position:absolute;right:80px;top:213px;width:320px;height:390px;object-fit:cover;object-position:center 30%;border-radius:14px;background:#fff;box-shadow:0 12px 35px #213b4210}
+.person-copy{position:absolute;left:64px;top:254px;width:700px}.person-copy ul{margin:0;padding-left:24px;display:flex;flex-direction:column;gap:21px;font-size:25px;line-height:1.4}.person-copy li::marker{color:var(--teal)}
+.person-interest{margin-top:39px;border-top:1px solid #cedbd880;padding-top:24px;max-width:660px}.person-interest span{font-size:12px;letter-spacing:2px;color:var(--teal)}.person-interest p{font-size:25px;line-height:1.45;margin-top:12px;color:var(--muted)}
+.advisor-slide .person-copy h3{font-size:31px;color:var(--teal);margin-bottom:30px}.advisor-slide .person-copy>p{font-size:27px;line-height:1.5;max-width:620px;margin-bottom:28px}
