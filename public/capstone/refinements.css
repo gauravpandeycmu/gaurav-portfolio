@@ -115,3 +115,6 @@ body.presenting:after{content:'F or Esc to exit presentation mode';position:fixe
 .thanks-slide .closing-sea canvas{inset:0;width:1280px;height:720px;opacity:1;mask-image:none}
 .future-flow .diagram-node{min-height:128px}
 .future-checks{top:402px}
+.agenda-list{position:absolute;left:80px;top:218px;width:1050px;list-style:none;margin:0;padding:0}
+.agenda-list li{display:flex;align-items:center;gap:40px;padding:18px 0;border-bottom:1px solid #cbd9d750;font-size:32px;letter-spacing:-.5px}
+.agenda-list li:last-child{border-bottom:0}.agenda-list span{font-size:20px;letter-spacing:1px;color:var(--teal);width:40px;font-variant-numeric:tabular-nums}

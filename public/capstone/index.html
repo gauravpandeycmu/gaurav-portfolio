@@ -20,6 +20,17 @@
         <p class="lead intro-lead">Tracking hardware adds cost.<br>Calibration takes time.</p>
       </section>
 
+      <section class="slide agenda-slide" data-title="Agenda" aria-label="Presentation agenda">
+        <div class="eyebrow">TODAY’S PRESENTATION</div><h2>Agenda</h2>
+        <ol class="agenda-list">
+          <li><span>01</span><div>Problem statement</div></li>
+          <li><span>02</span><div>Our inputs</div></li>
+          <li><span>03</span><div>The software pipeline</div></li>
+          <li><span>04</span><div>Results and demonstrations</div></li>
+          <li><span>05</span><div>Next steps</div></li>
+        </ol>
+      </section>
+
       <section class="slide" data-title="The broadcast" aria-label="Race broadcast example">
         <div class="eyebrow">THE RACE / IN CONTEXT</div><h2>E1 Dubrovnik GP</h2>
         <div class="stage-media broadcast"><video data-media="broadcast-race" poster="media/broadcast-race.jpg" controls muted playsinline preload="metadata"></video></div>
@@ -179,9 +190,9 @@
         <div class="live-plan"><article><span class="mini-label">01 / RUN TOGETHER</span><h3>One complete pipeline</h3><p>Read video → track points → refine motion → estimate camera → send state.</p><p>Replay at the original video rate, using only information available at that moment.</p></article><article><span class="mini-label">02 / MEASURE</span><h3>Speed and reliability</h3><p>Measure end-to-end delay, sustained frame rate and available camera states.</p><p>Test tracking loss, recovery time and incorrect confident outputs.</p></article><article><span class="mini-label">03 / OPTIMISE + RETEST</span><h3>Find the bottlenecks</h3><p>Profile slow stages. Reduce cost and bound queues so delay cannot keep growing.</p><p>Recheck accuracy after every optimisation. Then test a live input.</p></article></div>
       </section>
 
-      <section class="slide thanks-slide" data-title="Thank you / Q&A" aria-label="Thank you and questions">
+      <section class="slide thanks-slide" data-title="Thank you / Discussion" aria-label="Thank you and discussion">
         <div class="closing-sea" aria-hidden="true"><canvas id="closing-water" width="1280" height="720"></canvas></div>
-        <div class="thanks-copy"><h1>Thank you.</h1><p>Q&amp;A</p><div class="thanks-rule"></div></div>
+        <div class="thanks-copy"><h1>Thank you.</h1><p>Discussion</p><div class="thanks-rule"></div></div>
       </section>
 
       <div id="pipeline" class="pipeline" aria-label="Interactive pipeline diagram">
