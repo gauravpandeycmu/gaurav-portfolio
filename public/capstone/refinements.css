@@ -123,3 +123,9 @@ body.presenting:after{content:'F or Esc to exit presentation mode';position:fixe
 .person-copy{position:absolute;left:64px;top:254px;width:700px}.person-copy ul{margin:0;padding-left:24px;display:flex;flex-direction:column;gap:21px;font-size:25px;line-height:1.4}.person-copy li::marker{color:var(--teal)}
 .person-interest{margin-top:39px;border-top:1px solid #cedbd880;padding-top:24px;max-width:660px}.person-interest span{font-size:12px;letter-spacing:2px;color:var(--teal)}.person-interest p{font-size:25px;line-height:1.45;margin-top:12px;color:var(--muted)}
 .advisor-slide .person-copy h3{font-size:31px;color:var(--teal);margin-bottom:30px}.advisor-slide .person-copy>p{font-size:27px;line-height:1.5;max-width:620px;margin-bottom:28px}
+.team-gallery{position:absolute;left:105px;right:105px;top:205px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px 60px;text-align:center}
+.team-gallery figure{margin:0}.team-gallery img{display:block;margin:auto;width:166px;height:166px;object-fit:cover;object-position:center 24%;border-radius:12px;background:#fff}
+.team-gallery figcaption{font-size:24px;margin-top:12px;line-height:1.2}.team-gallery small{display:block;font-size:14px;color:var(--teal);margin-top:5px}
+.team-portrait{width:166px;height:166px;margin:auto;overflow:hidden;border-radius:12px;background:#fff}
+.team-portrait img[src*="medha"]{transform:scale(2.15);transform-origin:50% 85%}
+.team-portrait img[src*="arturo"]{transform:scale(1.5);transform-origin:50% 20%}
