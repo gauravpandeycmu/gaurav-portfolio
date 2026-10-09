@@ -10,7 +10,12 @@ let telemetry=null;
 let hasShown=false,transitionSerial=0;
 const navigationAnimations=new Set();
 const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
-function scale(){document.getElementById('deck').style.transform=`scale(${Math.min(innerWidth/1280,innerHeight/720)})`;}
+function scale(){
+ const viewport=document.getElementById('viewport');
+ const zoom=Math.min(viewport.clientWidth/1280,viewport.clientHeight/720);
+ document.getElementById('deck').style.transform=`scale(${zoom})`;
+ document.getElementById('slide-notes').style.width=`${Math.min(1280*zoom,innerWidth-32)}px`;
+}
 window.addEventListener('resize',scale);scale();
 function show(i){
   i=Math.max(0,Math.min(slides.length-1,i));
@@ -45,6 +50,7 @@ function show(i){
   document.getElementById('progress-fill').style.width=`${(i+1)/slides.length*100}%`;
   document.getElementById('previous').disabled=i===0;document.getElementById('next').disabled=i===slides.length-1;
   history.replaceState(null,'',`#${i+1}`);
+  window.renderSlideNotes(incoming.dataset.title);
   slides[i].querySelectorAll('video').forEach(v=>{
     if(!v.getAttribute('src'))v.src=`media/${v.dataset.media}.mp4`;
     v.currentTime=0;v.play().catch(()=>{});
@@ -61,11 +67,17 @@ async function fullscreen(){
  if(document.body.classList.contains('presenting')||document.fullscreenElement){
    document.body.classList.remove('presenting');
    if(document.fullscreenElement)try{await document.exitFullscreen();}catch{}
+   scale();
    return;
  }
  document.body.classList.add('presenting');
+ scale();
  try{if(document.fullscreenEnabled)await document.documentElement.requestFullscreen();}catch{}
 }
+document.addEventListener('fullscreenchange',()=>{
+ document.body.classList.toggle('presenting',Boolean(document.fullscreenElement));
+ scale();
+});
 document.getElementById('fullscreen').onclick=fullscreen;
 document.addEventListener('keydown',e=>{
   if(document.querySelector('dialog[open]'))return;
@@ -74,7 +86,7 @@ document.addEventListener('keydown',e=>{
   if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(active-1);}
   if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1);
   if(e.key.toLowerCase()==='f')fullscreen();
-  if(e.key==='Escape')document.body.classList.remove('presenting');
+  if(e.key==='Escape'){document.body.classList.remove('presenting');scale();}
 });
 const comparison=document.getElementById('comparison');
 function updateTelemetry(){
