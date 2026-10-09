@@ -130,7 +130,7 @@ body.presenting:after{content:'F or Esc to exit presentation mode';position:fixe
 .team-gallery figure{margin:0}.team-gallery img{display:block;margin:auto;width:166px;height:166px;object-fit:cover;object-position:center 24%;border-radius:12px;background:#fff}
 .team-gallery figcaption{font-size:24px;margin-top:12px;line-height:1.2}.team-gallery small{display:block;font-size:14px;color:var(--teal);margin-top:5px}
 .team-portrait{width:166px;height:166px;margin:auto;overflow:hidden;border-radius:12px;background:#fff}
-.team-portrait img[src*="medha"]{transform:scale(2.15);transform-origin:50% 85%}
+.team-portrait img[src*="medha"]{object-position:center 65%}
 .team-portrait img[src*="arturo"]{transform:scale(1.5);transform-origin:50% 20%}
 .team-advisor{position:absolute;left:850px;right:64px;top:120px;bottom:90px;border-left:1px solid #cbd9d7;text-align:center;padding-left:42px}
 .team-advisor h2{position:static;font-size:48px;margin:0;line-height:1.2}
