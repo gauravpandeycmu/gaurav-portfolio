@@ -49,7 +49,7 @@
 
 
       <section class="slide" data-title="The broadcast" aria-label="Race broadcast example">
-        <div class="eyebrow">THE RACE / IN CONTEXT</div><h2>E1 Dubrovnik GP</h2>
+        <div class="eyebrow">THE RACE</div><h2>E1 Dubrovnik GP</h2>
         <div class="stage-media broadcast"><video data-media="broadcast-race" poster="media/broadcast-race.jpg" controls muted playsinline preload="metadata"></video></div>
         <div class="stage-copy"><h3>Electric racing on water</h3><p>Hydrofoil boats race around Dubrovnik’s coastal course.</p><div class="copy-rule"></div><p class="secondary">Live coverage brings together shore cameras and onboard views.</p></div>
       </section>
@@ -67,7 +67,7 @@
       </section>
 
       <section class="slide" data-title="Hardware to software animation" aria-label="Hardware tracking and software replacement animation">
-        <div class="eyebrow">THE PROBLEM / ANIMATED EXPLANATION</div><h2>Same camera information. A different source.</h2>
+        <div class="eyebrow">THE PROBLEM</div><h2>From hardware readings to video estimates</h2>
         <canvas id="hardware-canvas" width="1152" height="400" aria-label="Animated venue calibration, head encoders, lens calibration and video-based camera estimation"></canvas>
         <div class="hardware-controls"><button id="hardware-play">Pause animation</button><button id="hardware-replay">Replay</button><input id="hardware-seek" type="range" min="0" max="28" step="0.1" value="0" aria-label="Hardware animation time"><span id="hardware-time">0 / 28 s</span></div>
       </section>
@@ -79,7 +79,7 @@
       </section>
 
       <section class="slide literature-slide" data-title="Literature review" aria-label="Literature review and technical foundations">
-        <div class="eyebrow">RESEARCH / TECHNICAL FOUNDATIONS</div><h2>Literature review</h2>
+        <div class="eyebrow">RESEARCH</div><h2>Literature review</h2>
         <div class="research-list">
           <article><div><a href="https://mo-sys.com/products/e-sensor/" target="_blank" rel="noopener">Mo-Sys e-Sensor</a><small>Hardware tracking / manufacturer documentation</small></div><p>Encoded pan and tilt supply camera motion for broadcast AR.</p></article>
           <article><div><a href="https://www.cs.ubc.ca/~lowe/papers/ijcv04.pdf" target="_blank" rel="noopener">Distinctive Image Features from Scale-Invariant Keypoints</a><small>Lowe, 2004 / SIFT</small></div><p>Match recognizable land texture across changing views.</p></article>
@@ -130,13 +130,13 @@
       </section>
 
       <section class="slide" data-title="Lens distortion" aria-label="Lens distortion input and limitation">
-        <div class="eyebrow">INPUT / LENS</div><h2>Equal pixel gaps. Different world spacing.</h2>
+        <div class="eyebrow">INPUT / LENS</div><h2>Accounting for lens distortion</h2>
         <canvas id="distortion-canvas" width="1152" height="400" aria-label="Step-by-step illustrative lens distortion, pixel gaps, corrected rays and a known-distance plane"></canvas>
         <div class="hardware-controls"><button id="distortion-play">Pause animation</button><button id="distortion-replay">Replay</button><span id="distortion-step">1 / 4 · 10 seconds per step</span></div>
       </section>
 
       <section class="slide" data-title="Race footage" aria-label="The race recording">
-        <div class="eyebrow">THE RECORDING</div><h2>The video becomes our measurement</h2>
+        <div class="eyebrow">REFERENCE RECORDING</div><h2>The video becomes our measurement</h2>
         <div class="stage-media"><video data-media="race" poster="media/race.jpg" controls muted playsinline preload="metadata"></video></div>
         <div class="stage-copy"><h3>A fixed camera position</h3><p>The view pans and zooms as the race unfolds.</p><div class="copy-rule"></div><p class="secondary">We recover direction<br>and field of view<br>from visible landmarks.</p></div>
         <p class="fineprint">Actual Camera 1 race footage, 195–205 seconds.</p>
@@ -189,7 +189,7 @@
       </section>
 
       <section class="slide" data-title="How camera estimation works" aria-label="Camera projection and validation explanation">
-        <div class="eyebrow">03 / SOLVE / ANIMATED EXPLANATION</div><h2>How 3D points reveal camera angles</h2>
+        <div class="eyebrow">03 / SOLVE</div><h2>How 3D points reveal camera angles</h2>
         <canvas id="geometry-canvas" width="1152" height="400" aria-label="Animated 3D camera projection with pan tilt zoom and point matching"></canvas>
         <div class="animation-controls"><button id="geometry-play">Pause animation</button><button id="geometry-replay">Replay</button><a href="media/camera-geometry.mp4" target="_blank">Play MP4 ↗</a><button id="geometry-export">Export video</button><input id="geometry-seek" type="range" min="0" max="40" step="0.1" value="0" aria-label="Animation time"><span id="geometry-time">0 / 40 s</span></div>
       </section>
