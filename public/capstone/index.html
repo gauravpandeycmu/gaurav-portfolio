@@ -6,7 +6,7 @@
   <title>BADASS Studios Capstone · Midterm</title>
   <base href="/capstone/">
   <link rel="stylesheet" href="style.css?v=notes-exclusions-7">
-  <link rel="stylesheet" href="refinements.css?v=medha-portrait-9">
+  <link rel="stylesheet" href="refinements.css?v=local-apa-dividers-10">
 </head>
 <body>
   <main id="viewport" aria-label="Midterm presentation">
@@ -81,12 +81,13 @@
       <section class="slide literature-slide" data-title="Literature review" aria-label="Literature review and technical foundations">
         <div class="eyebrow">RESEARCH</div><h2>Literature review</h2>
         <div class="research-list">
-          <article><div><a href="https://mo-sys.com/products/e-sensor/" target="_blank" rel="noopener">Mo-Sys e-Sensor</a><small>Hardware tracking / manufacturer documentation</small></div><p>Encoded pan and tilt supply camera motion for broadcast AR.</p></article>
-          <article><div><a href="https://www.cs.ubc.ca/~lowe/papers/ijcv04.pdf" target="_blank" rel="noopener">Distinctive Image Features from Scale-Invariant Keypoints</a><small>Lowe, 2004 / SIFT</small></div><p>Match recognizable land texture across changing views.</p></article>
-          <article><div><a href="https://docs.opencv.org/4.x/d4/dee/tutorial_optical_flow.html" target="_blank" rel="noopener">OpenCV: Optical Flow</a><small>Lucas–Kanade / implementation reference</small></div><p>Follow local image features between consecutive frames.</p></article>
-          <article><div><a href="https://gery.casiez.net/1euro/" target="_blank" rel="noopener">1€ Filter: A Simple Speed-based Low-pass Filter</a><small>Casiez, Roussel &amp; Vogel, 2012</small></div><p>Adapt smoothing to motion speed to balance jitter and lag.</p></article>
-          <article><div><a href="https://docs.opencv.org/4.x/dc/dbb/tutorial_py_calibration.html" target="_blank" rel="noopener">OpenCV: Camera Calibration</a><small>Projection / intrinsics / lens distortion</small></div><p>Connect known world points to observed image pixels.</p></article>
-          <article><div><a href="https://arxiv.org/abs/2412.01721" target="_blank" rel="noopener">BroadTrack: Broadcast Camera Tracking for Soccer</a><small>Magera et al., 2024 preprint / related work</small></div><p>Use camera and tripod constraints. Soccer markings differ from our coastline.</p></article>
+          <article><div class="apa-reference">Casiez, G., Roussel, N., &amp; Vogel, D. (2012). 1€ filter: A simple speed-based low-pass filter for noisy input in interactive systems. In <em>Proceedings of the SIGCHI Conference on Human Factors in Computing Systems</em> (pp. 2527–2530). ACM. <a href="https://doi.org/10.1145/2207676.2208639" target="_blank" rel="noopener">https://doi.org/10.1145/2207676.2208639</a></div><p>Speed-adaptive smoothing.<small>Foundation for our bounded refinement.</small></p></article>
+          <article><div class="apa-reference">Fischler, M. A., &amp; Bolles, R. C. (1981). Random sample consensus: A paradigm for model fitting with applications to image analysis and automated cartography. <em>Communications of the ACM, 24</em>(6), 381–395. <a href="https://doi.org/10.1145/358669.358692" target="_blank" rel="noopener">https://doi.org/10.1145/358669.358692</a></div><p>Reject inconsistent matches.<small>RANSAC checks the shared transformation.</small></p></article>
+          <article><div class="apa-reference">Lowe, D. G. (2004). Distinctive image features from scale-invariant keypoints. <em>International Journal of Computer Vision, 60</em>(2), 91–110. <a href="https://doi.org/10.1023/B:VISI.0000029664.99615.94" target="_blank" rel="noopener">https://doi.org/10.1023/B:VISI.0000029664.99615.94</a></div><p>Match land texture.<small>SIFT connects reference and current images.</small></p></article>
+          <article><div class="apa-reference">Lucas, B. D., &amp; Kanade, T. (1981). An iterative image registration technique with an application to stereo vision. In <em>Proceedings of the 7th International Joint Conference on Artificial Intelligence</em> (pp. 674–679). <a href="https://www.ijcai.org/Proceedings/81-2/Papers/017.pdf" target="_blank" rel="noopener">https://www.ijcai.org/Proceedings/81-2/Papers/017.pdf</a></div><p>Follow local motion.<small>Lucas–Kanade underlies our optical flow.</small></p></article>
+          <article><div class="apa-reference">Magera, F., Hoyoux, T., Barnich, O., &amp; Van Droogenbroeck, M. (2024). <em>BroadTrack: Broadcast camera tracking for soccer</em> [Preprint]. arXiv. <a href="https://doi.org/10.48550/arXiv.2412.01721" target="_blank" rel="noopener">https://doi.org/10.48550/arXiv.2412.01721</a></div><p>Camera and tripod constraints.<small>Related work; not implemented here.</small></p></article>
+          <article><div class="apa-reference">Mo-Sys. (n.d.). <em>e-Sensor.</em> <a href="https://mo-sys.com/products/e-sensor/" target="_blank" rel="noopener">https://mo-sys.com/products/e-sensor/</a></div><p>Encoded head tracking.<small>Vendor documentation; hardware context.</small></p></article>
+          <article><div class="apa-reference">OpenCV. (n.d.). <em>Camera calibration.</em> <a href="https://docs.opencv.org/4.13.0/dc/dbb/tutorial_py_calibration.html" target="_blank" rel="noopener">https://docs.opencv.org/4.13.0/dc/dbb/tutorial_py_calibration.html</a></div><p>3D-to-pixel projection.<small>Intrinsics and lens-distortion conventions.</small></p></article>
         </div>
       </section>
 
@@ -141,6 +142,8 @@
         <div class="stage-copy"><h3>A fixed camera position</h3><p>The view pans and zooms as the race unfolds.</p><div class="copy-rule"></div><p class="secondary">We recover direction<br>and field of view<br>from visible landmarks.</p></div>
         <p class="fineprint">Actual Camera 1 race footage, 195–205 seconds.</p>
       </section>
+
+      <section class="slide inputs-divider" data-title="Methodology" aria-label="Methodology section"><h1>Methodology</h1></section>
 
       <section class="slide" data-title="The pipeline" data-flow="overview" aria-label="The software pipeline">
         <div class="eyebrow">THE METHOD</div><h2>The software pipeline</h2>
@@ -208,6 +211,8 @@
         <div class="evidence-numbers"><div><strong>750</strong><p>provisional estimates<br>over 30 seconds</p></div><div><strong>4.01 <small>px</small></strong><p>median BXR-6 agreement<br>with manual clicks</p><span>6 sampled frames · excluded from fit</span></div></div>
       </section>
 
+      <section class="slide inputs-divider" data-title="Next Steps" aria-label="Next steps section"><h1>Next Steps</h1></section>
+
       <section class="slide" data-title="Next: island" aria-label="Next island experiment">
         <div class="eyebrow">WHAT NEXT?</div><h2>Extend the solve to Lokrum</h2>
         <div class="island-media"><video data-media="island" poster="media/island.jpg" controls muted playsinline preload="metadata"></video></div>
@@ -246,7 +251,7 @@
   </aside>
   <dialog id="site-modal"><button id="close-site" aria-label="Close review website">×</button><iframe title="Original camera review website" id="site-frame"></iframe><p>Yaw / pitch / roll and HFOV are provisional. “Zoom” on the original page means HFOV in degrees.</p></dialog>
   <dialog id="contents-modal"><h2>Slides</h2><div id="contents-list"></div><button id="close-contents">Close</button></dialog>
-  <script src="slide-notes.js?v=notes-exclusions-7"></script>
+  <script src="slide-notes.js?v=local-apa-dividers-8"></script>
   <script src="app.js?v=notes-exclusions-7"></script>
   <script src="availability.js?v=timeline-5"></script>
   <script src="geometry.js"></script>

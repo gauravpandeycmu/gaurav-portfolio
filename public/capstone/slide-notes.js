@@ -66,7 +66,7 @@ const slideDetails = {
     ['The project’s trade-off', 'BADASS Studios reports hardware and setup costs limiting current coverage. Software aims to extend that coverage using video and known landmarks. It trades sensor dependence for dependence on visible, correctly identified static evidence, which fog, occlusion or open water can reduce.']
   ],
   'Literature review': [
-    ['Foundations used in the code', 'SIFT supports reference-image matching, Lucas–Kanade supports between-frame feature motion, and the 1€ filter idea informs speed-adaptive smoothing. Camera calibration documentation describes how intrinsics, distortion and rotation connect world points to pixels. The project adapts these building blocks rather than training a pose network.'],
+    ['Foundations used in the code', 'SIFT supports reference-image matching and Lucas–Kanade supports between-frame feature motion. RANSAC rejects feature matches that disagree with the estimated image transformation. The 1€ filter idea informs speed-adaptive smoothing. Camera calibration documentation describes how intrinsics, distortion and rotation connect world points to pixels. The project adapts these building blocks rather than training a pose network.'],
     ['Related work and its limits', 'BroadTrack motivates using camera/tripod constraints in broadcast tracking. Its soccer setting supplies field markings that our coastline does not. Mo-Sys documents a hardware alternative. Neither source independently verifies our results or establishes hardware/software performance equivalence for Dubrovnik.']
   ],
   'Inputs': [
@@ -155,7 +155,7 @@ const slideDetails = {
   ]
 };
 window.renderSlideNotes = function(title) {
-  const omitNotes=['Team and Advisor','Agenda','Thank you / Discussion'].includes(title);
+  const omitNotes=['Team and Advisor','Agenda','Thank you / Discussion','Methodology','Next Steps'].includes(title);
   document.body.classList.toggle('no-slide-notes',omitNotes);
   document.getElementById('slide-notes').hidden=omitNotes;
   const entry=slideNotes[title];
