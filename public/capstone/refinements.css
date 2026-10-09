@@ -1,7 +1,9 @@
 :root{color-scheme:light}
 .slide{transition:none;transform:none;will-change:auto}.slide.active{transform:none;opacity:1;visibility:visible;z-index:2}.slide.transition-out{visibility:visible;pointer-events:none;z-index:1}.masthead,footer{z-index:10}.pipeline{z-index:6}.progress>div{transition:width .7s cubic-bezier(.22,1,.36,1)}
 .twin-asset img,.survey-map,.lens-sheet{height:208px}
-body.presenting footer{opacity:0;pointer-events:none}
+body.presenting footer{opacity:1;pointer-events:none;justify-content:flex-end}
+body.presenting footer button{display:none}
+body.presenting #page-count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;opacity:.75}
 body.presenting:after{content:'F or Esc to exit presentation mode';position:fixed;right:18px;bottom:10px;font-size:11px;color:var(--muted);z-index:20}
 .pipeline.compact{transform:translateY(306px) scale(.9)}
 .stage-slide .stage-media,.stage-slide .stage-media video{height:330px}
