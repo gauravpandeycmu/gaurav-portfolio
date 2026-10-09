@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>BADASS Studios Capstone · Midterm</title>
   <base href="/capstone/">
-  <link rel="stylesheet" href="style.css?v=notes-research-4">
-  <link rel="stylesheet" href="refinements.css?v=notes-research-4">
+  <link rel="stylesheet" href="style.css?v=timeline-5">
+  <link rel="stylesheet" href="refinements.css?v=timeline-5">
 </head>
 <body>
   <main id="viewport" aria-label="Midterm presentation">
@@ -176,10 +176,10 @@
       </section>
 
       <section class="slide availability-slide" data-title="Island continuity graph" aria-label="Notebook chart comparing island tracking with and without immediate recovery">
-        <div class="eyebrow">02 / NOTEBOOK RESULTS</div><h2>See when island points disappear and return</h2>
-        <p class="subtitle">Each row is one landmark. Gold shows observations added by recovery.</p>
-        <img class="availability-chart" src="media/notebook-island-availability.png" alt="Original notebook chart: seven island landmarks over 165–195 seconds. Blue marks baseline observations, gold marks recovered observations, and grey marks missing observations.">
-        <p class="availability-caption">Both panels already use smoothing. Recovery adds current-image matches.</p>
+        <div class="eyebrow">02 / TRACKING CONTINUITY</div><h2>Fewer gaps in island tracking</h2>
+        <div class="gap-result"><strong id="availability-gap-count">9 → 2</strong><span>short gaps</span></div>
+        <div class="timeline-legend"><span class="observed">Observed</span><span class="recovered">Recovered</span><span class="missing">Missing</span></div>
+        <svg id="availability-timeline" viewBox="0 0 1100 460" role="img" aria-label="Recorded availability of seven island landmarks, before and after immediate recovery"></svg>
       </section>
 
       <section class="slide stage-slide" data-title="Estimate camera" data-flow="solve" aria-label="Estimating camera angles">
@@ -246,8 +246,9 @@
   </aside>
   <dialog id="site-modal"><button id="close-site" aria-label="Close review website">×</button><iframe title="Original camera review website" id="site-frame"></iframe><p>Yaw / pitch / roll and HFOV are provisional. “Zoom” on the original page means HFOV in degrees.</p></dialog>
   <dialog id="contents-modal"><h2>Slides</h2><div id="contents-list"></div><button id="close-contents">Close</button></dialog>
-  <script src="slide-notes.js?v=notes-research-4"></script>
-  <script src="app.js?v=notes-research-4"></script>
+  <script src="slide-notes.js?v=timeline-5"></script>
+  <script src="app.js?v=timeline-5"></script>
+  <script src="availability.js?v=timeline-5"></script>
   <script src="geometry.js"></script>
   <script src="hardware-v2.js"></script>
   <script src="matches.js"></script>
