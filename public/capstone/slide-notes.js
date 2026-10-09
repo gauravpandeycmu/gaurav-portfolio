@@ -155,6 +155,9 @@ const slideDetails = {
   ]
 };
 window.renderSlideNotes = function(title) {
+  const omitNotes=['Team and Advisor','Agenda','Thank you / Discussion'].includes(title);
+  document.body.classList.toggle('no-slide-notes',omitNotes);
+  document.getElementById('slide-notes').hidden=omitNotes;
   const entry=slideNotes[title];
   document.getElementById('notes-copy').textContent=entry?.[0] || 'No additional notes for this slide.';
   const details=document.getElementById('notes-details');

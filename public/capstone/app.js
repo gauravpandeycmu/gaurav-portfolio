@@ -51,6 +51,7 @@ function show(i){
   document.getElementById('previous').disabled=i===0;document.getElementById('next').disabled=i===slides.length-1;
   history.replaceState(null,'',`#${i+1}`);
   window.renderSlideNotes(incoming.dataset.title);
+  scale();
   slides[i].querySelectorAll('video').forEach(v=>{
     if(!v.getAttribute('src'))v.src=`media/${v.dataset.media}.mp4`;
     v.currentTime=0;v.play().catch(()=>{});
