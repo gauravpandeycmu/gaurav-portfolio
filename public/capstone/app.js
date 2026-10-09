@@ -14,7 +14,7 @@ function scale(){
  const viewport=document.getElementById('viewport');
  const zoom=Math.min(viewport.clientWidth/1280,viewport.clientHeight/720);
  document.getElementById('deck').style.transform=`scale(${zoom})`;
- document.getElementById('slide-notes').style.width=`${Math.min(1280*zoom,innerWidth-32)}px`;
+ document.getElementById('slide-notes').style.width=`${Math.min(1240,innerWidth-40)}px`;
 }
 window.addEventListener('resize',scale);scale();
 function show(i){
